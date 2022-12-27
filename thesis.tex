@@ -1,0 +1,126 @@
+%%% One-side print:
+\documentclass[11pt,a4paper]{report}
+\usepackage[top=25mm,bottom=25mm,right=25mm,left=30mm,head=12.5mm,foot=12.5mm]{geometry}
+\let\openright=\clearpage
+
+%%% Two-side print:
+%\documentclass[11pt,a4paper,twoside,openright]{report}
+%\usepackage[top=25mm,bottom=25mm,right=25mm,left=30mm,head=12.5mm,foot=12.5mm]{geometry}
+%\let\openright=\cleardoublepage
+
+%%% Definition of some useful macros
+\input{makra}
+
+%%% DEFINITION OF BASIC VARIABLES
+%\def\TypPrace{BP}                % bakalářská práce/bachelor thesis
+\def\TypPrace{DP}               % diplomová práce/master thesis
+%\def\Jazyk{cze}                  % čeština/czech
+%\def\Jazyk{slo}                 % slovenština/slovak
+\def\Jazyk{eng}                 % angličtina/english
+
+%%% Název práce v jazyce práce (přesně podle zadání)
+%%% Title of the thesis in the language used in the text (exact according to assignment)
+\def\NazevPrace{Title of thesis}
+
+\input{makra.txt}
+
+%%% Jméno autora
+%%% Author's name - First name Surname
+\def\AutorPrace{Author’s name and surname, including acquired degrees}
+
+%%% Rok odevzdání a měsíc (slovně)
+%%% Year of submission and month (verbally) - month YYYY
+\def\DatumOdevzdani{month YYYY}
+
+%%% Vedoucí práce: Jméno a příjmení s~tituly
+%%% Supervisor: First name and surname with titles
+\def\Vedouci{full supervisor’s name (incl. degrees)}
+
+%%% Konzultant práce: Jméno a příjmení s~tituly
+%%% Consultant: First name and surname with titles
+\def\Konzultant{full consultant’s name (incl. degrees)}
+
+%%% Studijní program
+%%% Study program
+\def\StudijniProgram{Study programme title}
+
+%%% Studijní program - specializace
+%%% Study program - specialization
+\def\Specializace{Specialization title if included in the study programme division}
+
+%%% Studijní obor
+%%% Field of study
+\def\StudijniObor{Title of study field if included in the study programme division}
+
+%%% Nepovinné poděkování (vedoucímu práce, konzultantovi, tomu, kdo zapůjčil software, literaturu apod.)
+%%% Optional thanks (the supervisor, the consultant, the borrower of software, literature, etc.)
+\def\Podekovani{%
+Thanks.
+}
+
+%%% Abstract (recommended range of about 150-250 words; this is not a thesis assignment)
+\def\Abstrakt{%
+Abstract.
+}
+\def\KlicovaSlova{keyword, important term, another topic, and another one}
+
+
+%%% Titulní strana a různé povinné informativní strany
+%%% Title page and various mandatory information pages
+\begin{document}
+\include{beginning}
+
+%%% Strana s automaticky generovaným obsahem práce
+%%% A page with automatically generated content of the thesis
+\setcounter{tocdepth}{2}
+\tableofcontents
+
+%%% Seznam obrázků v práci
+%%% List of figures in the thesis
+\openright
+\listoffigures
+Note: Add a list of figures if the number of figures in the thesis text exceeds 20. A list of diagrams is applicable only if the author distinguishes between a figure and a diagram. The list of diagrams is included if the number of diagrams exceeds 20. This thesis template does not distinguish between a figure and a diagram.
+
+%%% Seznam tabulek v práci (volitelně)
+%%% List of tables in the thesis (optionally)
+\clearpage
+\listoftables
+Note: Add a list of tables if the number of tables used in the thesis exceeds 20. 
+
+%%% Seznam zkratek v práci (volitelně)
+%%% List of abbreviations in the thesis (optionally)
+\include{abbreviations}
+
+\pagestyle{fancyx}
+%%% Jednotlivé kapitoly práce jsou pro přehlednost uloženy v samostatných souborech
+%%% The individual chapters of the thesis are stored in separate files for clarity
+{%
+\pagestyle{plain}
+\include{introduction}
+}
+\include{chap01}
+\include{chap02}
+\include{chap03}
+% \include{...}
+% \include{...}
+{%
+\pagestyle{plain}
+\include{conclusion}
+}
+
+%%% Seznam použité literatury
+%%% Bibliography
+\include{bibliography}
+
+%%% Přílohy k práci, existují-li. Každá příloha musí být alespoň jednou
+%%% odkazována z vlastního textu práce. Přílohy se číslují.
+%%% Attachments to thesis, if any. Each attachment must be referenced at 
+%%% least once in your own text. The appendices are numbered.
+\part*{\Prilohy\thispagestyle{empty}}
+\appendix
+\include{app01}
+\include{app02}
+% \include{...}
+% \include{...}
+
+\end{document}

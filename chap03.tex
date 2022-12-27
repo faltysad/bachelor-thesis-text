@@ -1,0 +1,45 @@
+\chapter{PDF/A format}
+
+Electronic form of final
+work must be submitted in PDF/A format level 1a or 2u. They are
+PDF profiles that determine which PDF properties are allowed to use
+to make the documents suitable for long-term archiving and further automatic
+processing. Next we will deal with level 2u, which we bet on \LaTeX{}.
+
+The most important requirements of PDF/A-2u include:
+
+\begin{itemize}
+
+\item All fonts must be built into the document. They are not allowed
+links to external fonts.
+
+\item Fonts must contain a ToUnicode table that defines the conversion from encoding
+characters used inside a Unicode font. This makes it possible from the document
+reliably extract text.
+
+\item The document must contain metadata in XMP format and, if colored,
+then also the formal specification of color space.
+
+\end{itemize}
+
+This template uses the {\ tt pdfx} package, which \LaTeX{} can set up
+to meet the requirements of PDF/A. Metadata in XMP is generated automatically by
+information in the file {\ tt thesis.xmpdata} (you can refer to the generated file
+see in {\ tt pdfa.xmpi}).
+
+The correctness of PDF/A can be checked using an online validator: \url{https://www.pdf-online.com/osa/validate.aspx/}.
+
+If the file is not valid, common causes include less use
+common fonts (which are inserted only in bitmap format and/or without
+unicode tables) and embedding images in PDF, which are standard in themselves
+PDF/A do not meet.
+
+This is likely to be the case for images created by many different programs.
+In this case, you can try to convert the image to PDF/A using
+GhostScript, for example, as follows:
+
+\begin{verbatim}
+        gs -q -dNOPAUSE -dBATCH
+           -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress
+           -sOutputFile=vystup.pdf vstup.pdf
+\end{verbatim}

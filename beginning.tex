@@ -1,0 +1,90 @@
+%%% Titulní strana práce a další povinné informační strany
+%%% Title page of the thesis and other obligatory information pages
+
+%%% Titulní strana práce
+%%% Title page of the thesis
+
+\pagestyle{empty}
+\hypersetup{pageanchor=false}
+
+\begin{center}
+\Huge\sffamily
+\VSE\\
+\FIS
+
+\vspace{\stretch{1}}
+
+\ifstringequal{\Jazyk}{eng}{
+	\includegraphics[width=.5\textwidth]{img/FIS_2_logo_2_rgb_EN}
+}{
+	\includegraphics[width=.5\textwidth]{img/FIS_2_logo_2_rgb_CZ}
+}
+
+\vspace{\stretch{2}}
+
+\bfseries\NazevPrace
+
+\vspace{8mm}
+\mdseries\TypPraceText
+
+\vspace{8mm}
+\large
+\begin{tabular}{rl}
+\StudijniProgramText: & \StudijniProgram \\
+\ifthenelse{\equal{\Specializace}{}}{%
+	% empty value
+	}{
+	\rule{0pt}{6mm}%
+	\SpecializaceText: & \Specializace \\
+}
+\ifthenelse{\equal{\StudijniObor}{}}{%
+	% empty value
+	}{
+	\rule{0pt}{6mm}%
+	\StudijniOborText: & \StudijniObor \\
+}
+\end{tabular}
+
+\vspace{\stretch{8}}
+
+\begin{tabular}{rl}
+\AutorText: & \AutorPrace \\
+\noalign{\vspace{2mm}}
+\VedouciText: & \Vedouci \\
+\ifthenelse{\equal{\Konzultant}{}}{%
+	% empty value
+	}{
+	\rule{0pt}{6mm}%
+	\KonzultantText: & \Konzultant \\
+}
+\end{tabular}
+
+\vspace{8mm}
+\Praha, \DatumOdevzdani
+\end{center}
+
+
+%%% Poděkování
+%%% Acknowledgments
+\hypersetup{pageanchor=true}
+\cleardoublepage
+\pagestyle{plain}
+\openright
+\vspace*{\fill}
+\section*{\PodekovaniText}
+\noindent
+\Podekovani
+\vspace{1cm}
+
+
+%%% Povinná informační strana práce
+%%% Obligatory information page of the thesis
+\openright
+\section*{Abstract}
+\noindent
+\Abstrakt
+\subsection*{Keywords}
+\noindent
+\KlicovaSlova
+
+\openright

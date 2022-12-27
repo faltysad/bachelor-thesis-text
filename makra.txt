@@ -1,0 +1,69 @@
+%%% Tento soubor obsahuje texty závislé na typu práce, jazyku a pohlaví %%%
+%%% This file contains texts depending on the type of work, language and gender %%%
+
+\newcommand{\ifstringequal}[4]{%
+  \ifnum\pdfstrcmp{#1}{#2}=0
+  #3%
+  \else
+  #4%
+  \fi
+}
+
+\def\TypPraceBP{BAKALÁŘSKÁ PRÁCE}
+\def\TypPraceDP{DIPLOMOVÁ PRÁCE}
+\def\SeznamZkratek{Seznam použitých zkratek}
+\def\Prilohy{Přílohy}
+\def\VSE{Vysoká škola ekonomická v Praze}
+\def\FIS{Fakulta informatiky a statistiky}
+\def\StudijniProgramText{Studijní program}
+\def\SpecializaceText{Specializace}
+\def\StudijniOborText{Studijní obor}
+\def\AutorText{Autor}
+\def\VedouciText{Vedoucí práce}
+\def\KonzultantText{Konzultant práce}
+\def\Praha{Praha}
+\def\PodekovaniText{Poděkování}
+
+
+\makeatletter
+\ifstringequal{\Jazyk}{eng}{\main@language{english}}{}
+\ifstringequal{\Jazyk}{slo}{\main@language{slovak}}{}
+\makeatother
+
+\ifstringequal{\Jazyk}{eng}{
+         \def\TypPraceBP{BACHELOR THESIS}
+         \def\TypPraceDP{MASTER THESIS}
+				 \def\SeznamZkratek{List of abbreviations}
+				 \def\Prilohy{Appendices}
+				 \def\VSE{Prague University of Economics and Business}
+				 \def\FIS{Faculty of Informatics and Statistics}
+				 \def\StudijniProgramText{Study program}
+				 \def\SpecializaceText{Specialization}
+				 \def\StudijniOborText{Field of study}
+				 \def\AutorText{Author}
+				 \def\VedouciText{Supervisor}
+         \def\KonzultantText{Consultant}
+				 \def\Praha{Prague}
+				 \ifstringequal{\TypPrace}{BP}{\def\Praci{bachelor thesis }}{}
+         \ifstringequal{\TypPrace}{DP}{\def\Praci{master thesis }}{}
+				 \def\PodekovaniText{Acknowledgements}
+         \ifdef{\finalnamedelim}{\renewcommand*{\finalnamedelim}{\addspace and \addspace}}%
+}{}
+
+\ifstringequal{\Jazyk}{slo}{
+         \def\TypPraceBP{BAKALÁRSKA PRÁCA}
+         \def\TypPraceDP{DIPLOMOVÁ PRÁCA}
+				 \def\SeznamZkratek{Zoznam použitých skratiek}
+				 \def\Prilohy{Prílohy}
+				 \def\StudijniProgramText{Študijný program}
+				 \def\SpecializaceText{Špecializácia}
+				 \def\StudijniOborText{Študijný odbor}
+				 \def\VedouciText{Vedúci práce}
+         \def\KonzultantText{Konzultant práce}
+				 \ifstringequal{\TypPrace}{BP}{\def\Praci{bakalársku prácu }}{}
+         \ifstringequal{\TypPrace}{DP}{\def\Praci{diplomovú prácu }}{}
+				 \def\PodekovaniText{Poďakovanie}
+}{}
+
+\ifstringequal{\TypPrace}{BP}{\def\TypPraceText{\TypPraceBP}}{}
+\ifstringequal{\TypPrace}{DP}{\def\TypPraceText{\TypPraceDP}}{}

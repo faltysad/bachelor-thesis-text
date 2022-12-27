@@ -1,0 +1,200 @@
+%%% Tento soubor obsahuje definice různých užitečných maker a prostředí %%%
+%%% Další makra připisujte sem, ať nepřekáží v ostatních souborech.     %%%
+%%% This file contains definitions of various useful macros and environments      %%%
+%%% Assign additional macros here so that they do not interfere with other files. %%%
+
+\usepackage[a-2u]{pdfx}     % výsledné PDF bude ve standardu PDF/A-2u
+                            % resulting PDF will be in the PDF / A-2u standard
+
+\usepackage{ifpdf}
+\usepackage{ifxetex}
+\usepackage{ifluatex}
+
+%%% Nastavení pro použití samostatné bibliografické databáze.
+%%% Settings for using a separate bibliographic database.
+\usepackage[
+   backend=biber
+%  ,style=iso-authoryear
+  ,style=iso-numeric
+  ,sortlocale=cs_CZ
+  ,alldates=iso
+  ,bibencoding=UTF8
+  ,maxnames=2
+  ,maxbibnames=99
+  %,block=ragged
+]{biblatex}
+\let\cite\parencite
+\renewcommand*{\multinamedelim}{, \addspace}
+\renewcommand*{\finalnamedelim}{\addspace a \addspace}
+
+\bibliography{bibliography}
+
+%% Přepneme na českou sazbu, fonty Latin Modern a kódování češtiny
+\ifthenelse{\boolean{xetex}\OR\boolean{luatex}}
+   { % use fontspec and OpenType fonts with utf8 engines
+			\usepackage[english,slovak,czech]{babel}
+			\usepackage[autostyle,english=british,czech=quotes]{csquotes}
+			\usepackage{fontspec}
+			\defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+   }
+   {
+			\usepackage[english,slovak,czech]{babel}
+			\usepackage{lmodern}
+			\usepackage[T1]{fontenc}
+			\usepackage{textcomp}
+			\usepackage[utf8]{inputenc}
+			\usepackage[autostyle,english=british,czech=quotes]{csquotes}
+	 }
+\ifluatex
+\makeatletter
+\let\pdfstrcmp\pdf@strcmp
+\makeatother
+\fi
+
+%%% Další užitečné balíčky (jsou součástí běžných distribucí LaTeXu)
+\usepackage{amsmath}        % rozšíření pro sazbu matematiky / extension for math typesetting
+\usepackage{amsfonts}       % matematické fonty / mathematical fonts
+\usepackage{amssymb}        % symboly / symbols
+\usepackage{amsthm}         % sazba vět, definic apod. / typesetting of sentences, definitions, etc.
+\usepackage{bm}             % tučné symboly (příkaz \bm) / bold symbols (\bm command)
+\usepackage{graphicx}       % vkládání obrázků / graphics inserting
+\usepackage{listings}       % vylepšené prostředí pro strojové písmo / improved environment for source codes typesetting
+\usepackage{fancyhdr}       % prostředí pohodlnější nastavení hlavy a paty stránek / environment for more comfortable adjustment of the head and foot of the pages
+\usepackage{icomma}         % inteligetní čárka v matematickém módu / intelligent comma in math mode
+\usepackage{dcolumn}        % lepší zarovnání sloupců v tabulkách / better alignment of columns in tables
+\usepackage{booktabs}       % lepší vodorovné linky v tabulkách / better horizontal lines in tables
+\makeatletter
+\@ifpackageloaded{xcolor}{
+   \@ifpackagewith{xcolor}{usenames}{}{\PassOptionsToPackage{usenames}{xcolor}}
+  }{\usepackage[usenames]{xcolor}} % barevná sazba / color typesetting
+\makeatother
+\usepackage{multicol}       % práce s více sloupci na stránce / work with multiple columns on a page
+\usepackage{caption}
+\usepackage{enumitem}
+\setlist[itemize]{noitemsep, topsep=0pt, partopsep=0pt}
+\setlist[enumerate]{noitemsep, topsep=0pt, partopsep=0pt}
+\setlist[description]{noitemsep, topsep=0pt, partopsep=0pt}
+
+\usepackage{tocloft}
+\setlength\cftparskip{0pt}
+\setlength\cftbeforechapskip{1.5ex}
+\setlength\cftfigindent{0pt}
+\setlength\cfttabindent{0pt}
+\setlength\cftbeforeloftitleskip{0pt}
+\setlength\cftbeforelottitleskip{0pt}
+\setlength\cftbeforetoctitleskip{0pt}
+\renewcommand{\cftlottitlefont}{\Huge\bfseries\sffamily}
+\renewcommand{\cftloftitlefont}{\Huge\bfseries\sffamily}
+\renewcommand{\cfttoctitlefont}{\Huge\bfseries\sffamily}
+
+% vyznaceni odstavcu
+% differentiation of new paragraphs
+\parindent=0pt
+\parskip=11pt
+
+% zakaz vdov a sirotku - jednoradkovych pocatku ci koncu odstavcu na prechodu mezi strankami
+% Prohibition of widows and orphans - single-line beginning and end of paragraph at the transition between pages
+\clubpenalty=1000
+\widowpenalty=1000
+\displaywidowpenalty=1000
+
+% nastaveni radkovani
+% setting of line spacing
+\renewcommand{\baselinestretch}{1.20}
+
+% nastaveni pro nadpisy - tucne a bezpatkove
+% settings for headings - bold and sans serif
+\usepackage{sectsty}    
+\allsectionsfont{\sffamily}
+
+% nastavení hlavy a paty stránek
+% page head and foot settings
+\makeatletter
+\if@twoside%
+    \fancypagestyle{fancyx}{%
+			\fancyhf{}                                     
+      \fancyhead[RE]{\rightmark}                  
+      \fancyhead[LO]{\leftmark}                  
+      \fancyfoot[RO,LE]{\thepage}                    
+      \renewcommand{\headrulewidth}{.5pt}            
+      \renewcommand{\footrulewidth}{.5pt}            
+    }
+    \fancypagestyle{plain}{%
+			\fancyhf{}                                     
+    	\fancyfoot[RO,LE]{\thepage}                    
+    	\renewcommand{\headrulewidth}{0pt}             
+    	\renewcommand{\footrulewidth}{0.5pt}
+    }          
+\else
+    \fancypagestyle{fancyx}{%
+			\fancyhf{}                                     
+      \fancyhead[R]{\leftmark}                  
+      \fancyfoot[R]{\thepage}                    
+      \renewcommand{\headrulewidth}{.5pt}            
+      \renewcommand{\footrulewidth}{.5pt}            
+    }
+    \fancypagestyle{plain}{%                       
+    	\fancyhf{} % clear all header and footer fields
+    	\fancyfoot[R]{\thepage}                    
+    	\renewcommand{\headrulewidth}{0pt}             
+    	\renewcommand{\footrulewidth}{0.5pt}
+    }          
+\fi
+\renewcommand*{\cleardoublepage}{\clearpage\if@twoside \ifodd\c@page\else
+	\hbox{}%
+	\thispagestyle{empty}%
+	\newpage%
+	\if@twocolumn\hbox{}\newpage\fi\fi\fi
+}
+\makeatother
+
+% Tato makra přesvědčují mírně ošklivým trikem LaTeX, aby hlavičky kapitol
+% sázel příčetněji a nevynechával nad nimi spoustu místa. Směle ignorujte.
+% These macros convince with a slightly ugly LaTeX trick to make chapter headers
+% bet more sane and didn't miss a lot of space above them. Be boldly ignore it.
+\makeatletter
+\def\@makechapterhead#1{
+  {\parindent \z@ \raggedright \sffamily
+   \Huge\bfseries \thechapter. #1
+   \par\nobreak
+   \vskip 20\p@
+}}
+\def\@makeschapterhead#1{
+  {\parindent \z@ \raggedright \sffamily
+   \Huge\bfseries #1
+   \par\nobreak
+   \vskip 20\p@
+}}
+\makeatother
+
+% Trochu volnější nastavení dělení slov, než je default.
+% Slightly looser hyphenation setting than default.
+\lefthyphenmin=2
+\righthyphenmin=2
+
+% Zapne černé "slimáky" na koncích řádků, které přetekly, abychom si jich lépe všimli.
+% Turns on the black "snails" at the ends of the lines that overflowed to get us noticed them better.
+\overfullrule=1mm
+
+%% Balíček hyperref, kterým jdou vyrábět klikací odkazy v PDF,
+%% ale hlavně ho používáme k uložení metadat do PDF (včetně obsahu).
+%% Většinu nastavítek přednastaví balíček pdfx.
+%% A hyperref package that can be used to produce clickable links in PDF,
+%% but we mainly use it to store metadata in PDF (including content).
+%% Most settings are preset by the pdfx package.
+\hypersetup{unicode}
+\hypersetup{breaklinks=true}
+\hypersetup{hidelinks}
+
+\renewcommand{\UrlBreaks}{\do\/\do\=\do\+\do\-\do\_\do\ \do\a\do\b\do\c\do\d%
+\do\e\do\f\do\g\do\h\do\i\do\j\do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s%
+\do\t\do\u\do\v\do\w\do\x\do\y\do\z\do\A\do\B\do\C\do\D\do\E\do\F\do\G\do\H%
+\do\I\do\J\do\K\do\L\do\M\do\N\do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W%
+\do\X\do\Y\do\Z\do\1\do\2\do\3\do\4\do\5\do\6\do\7\do\8\do\9\do\0}
+
+%%% Prostředí pro sazbu kódu, případně vstupu/výstupu počítačových
+%%% programů. (Vyžaduje balíček listings -- fancy verbatim.)
+%%% Environment for source code typesetting, or computer input/output
+%%% programs. (Requires package listings - fancy verbatim.)
+\lstnewenvironment{code}{\lstset{basicstyle=\small, frame=single}}{}
+
