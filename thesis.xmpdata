@@ -1,7 +1,7 @@
 % Metadata for saving to PDF, see the pdfx package documentation for a more detailed description.
 
-\Author{Name Surname}
-\Title{Title of thesis}
+\Author{Tomáš Faltejsek}
+\Title{Variační autoenkodér a úlohy pozorování v latentním prostoru}
 \Keywords{keyword1\sep keyword2\sep keyword3}
-\Subject{Abstract}
+\Subject{Jedním z předních rysů lidské inteligence je intuice a schopnost představovat si nové objekty. Variační autoenkodér je inovací na poli pravděpodobnostních modelů, umožňující architekturu modelů schopných syntézy zcela nových dat s využitím pozorování atributů v latentním prostoru. Teoretická charakteristika a možnosti využití variačního autoenkodéru jsou předmětem této bakalářské práce.}
 \Publisher{Prague University of Economics and Business, Faculty of Informatics and Statistics}
