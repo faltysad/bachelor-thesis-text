@@ -98,14 +98,47 @@ Note: Add a list of tables if the number of tables used in the thesis exceeds 20
 \pagestyle{plain}
 \include{introduction}
 }
-\include{chap01}
-\include{chap02}
-\include{chap03}
+% TODO: move to separate files
+\chapter{Autoenkodér} 
+\chapter{Variační autoenkodér}
+\chapter{Aktuální stav poznání}
 % \include{...}
 % \include{...}
+
 {%
 \pagestyle{plain}
-\include{conclusion}
+\include{methods}
+}
+\chapter{Redukce dimenzionality}
+\chapter{Kullback-Leiblerova divergence}
+\chapter{Charakteristiky dobré latentní reprezentace}
+\chapter{Návrh modelu pro generativní modelování}
+\chapter{Návrh modelu pro interpolaci vět}
+\chapter{Návrh modelu pro detekci anomálií}
+% \include{...}
+% \include{...}
+
+{%
+\pagestyle{plain}
+\include{results}
+}
+\chapter{Generativní modelování obrazových dat}
+\section{MNIST}
+\section{CIFAR}
+
+\chapter{Interpolace vět}
+\section{Penn Tree Bank}
+\chapter{Detekce anomálií}
+\section{MNIST}
+% \include{...}
+% \include{...}
+
+{%
+\pagestyle{plain}
+\include{discussion}
+\chapter{Vyhodnocení implementovaných modelů vůči publikovaným výsledkům}
+\chapter{Prominentní oblasti aplikace variačního autoenkodéru}
+\section{Propojení s aktuálním výzkumem}
 }
 
 %%% Seznam použité literatury
@@ -119,7 +152,6 @@ Note: Add a list of tables if the number of tables used in the thesis exceeds 20
 \part*{\Prilohy\thispagestyle{empty}}
 \appendix
 \include{app01}
-\include{app02}
 % \include{...}
 % \include{...}
 
