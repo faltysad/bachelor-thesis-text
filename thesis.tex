@@ -98,48 +98,52 @@ Note: Add a list of tables if the number of tables used in the thesis exceeds 20
 \pagestyle{plain}
 \include{introduction}
 }
-% TODO: move to separate files
-\chapter{Autoenkodér} 
-\chapter{Variační autoenkodér}
+% \include{...}
+% \include{...}
+
+\chapter{Teorie variačního autoenkodéru}
+% TODO: Move to separate files
+\section{Redukce dimenzionality}
+\section{Neuronové sítě}
+\section{Autoenkodér}
+\section{Kullback-Lieblerova divergence}
+\section{Bayesovské metody variační inference}
+\section{Variační autoenkodér}
+\section{Charakteristiky latentní reprezentace}
+
+% \include{...}
+% \include{...}
+
 \chapter{Aktuální stav poznání}
-% \include{...}
-% \include{...}
+
+\section{$\beta$ variační autoenkodér}
+\section{PixelVAE}
+\section{Podmíněný variační autoenkodér}
+
+
+\chapter{Úlohy pozorování v latentním prostoru}
+\section{Generativní modelování obrazových dat}
+\subsection{Popis problémové oblasti}
+\subsection{Návrh modelu}
+\subsection{Vyhodnocení experimentu}
+
+\section{Interpolace vět}
+\subsection{Popis problémové oblasti}
+\subsection{Návrh modelu}
+\subsection{Vyhodnocení experimentu}
+
+
+\section{Detekce anomálií}
+\subsection{Popis problémové oblasti}
+\subsection{Návrh modelu}
+\subsection{Vyhodnocení experimentu}
+
 
 {%
 \pagestyle{plain}
-\include{methods}
+\include{conclusion}
 }
-\chapter{Redukce dimenzionality}
-\chapter{Kullback-Leiblerova divergence}
-\chapter{Charakteristiky dobré latentní reprezentace}
-\chapter{Návrh modelu pro generativní modelování}
-\chapter{Návrh modelu pro interpolaci vět}
-\chapter{Návrh modelu pro detekci anomálií}
-% \include{...}
-% \include{...}
 
-{%
-\pagestyle{plain}
-\include{results}
-}
-\chapter{Generativní modelování obrazových dat}
-\section{MNIST}
-\section{CIFAR}
-
-\chapter{Interpolace vět}
-\section{Penn Tree Bank}
-\chapter{Detekce anomálií}
-\section{MNIST}
-% \include{...}
-% \include{...}
-
-{%
-\pagestyle{plain}
-\include{discussion}
-\chapter{Vyhodnocení implementovaných modelů vůči publikovaným výsledkům}
-\chapter{Prominentní oblasti aplikace variačního autoenkodéru}
-\section{Propojení s aktuálním výzkumem}
-}
 
 %%% Seznam použité literatury
 %%% Bibliography
