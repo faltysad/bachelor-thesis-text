@@ -44,13 +44,13 @@
 %%% Study program
 \def\StudijniProgram{Aplikovaná informatika}
 
+%%% Studijní obor
+%%% Field of study
+\def\StudijniObor{}
+
 %%% Studijní program - specializace
 %%% Study program - specialization
 \def\Specializace{}
-
-%%% Studijní obor
-%%% Field of study
-\def\StudijniObor{Aplikovaná informatika}
 
 %%% Nepovinné poděkování (vedoucímu práce, konzultantovi, tomu, kdo zapůjčil software, literaturu apod.)
 %%% Optional thanks (the supervisor, the consultant, the borrower of software, literature, etc.)
@@ -98,20 +98,16 @@ Note: Add a list of tables if the number of tables used in the thesis exceeds 20
 \pagestyle{plain}
 \include{introduction}
 }
-% \include{...}
-% \include{...}
 
 \chapter{Východiska variačního autoenkodéru}
-% TODO: Move to separate files
-\section{Redukce dimenzionality}
-\section{Neuronové sítě}
-\section{Autoenkodér}
-\section{Pravděpodobnostní modely}
-\section{Hluboké modely s latentní reprezentací}
-\section{Kullback-Lieblerova divergence}
+\include{sections/01_vyhodiska_variacniho_autoenkoderu/01_neuronove_site}
+\include{sections/01_vyhodiska_variacniho_autoenkoderu/02_redukce_dimenzionality}
+\include{sections/01_vyhodiska_variacniho_autoenkoderu/03_autoenkoder}
+\include{sections/01_vyhodiska_variacniho_autoenkoderu/04_pravdepodobnostni_modely.tex}
+\include{sections/01_vyhodiska_variacniho_autoenkoderu/05_kl_divergence}
+\include{sections/01_vyhodiska_variacniho_autoenkoderu/06_latent_variable_models}
 
-% \include{...}
-% \include{...}
+
 \chapter{Variační autoenkodér}
 \section{ELBO}
 \section{Reparametrizační trik}
@@ -123,12 +119,14 @@ Note: Add a list of tables if the number of tables used in the thesis exceeds 20
 
 
 \chapter{Úlohy pozorování v latentním prostoru}
+% Dohledat materiály o generování syntetických dat pro trénování neural netů (mám malý vzorek svých pozorování, chci nová data pro custom nerual net na ten task, dohledat jak se to použivá) -> kapitola
 \section{Generativní modelování obrazových dat}
 \section{Rekonstrukce obrazových dat}
 \section{Interpolace vět}
 \section{Detekce anomálií}
 \section{Syntéza tabulárních dat}
 \section{Komprese}
+
 
 \chapter{Experimenty s modelem variačního autoenkodéru}
 \section{Generativní modelování obrazových dat}
