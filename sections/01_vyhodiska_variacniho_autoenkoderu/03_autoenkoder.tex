@@ -1,6 +1,6 @@
 \section{Autoenkodér}
 Autoenkodér je typ umělé neuronové sítě se schopností učit se efektivní reprezentace vstupních dat bez učitele. Umělá neuronová síť Autoenkodéru má symetrickou strukturu a skrytou vrstvu \emph{h}, která popisuje \emph{kód} použitý pro reprezentaci vstupu.
-Architekturu sítě (viz \ref{fig:basic_autoencoder_structure}) lze principiálně rozdělit na dvě části – kódovací funkci $h = f(x)$, resp. \textbf{enkodér}
+Architekturu Autoenkodéru (viz \ref{fig:basic_autoencoder_structure}) lze principiálně rozdělit na dvě části – kódovací funkci $h = f(x)$, resp. \textbf{enkodér}
 a dekódovací funkci $r = g(h)$, resp. \textbf{dekodér}.
 Hovoříme tedy o typu umělé neuronové sítě s \emph{enkodér-dekodér} moduly.
 Výstupem enkodéru je \textbf{kód} vstupu $\emph{h}$. Výstupem dekodéru je \textbf{rekonstrukce} vstupu \emph{r}.
@@ -26,7 +26,6 @@ Proto je při trénování zavedena řada omezení, jejichž účelem je zabrán
 Obecnou strukturu (viz \ref{fig:basic_autoencoder_structure}) lze reprezentovat dopřednou umělou neuronovou sítí.
 Jejím cílem je \textbf{rekonstruovat vstupní data na výstupní vrstvě}. Počet vstupů je tak totožný s počtem neuronů ve výstupní vrstvě umělé neuronové sítě (tedy $x$ a $r$ mají stejnou dimenzi).
 \emph{h} může mít \emph{menší} či \emph{větší} dimenzi – volba dimenze \emph{h} se odvíjí od požadovaných vlastností Autoenkodéru.
-Předmětem této práce jsou zejména Autoenkodéry se zaměřením na \textbf{kompresovanou reprezentaci znalostí}. Tedy případy, kdy dimenze \emph{h} je menší než dimenze \emph{x} a \emph{r}.
 Jedna taková architektura umělé neuronové sítě je prezentovaná v \ref{fig:autoencoder_bottleneck}.
 
 
@@ -47,7 +46,7 @@ Jedna taková architektura umělé neuronové sítě je prezentovaná v \ref{fig
         \linklayers
       
       \end{neuralnetwork}
-    \caption{Triviální architektura umělé neuronové sítě autoenkodéru. Skrytá vrstva představuje \emph{bottleneck}.}
+    \caption{Triviální architektura umělé neuronové sítě autoenkodéru. Skrytá vrstva představuje \emph{bottleneck}. Jedná se o tzv. \emph{shallow undercomplete Autoenkodér}.}
     \label{fig:autoencoder_bottleneck}
 \end{figure}
 
@@ -57,8 +56,9 @@ Vícevrstvý Perceptron \autoref{sec:multilayer_perceptron} je univerzálním ap
 Sofistikovaný algoritmus se schopností trénování Vícevrstvého Perceptronu s větším počtem skrytých vrstev stále schází, a to zejména v důsledku problému mizejícího gradientu (\emph{vanishing gradient problem}).
 Až příchod algoritmu gradientního sestupu \autoref{sec:gradient_descent}, který adresuje problém mizejícího gradientu v aplikacích s použitím konvolučních sítí \autoref{sec:cnn} a úloh učení se bez učitele, značí počátek moderních metod hlubokého učení.
 V oblasti hlubokého učení \autoref{sec:deep_learning} dochází k emergenci a vývoji řady technik pro řešení úloh učení se bez učitele.
-V této kapitole je popsána pouze jedna z nich – architektura umělé neuronové sítě založené na \emph{enkodér-dekodér} modulech: Autoenkodér. Autoenkodéry byly poprvé představeny jako způsob pro předtrénování umělých neuronových sítí (formou automatizované extrakce vlastností \emph{feature extraction}). 
-Později Autoenkodéry nalézají uplatnění zejména v úloháh redukce dimenzionality \autoref{chap:dimensionality_reduction} či fůzi vlastností (\emph{feature fusion}).
+V této kapitole je popsána pouze jedna z nich – architektura umělé neuronové sítě založené na \emph{enkodér-dekodér} modulech: Autoenkodér.
+Autoenkodéry byly poprvé představeny jako způsob pro předtrénování umělých neuronových sítí (formou automatizované extrakce vlastností \emph{feature extraction}). 
+Později Autoenkodéry nalézají uplatnění zejména v úloháh redukce dimenzionality \autoref{sec:dimensionality_reduction} či fůzi vlastností (\emph{feature fusion}).
 
 
 Nedávné teoretické propojení Autoenkodéru a Modelů využívajících latentní proměnných \autoref{sec:latent_variable_models} však vedlo ke vzniku zcela nové architektury neuronové sítě kombinující charakter redukce dimenzionality Autoenkodéru se statistickými metodami odvozování.
@@ -68,8 +68,27 @@ Byť Autoenkodéry vznikly v kontextu hlubokého učení, není pravidlem že v�
 
 
 \subsection{Neuplný autoenkodér // Undercomplete Autoencoder}
+Pouhé kopírování vstupů na výstupní vrstvu se nemusí jevit jako zvlášť užitečné.
+Nicméně při trénování Autonekodéru se snažíme aby \emph{h} vypozorovala užitečné vlastnosti vstupních dat.
+
+Jedním způsobem, jak docílit \textbf{kompresované reprezentace znalostí} je \textbf{omezit dimenzi \emph{h} tak, aby byla nižśí než dimenze \emph{x}}.
+
+Autoenkodér, jehož dimenze kódu (\emph{h}) je nižší, než dimenze vstupu nazýváme \textbf{neúplný}.
+Učení neuplné reprezentace \emph{nutí} Autoenkodér zachytit pouze ty nejvíce charakteristické vlastnosti trénovacích dat.
+
+Trénovací proces Neuplného autoenkodéru je popsán jako minimalizace ztrátové funkce
+
+\begin{equation}
+    L(\mathbf{x}, g(f(\mathbf{x}))),
+\end{equation}
+
+kde $L$ je ztrátová funkce, penalizující $g(f(\mathbf{x}))$ za \emph{rozdílnost} vůči $\mathbf{x}$ (např. \emph{střední kvadratická chyba}).
 \subsubsection{Od Analýzy hlavních komponent po Autoenkodér}
-% Autoenkodery already vykazuji lepsi vykonnost nez PCA (viz studie), narazi ale na jejich nespojitost, proto predsstavujeme VAE}
+Máme-li linéární dekodér (Autoenkodér používá pouze linéárni aktivační funkce) a jako ztrátová funkce $L$ je použita \emph{střední kvadratická chyba},
+pak se Neuplný autoenkodér naučí stejný \emph{vektorový prostor}, který by byl výsledkem Analýzy hlavních komponentů \autoref{sec:pca}.
+V tomto speciálním případě lze ukázat, že Autoenkodér trénovaný na úloze kompresované reprezentace znalostí jako vedlejší efekt provedl Analýzu hlavních komponentů.
+
+Důležitým důsledkem tohoto jevu je, že \textbf{Autoenkodéry} s nelineární kódovací funkcí $f$ a nelineární dekódovací funkcní $g$ \textbf{jsou schopny učit se obecnější generalizaci} než u Analýzy hlavních komponent.
 
 \subsection{Hlubuký autoenkodér}
 Hluboký autoenkodér (\emph{stacked} autoenkodér)
