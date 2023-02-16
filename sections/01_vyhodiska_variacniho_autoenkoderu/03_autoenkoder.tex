@@ -51,6 +51,7 @@ Jedna taková architektura umělé neuronové sítě je prezentovaná v \ref{fig
 \end{figure}
 
 
+
 \subsection{Historický pohled}
 Vícevrstvý Perceptron \autoref{sec:multilayer_perceptron} je univerzálním aproximátorem \autoref{sec:universal_approximation_theorem} – tedy historicky nalézá uplatnění zejména v klasifikačních úlohách učení s učitelem.
 Sofistikovaný algoritmus se schopností trénování Vícevrstvého Perceptronu s větším počtem skrytých vrstev stále schází, a to zejména v důsledku problému mizejícího gradientu (\emph{vanishing gradient problem}).
@@ -67,14 +68,15 @@ To vyneslo Autoenkodéry na popředí v oblasti generativního modelování – 
 Byť Autoenkodéry vznikly v kontextu hlubokého učení, není pravidlem že všechny modely Autoenkodéru obsahují vícero skrytých vrstev. Následuje rozdělení Autoenkodérů dle struktury umělé neuronové sítě.
 
 
-\subsection{Neuplný autoenkodér // Undercomplete Autoencoder}
+\subsection{Autoenkodér s neúplnou skrytou vrstvou // Undercomplete Autoencoder}
 Pouhé kopírování vstupů na výstupní vrstvu se nemusí jevit jako zvlášť užitečné.
 Nicméně při trénování Autonekodéru se snažíme aby \emph{h} vypozorovala užitečné vlastnosti vstupních dat.
 
 Jedním způsobem, jak docílit \textbf{kompresované reprezentace znalostí} je \textbf{omezit dimenzi \emph{h} tak, aby byla nižśí než dimenze \emph{x}}.
+Takovou skrytou vrstvu \emph{h} nazýváme \textbf{bottleneck}.
 
-Autoenkodér, jehož dimenze kódu (\emph{h}) je nižší, než dimenze vstupu nazýváme \textbf{neúplný}.
-Učení neuplné reprezentace \emph{nutí} Autoenkodér zachytit pouze ty nejvíce charakteristické vlastnosti trénovacích dat.
+Autoenkodér, jehož dimenze kódu (\emph{h}) je nižší, než dimenze vstupu nazýváme \textbf{Autoenkodér s neúplnou skrytou vrstvou} (\emph{undercomplete autoencoder}).
+Učení kompresované reprezentace \emph{nutí} Autoenkodér zachytit pouze ty stěžejní vlastnosti trénovacích dat.
 
 Trénovací proces Neuplného autoenkodéru je popsán jako minimalizace ztrátové funkce
 
@@ -88,7 +90,18 @@ Máme-li linéární dekodér (Autoenkodér používá pouze linéárni aktivač
 pak se Neuplný autoenkodér naučí stejný \emph{vektorový prostor}, který by byl výsledkem Analýzy hlavních komponentů \autoref{sec:pca}.
 V tomto speciálním případě lze ukázat, že Autoenkodér trénovaný na úloze kompresované reprezentace znalostí jako vedlejší efekt provedl Analýzu hlavních komponentů.
 
-Důležitým důsledkem tohoto jevu je, že \textbf{Autoenkodéry} s nelineární kódovací funkcí $f$ a nelineární dekódovací funkcní $g$ \textbf{jsou schopny učit se obecnější generalizaci} než u Analýzy hlavních komponent.
+Důležitým důsledkem tohoto jevu je, že \textbf{Autoenkodéry} s nelineární kódovací funkcí $f$
+a nelineární dekódovací funkcní $g$ \textbf{jsou schopny učit se obecnější generalizaci}
+než u Analýzy hlavních komponent.
+
+Na druhou stranu, má-li Autoenkodér k dispozici příliš mnoho kapacity,
+může se naučit kopírovat vstupní data na výstupní vrstvu bez extrakce užitečných (charakteristických) vlastností o rozdělení vstupních dat.
+
+Extrémním případem je teoretický scénář, ve kterém je Autoenkodér složen z kódu (\emph{h}) o jedné vrstvě a velmi výkonného enkodéru.
+Takový Autoenkodér by se mohl naučit reprezentovat každý vstup $x_i$ kódem \emph{i}.
+Dekodér by se pak tyto indexy mohl naučit mapovát zpátky na hodnoty konkrétních trénovacích vzorků dat.
+Tento příklad se v praxi běžně nenaskytne, nicméne jasně ilustruje,
+jak může Autoenkodér při úloze kopírování vstupu na výstupní vrstvu selhat naučit se užitečné vlastnosti o vstupních datech, jsou-li restrikce při učení příliš nízké.
 
 \subsection{Hlubuký autoenkodér}
 Hluboký autoenkodér (\emph{stacked} autoenkodér)
