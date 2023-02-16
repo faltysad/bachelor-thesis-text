@@ -1,7 +1,9 @@
 \section{Autoenkodér}
-Autoenkodér je typ umělé neuronové sítě schopný učit se efektivní reprezentace vstupních dat bez učitele. Umělá neuronová síť Autoenkodéru má symetrickou strukturu a skrytou vrstvu \emph{h}, která popisuje \emph{kód} použitý pro reprezentaci vstupu.
-Architekturu sítě lze principiálně rozdělit na dvě části – kódovací funkci $h = f(x)$, resp. \textbf{enkodér}
-a dekódovací funkci $r = g(h)$, resp \textbf{dekodér} (výstupem dekodéru je rekonstrukce vstupu \emph{r}).
+Autoenkodér je typ umělé neuronové sítě se schopností učit se efektivní reprezentace vstupních dat bez učitele. Umělá neuronová síť Autoenkodéru má symetrickou strukturu a skrytou vrstvu \emph{h}, která popisuje \emph{kód} použitý pro reprezentaci vstupu.
+Architekturu sítě (viz \ref{fig:basic_autoencoder_structure}) lze principiálně rozdělit na dvě části – kódovací funkci $h = f(x)$, resp. \textbf{enkodér}
+a dekódovací funkci $r = g(h)$, resp. \textbf{dekodér}.
+Hovoříme tedy o typu umělé neuronové sítě s \emph{enkodér-dekodér} moduly.
+Výstupem enkodéru je \textbf{kód} vstupu $\emph{h}$. Výstupem dekodéru je \textbf{rekonstrukce} vstupu \emph{r}.
 
 \begin{figure}[h]
     \centering
@@ -10,14 +12,46 @@ a dekódovací funkci $r = g(h)$, resp \textbf{dekodér} (výstupem dekodéru je
         \node[round](x)[below left of=h]{x};
         \node[round](r)[below right of=h]{r};
         
-        \draw[-Triangle] (x) -- node [above] {f} (h);
-        \draw[-Triangle] (h) -- node [above] {g} (r);
+        \draw[-Triangle] (x) -- node [above] {$f$} (h);
+        \draw[-Triangle] (h) -- node [above] {$g$} (r);
     \end{tikzpicture}
-    \caption{Obecná struktura Autoenkodéru, mapující vstup $\mathbf{x}$ na rekonstrukci $\mathbf{r}$ skrze vnitřní reprezentaci (\emph{kód}) $\mathbf{h}$.}
+    \caption{Obecná struktura Autoenkodéru. Ze vstupu $\emph{x}$ je enkodérem vytvořen kód $\emph{h}$} (funkce $\emph{f}$). Tento kód je následně dekodérem přetaven na rekonstrukci $\emph{r}$ (funkce $\emph{g}$).
+    \label{fig:basic_autoencoder_structure}
+\end{figure}
+
+Autoenkodér je trénován k rekonstrukci jeho vstupů.
+Pokud by se Autoenkodér naučil jednoduše určit $\mathbf{\emph{x}} = g(f(\mathbf{\emph{x}}))$ pro každé $\emph{x}$, získali bychom \emph{identitu}, která není patřičně užitečná.
+Proto je při trénování zavedena řada omezení, jejichž účelem je zabránit možnosti naučení Autoenkodéru perfektně kopírovat vstupní data.
+
+Obecnou strukturu (viz \ref{fig:basic_autoencoder_structure}) lze reprezentovat dopřednou umělou neuronovou sítí.
+Jejím cílem je \textbf{rekonstruovat vstupní data na výstupní vrstvě}. Počet vstupů je tak totožný s počtem neuronů ve výstupní vrstvě umělé neuronové sítě (tedy $x$ a $r$ mají stejnou dimenzi).
+\emph{h} může mít \emph{menší} či \emph{větší} dimenzi – volba dimenze \emph{h} se odvíjí od požadovaných vlastností Autoenkodéru.
+Předmětem této práce jsou zejména Autoenkodéry se zaměřením na \textbf{kompresovanou reprezentaci znalostí}. Tedy případy, kdy dimenze \emph{h} je menší než dimenze \emph{x} a \emph{r}.
+Jedna taková architektura umělé neuronové sítě je prezentovaná v \ref{fig:autoencoder_bottleneck}.
+
+
+\begin{figure}[H]
+    \centering
+    \begin{neuralnetwork}[height=4]
+        \tikzstyle{input neuron}=[neuron, circle, draw=black, fill=white];
+        \tikzstyle{hidden neuron}=[neuron, circle, draw=black, fill=white];
+        \tikzstyle{output neuron}=[neuron, circle, draw=black, fill=white];
+      
+        \inputlayer[count=4, bias=false, title=Enkodér, text=\xin]
+      
+      
+        \hiddenlayer[count=2, bias=false, title=Kód $\emph{h}$]
+        \linklayers
+      
+        \outputlayer[count=4, title=Dekodér, text=\xout]
+        \linklayers
+      
+      \end{neuralnetwork}
+    \caption{Triviální architektura umělé neuronové sítě autoenkodéru. Skrytá vrstva představuje \emph{bottleneck}.}
+    \label{fig:autoencoder_bottleneck}
 \end{figure}
 
 
-Autoenkodér má typicky totožnou architekturu jako Vícevrstvý Perceptron \autoref{sec:multilayer_perceptron}, s výjimkou rovnosti počtu neuronů ve výstupní vrstvě s počtem vstupů umělé neuronové sítě.
 \subsection{Historický pohled}
 Vícevrstvý Perceptron \autoref{sec:multilayer_perceptron} je univerzálním aproximátorem \autoref{sec:universal_approximation_theorem} – tedy historicky nalézá uplatnění zejména v klasifikačních úlohách učení s učitelem.
 Sofistikovaný algoritmus se schopností trénování Vícevrstvého Perceptronu s větším počtem skrytých vrstev stále schází, a to zejména v důsledku problému mizejícího gradientu (\emph{vanishing gradient problem}).
@@ -34,6 +68,8 @@ Byť Autoenkodéry vznikly v kontextu hlubokého učení, není pravidlem že v�
 
 
 \subsection{Neuplný autoenkodér // Undercomplete Autoencoder}
+\subsubsection{Od Analýzy hlavních komponent po Autoenkodér}
+% Autoenkodery already vykazuji lepsi vykonnost nez PCA (viz studie), narazi ale na jejich nespojitost, proto predsstavujeme VAE}
 
 \subsection{Hlubuký autoenkodér}
 Hluboký autoenkodér (\emph{stacked} autoenkodér)
@@ -45,9 +81,5 @@ Hluboký autoenkodér (\emph{stacked} autoenkodér)
 \subsection{Contractive autoenkodér}
 
 \subsection{Stochastický enkodér dekodér}
-
-
-\subsection{Od Analýzy hlavních komponent po Autoenkodér}
-% Autoenkodery already vykazuji lepsi vykonnost nez PCA (viz studie), narazi ale na jejich nespojitost, proto predsstavujeme VAE
 
 \subsection{Taxonomie autoenkodérů}
