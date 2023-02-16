@@ -10,8 +10,8 @@ a dekódovací funkci $r = g(h)$, resp \textbf{dekodér} (výstupem dekodéru je
         \node[round](x)[below left of=h]{x};
         \node[round](r)[below right of=h]{r};
         
-        \draw[->] (x) -- node [above] {f} (h)
-             [->] (h) -- node [above] {g} (r);
+        \draw[-Triangle] (x) -- node [above] {f} (h);
+        \draw[-Triangle] (h) -- node [above] {g} (r);
     \end{tikzpicture}
     \caption{Obecná struktura Autoenkodéru, mapující vstup $\mathbf{x}$ na rekonstrukci $\mathbf{r}$ skrze vnitřní reprezentaci (\emph{kód}) $\mathbf{h}$.}
 \end{figure}
