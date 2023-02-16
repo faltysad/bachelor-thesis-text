@@ -3,13 +3,19 @@ Autoenkodér je typ umělé neuronové sítě schopný učit se efektivní repre
 Architekturu sítě lze principiálně rozdělit na dvě části – kódovací funkci $h = f(x)$, resp. \textbf{enkodér}
 a dekódovací funkci $r = g(h)$, resp \textbf{dekodér} (výstupem dekodéru je rekonstrukce vstupu \emph{r}).
 
-\begin{tikzpicture}[round/.style={circle, draw, minimum size=10mm, node distance=2cm, on grid}]
-    \node[round](h){h};
-    \node[round](x)[below left of=h]{x};
-    \node[round](r)[below right of=h]{r};
-    
-    \draw[->] (x) -- (h);
-\end{tikzpicture}
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[round/.style={circle, draw, minimum size=10mm, node distance=25mm, on grid}]
+        \node[round](h){h};
+        \node[round](x)[below left of=h]{x};
+        \node[round](r)[below right of=h]{r};
+        
+        \draw[->] (x) -- node [above] {f} (h)
+             [->] (h) -- node [above] {g} (r);
+    \end{tikzpicture}
+    \caption{Obecná struktura Autoenkodéru, mapující vstup $\mathbf{x}$ na rekonstrukci $\mathbf{r}$ skrze vnitřní reprezentaci (\emph{kód}) $\mathbf{h}$.}
+\end{figure}
+
 
 Autoenkodér má typicky totožnou architekturu jako Vícevrstvý Perceptron \autoref{sec:multilayer_perceptron}, s výjimkou rovnosti počtu neuronů ve výstupní vrstvě s počtem vstupů umělé neuronové sítě.
 \subsection{Historický pohled}
