@@ -32,54 +32,48 @@ Obecná architektura modulů umělé neuronové sítě Autoenkodéru je zachycen
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}
-    \node[trapezium,
-        draw,
-        text=black,
-        trapezium angle=20,
-        trapezium stretches=true,
-        minimum height=2.5cm,
-        minimum width=5cm,
-        rotate=270] (encoder) at (1, 0) {Encoder};
+        \node[trapezium,
+            draw,
+            text=black,
+            trapezium angle=20,
+            trapezium stretches=true,
+            minimum height=2.5cm,
+            minimum width=5cm,
+            rotate=270] (encoder) at (1, 0) {Enkodér};
+        
+        \node[
+            preaction={clip, postaction={draw=black, line width=0.3mm,}},
+            minimum height=5cm,
+            left=of encoder.center,
+        ] (input) at (0, 0) {$\mathbf{x}$};
 
-    
-    \node[
-        preaction={clip, postaction={draw=black, line width=0.3mm,}},
-        minimum height=5cm,
-        left=of encoder.center,
-    ] (input) at (0, 0) {$\mathbf{x}$};
+        \node[
+            preaction={clip, postaction={draw=black, line width=0.3mm,}},
+            minimum height=18.5mm,
+            right=of encoder.north,
+        ] (h)  {$\mathbf{h}$}; 
 
+        \node[trapezium,
+            draw,
+            text=black,
+            trapezium angle=20,
+            trapezium stretches=true,
+            minimum height=2.5cm,
+            minimum width=5cm,
+            rotate=90] (decoder) at (6, 0) {Dekodér};
 
-    \node[
-        preaction={clip, postaction={draw=black, line width=0.3mm,}},
-        minimum height=18.5mm,
-        right=of encoder.north,
-    ] (h)  {$\mathbf{h}$}; 
+        \node[
+            preaction={clip, postaction={draw=black, line width=0.3mm,}},
+            minimum height=5cm,
+            right=of decoder.center,
+        ] (output) at (7, 0) {$\mathbf{\hat{x}}$};
 
-
-    \node[trapezium,
-        draw,
-        text=black,
-        trapezium angle=20,
-        trapezium stretches=true,
-        minimum height=2.5cm,
-        minimum width=5cm,
-        rotate=90] (decoder) at (6, 0) {Decoder};
-
-    \node[
-        preaction={clip, postaction={draw=black, line width=0.3mm,}},
-        minimum height=5cm,
-        right=of decoder.center,
-    ] (output) at (7, 0) {$\mathbf{\hat{x}}$};
-
-
-    \draw[-Triangle] (input) -- (encoder);
-    \draw[-Triangle] (encoder) -- (h);
-    \draw[-Triangle] (h) -- (decoder);
-    \draw[-Triangle] (decoder) -- (output);
-
-     
+        \draw[-Triangle] (input) -- (encoder);
+        \draw[-Triangle] (encoder) -- (h);
+        \draw[-Triangle] (h) -- (decoder);
+        \draw[-Triangle] (decoder) -- (output);
     \end{tikzpicture}
-    \caption{Obecné schéma modulů Autoenkodéru}
+    \caption{Jednotlivé moduly architektury umělé neuronové sítě Autoenkodéru. }
     \label{fig:autoencoder}
 \end{figure}
 
@@ -101,15 +95,10 @@ To vyneslo Autoenkodéry na popředí v oblasti generativního modelování – 
 Byť Autoenkodéry vznikly v kontextu hlubokého učení, není pravidlem že všechny modely Autoenkodéru obsahují vícero skrytých vrstev. Následuje rozdělení Autoenkodérů dle struktury umělé neuronové sítě.
 
 
-\subsection{Autoenkodér s neúplnou skrytou vrstvou // Undercomplete Autoencoder}
-Pouhé kopírování vstupů na výstupní vrstvu se nemusí jevit jako zvlášť užitečné.
-Nicméně při trénování Autonekodéru se snažíme aby \emph{h} vypozorovala užitečné vlastnosti vstupních dat.
-
-Jedním způsobem, jak docílit \textbf{kompresované reprezentace znalostí} je \textbf{omezit dimenzi \emph{h} tak, aby byla nižśí než dimenze \emph{x}}.
-Takovou skrytou vrstvu \emph{h} nazýváme \textbf{bottleneck}.
-
-Autoenkodér, jehož dimenze kódu (\emph{h}) je nižší, než dimenze vstupu nazýváme \textbf{Autoenkodér s neúplnou skrytou vrstvou} (\emph{undercomplete autoencoder}).
-Učení kompresované reprezentace \emph{nutí} Autoenkodér zachytit pouze ty stěžejní vlastnosti trénovacích dat.
+\subsection{Autoenkodér s neúplnou skrytou vrstvou}
+Autoenkodér s neúplnou skrytou vrstvou (\emph{Undercomplete autoencoder}) je Autoenkodér, jehož dimenze kódu (\emph{h}) je menší, než dimenze vstupu.
+Tuto skrytou vrstvu \emph{h} nazýváme \textbf{bottleneck}. Bottleneck je způsob, kterým se Autoenkodér s neúplnou skrytou vrstvou učí kompresované reprezentaci znalostí. 
+V důsledku bottleneck vrstvy je Autoenkodér nucen zachytit pouze ty stěžejní vlastnosti trénovacích dat, které následně budou použity pro rekonstrukci.
 
 Trénovací proces Neuplného autoenkodéru je popsán jako minimalizace ztrátové funkce
 
