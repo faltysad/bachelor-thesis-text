@@ -26,28 +26,61 @@ Proto je při trénování zavedena řada omezení, jejichž účelem je zabrán
 Obecnou strukturu (viz \ref{fig:basic_autoencoder_structure}) lze reprezentovat dopřednou umělou neuronovou sítí.
 Jejím cílem je \textbf{rekonstruovat vstupní data na výstupní vrstvě}. Počet vstupů je tak totožný s počtem neuronů ve výstupní vrstvě umělé neuronové sítě (tedy $x$ a $r$ mají stejnou dimenzi).
 \emph{h} může mít \emph{menší} či \emph{větší} dimenzi – volba dimenze \emph{h} se odvíjí od požadovaných vlastností Autoenkodéru.
-Jedna taková architektura umělé neuronové sítě je prezentovaná v \ref{fig:autoencoder_bottleneck}.
+Obecná architektura modulů umělé neuronové sítě Autoenkodéru je zachycena v \ref{fig:autoencoder}.
 
 
 \begin{figure}[H]
     \centering
-    \begin{neuralnetwork}[height=4]
-        \tikzstyle{input neuron}=[neuron, circle, draw=black, fill=white];
-        \tikzstyle{hidden neuron}=[neuron, circle, draw=black, fill=white];
-        \tikzstyle{output neuron}=[neuron, circle, draw=black, fill=white];
-      
-        \inputlayer[count=4, bias=false, title=Enkodér, text=\xin]
-      
-      
-        \hiddenlayer[count=2, bias=false, title=Kód $\emph{h}$]
-        \linklayers
-      
-        \outputlayer[count=4, title=Dekodér, text=\xout]
-        \linklayers
-      
-      \end{neuralnetwork}
-    \caption{Triviální architektura umělé neuronové sítě autoenkodéru. Skrytá vrstva představuje \emph{bottleneck}. Jedná se o tzv. \emph{shallow undercomplete Autoenkodér}.}
-    \label{fig:autoencoder_bottleneck}
+    \begin{tikzpicture}
+    \node[trapezium,
+        draw,
+        text=black,
+        trapezium angle=20,
+        trapezium stretches=true,
+        minimum height=2.5cm,
+        minimum width=5cm,
+        rotate=270] (encoder) at (1, 0) {Encoder};
+
+    
+    \node[
+        preaction={clip, postaction={draw=black, line width=0.3mm,}},
+        minimum height=5cm,
+        left=of encoder.center,
+    ] (input) at (0, 0) {$\mathbf{x}$};
+
+
+    \node[
+        preaction={clip, postaction={draw=black, line width=0.3mm,}},
+        minimum height=18.5mm,
+        right=of encoder.north,
+    ] (h)  {$\mathbf{h}$}; 
+
+
+    \node[trapezium,
+        draw,
+        text=black,
+        trapezium angle=20,
+        trapezium stretches=true,
+        minimum height=2.5cm,
+        minimum width=5cm,
+        rotate=90] (decoder) at (6, 0) {Decoder};
+
+    \node[
+        preaction={clip, postaction={draw=black, line width=0.3mm,}},
+        minimum height=5cm,
+        right=of decoder.center,
+    ] (output) at (7, 0) {$\mathbf{\hat{x}}$};
+
+
+    \draw[-Triangle] (input) -- (encoder);
+    \draw[-Triangle] (encoder) -- (h);
+    \draw[-Triangle] (h) -- (decoder);
+    \draw[-Triangle] (decoder) -- (output);
+
+     
+    \end{tikzpicture}
+    \caption{Obecné schéma modulů Autoenkodéru}
+    \label{fig:autoencoder}
 \end{figure}
 
 
@@ -85,6 +118,28 @@ Trénovací proces Neuplného autoenkodéru je popsán jako minimalizace ztráto
 \end{equation}
 
 kde $L$ je ztrátová funkce, penalizující $g(f(\mathbf{x}))$ za \emph{rozdílnost} vůči $\mathbf{x}$ (např. \emph{střední kvadratická chyba}).
+
+
+\begin{figure}[H]
+    \centering
+    \begin{neuralnetwork}[height=4]
+        \tikzstyle{input neuron}=[neuron, circle, draw=black, fill=white];
+        \tikzstyle{hidden neuron}=[neuron, circle, draw=black, fill=white];
+        \tikzstyle{output neuron}=[neuron, circle, draw=black, fill=white];
+      
+        \inputlayer[count=4, bias=false, title=Enkodér, text=\xin]
+      
+      
+        \hiddenlayer[count=2, bias=false, title=Kód $\emph{h}$]
+        \linklayers
+      
+        \outputlayer[count=4, title=Dekodér, text=\xout]
+        \linklayers
+      
+      \end{neuralnetwork}
+    \caption{Triviální architektura umělé neuronové sítě autoenkodéru. Skrytá vrstva představuje \emph{bottleneck}. Jedná se o tzv. \emph{shallow undercomplete Autoenkodér}.}
+    \label{fig:autoencoder_bottleneck}
+\end{figure}
 \subsubsection{Od Analýzy hlavních komponent po Autoenkodér}
 Máme-li linéární dekodér (Autoenkodér používá pouze linéárni aktivační funkce) a jako ztrátová funkce $L$ je použita \emph{střední kvadratická chyba},
 pak se Neuplný autoenkodér naučí stejný \emph{vektorový prostor}, který by byl výsledkem Analýzy hlavních komponentů \autoref{sec:pca}.
