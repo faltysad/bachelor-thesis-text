@@ -83,7 +83,7 @@ Autoenkodér s neúplnou skrytou vrstvou (\emph{Undercomplete autoencoder}) je A
 Tuto skrytou vrstvu \emph{h} nazýváme \textbf{bottleneck}. Bottleneck je způsob, kterým se Autoenkodér s neúplnou skrytou vrstvou učí kompresované reprezentaci znalostí. 
 V důsledku bottleneck vrstvy je Autoenkodér nucen zachytit pouze ty stěžejní vlastnosti trénovacích dat, které následně budou použity pro rekonstrukci.
 
-Trénovací proces Neuplného autoenkodéru je popsán jako minimalizace ztrátové funkce
+Trénovací proces Neuplného autoenkodéru je popsán jako minimalizace ztrátové funkce:
 
 \begin{equation}
     L(\mathbf{x}, g(f(\mathbf{x}))),
@@ -109,7 +109,7 @@ kde $L$ je ztrátová funkce, penalizující $g(f(\mathbf{x}))$ za \emph{rozdíl
         \linklayers
       
       \end{neuralnetwork}
-    \caption{Triviální architektura umělé neuronové sítě autoenkodéru. Skrytá vrstva představuje \emph{bottleneck}. Jedná se o tzv. \emph{shallow undercomplete Autoenkodér}.}
+    \caption{Jednoduchá architektura umělé neuronové sítě Autoenkodéru s neúplnou skrytou vrstvou. Skrytá vrstva představuje \emph{bottleneck}.}
     \label{fig:autoencoder_bottleneck}
 \end{figure}
 \subsubsection{Od Analýzy hlavních komponent po Autoenkodér}
@@ -124,7 +124,8 @@ než u Analýzy hlavních komponent.
 Na druhou stranu, má-li Autoenkodér k dispozici příliš mnoho kapacity,
 může se naučit kopírovat vstupní data na výstupní vrstvu bez extrakce užitečných (charakteristických) vlastností o rozdělení vstupních dat.
 
-\subsubsection{Problém s naučením identity}
+\subsubsection{Problém s naučením pouhého identického zobrazení}
+\label{sec:identity}
 Extrémním případem je teoretický scénář, ve kterém je Autoenkodér složen z kódu (\emph{h}) o jedné vrstvě a velmi výkonného enkodéru.
 Takový Autoenkodér by se mohl naučit reprezentovat každý vstup $x_i$ kódem \emph{i}.
 Dekodér by se pak tyto indexy mohl naučit mapovát zpátky na hodnoty konkrétních trénovacích vzorků dat.
@@ -132,8 +133,14 @@ Tento příklad se v praxi běžně nenaskytne, nicméne jasně ilustruje,
 jak může Autoenkodér při úloze kopírování vstupu na výstupní vrstvu selhat naučit se užitečné vlastnosti o vstupních datech, jsou-li restrikce při učení příliš nízké.
 Proto je třeba Autoenkodéry regularizovat.
 
+\subsection{Autoenkodér s rozšířenou skrytou vrstvou}
+% TODO: Zapsat toto matematicky
+Autoenkodér s rozšířenou skrytou vrstvou (\emph{Overcomplete Autoencoder}) je Autoenkodér, jehož počet neuronů ve skrýté vrstvě je větší než počet neuronů vstupní (a výstupní) vrstvy.
+
+\subsection{Stacked autoenkodér}
+
 \subsection{Hlubuký autoenkodér}
-Hluboký autoenkodér (\emph{stacked} autoenkodér)
+Hluboký autoenkodér (\emph{Deep} autoenkodér)
 
 \begin{figure}[H]
     \centering
@@ -152,14 +159,47 @@ Hluboký autoenkodér (\emph{stacked} autoenkodér)
         \outputlayer[count=6, text=\xout]
         \linklayers
       \end{neuralnetwork}
-    \caption{Stacked Autoenkodér.}
+    \caption{Deep Autoenkodér.}
     \label{fig:stacked_autoencoder}
 \end{figure}
 
 
 \subsection{Řídký autoenkodér}
+Řídký autoenkodér (\emph{Sparse Autoecoder}) je Autoenkodér jehož ztrátová funkce je rozšířena o penalizaci řídkosti kódovací vrstvy $\textbf{\emph{h}}$ (tzv. \emph{sparsity penalty}) vztahem $\Omega(\textbf{\emph{h}})$ následovně:
+
+\begin{equation}
+    L(\mathbf{x}, g(f(\mathbf{x}))) + \Omega(\textbf{\emph{h}}),
+\end{equation}
+
+kde 
 
 \subsection{Denoising autoenkodér}
+Autoenkodéry běžně minimalizují funkci ve tvaru:
+\begin{equation}
+    L(\mathbf{x}, g(f(\mathbf{x}))),
+\end{equation},
+
+kde $L$ je ztrátová funkce penalizující $g(f(x))$ za odlišnost od $\mathbf{x}$ (např. Euklidovská norma jejich rozdílů).
+Jak ale bylo ukázáno v \autoref{sec:identity}, to umožňuje $f \circ g$ naučit se být pouhou identitou.
+
+
+Z toho důvodu Denoising autoenkodér (\emph{Denoising Autoencoder}) minimalizuje funkci:
+\begin{equation}
+    L(\textbf{\emph{x}}, g(f(\tilde{\textbf{\emph{x}}}))),
+\end{equation}
+
+kde $\tilde{\textbf{\emph{x}}}$ je kopií $\textbf{\emph{x}}$ která byla úmyslně poškozena.
+
+Denoising autoenkodér se tedy musí naučit toto poškození odstranit a rekonstruovat tak původní vstup (namísto pouhého naučení se identitě).
+
+Při trénování Denoising autoenkodéru jsou funkce $\emph{f}$ a $\emph{g}$ nuceny zachytit implicitní strukturu $p_{data}(\textbf{\emph{x}})$.
+
+Denoising Autoenkodéry jsou příkladem hned dvou jevů:
+\begin{itemize}
+    \item Emergence užitečných vlastností o vstupních datech jako výsledek minimalizace chyby rekonstrukce
+    \item Schopnosti modelů s vysokou kapacitou/rozšířenou skrytou vrstvou fungovat jako Autoenkodér, \textbf{za předpokladu že je jim zabráněno naučit se identické zobrazení vstupních dat}
+\end{itemize}
+
 \subsection{Contractive autoenkodér}
 
 \subsection{Stochastický enkodér dekodér}
@@ -180,3 +220,11 @@ Nedávné teoretické propojení Autoenkodéru a Modelů využívajících laten
 To vyneslo Autoenkodéry na popředí v oblasti generativního modelování – této architektuře je věnována kapitola \autoref{chap:vae}.
 
 Byť Autoenkodéry vznikly v kontextu hlubokého učení, není pravidlem že všechny modely Autoenkodéru obsahují vícero skrytých vrstev. Následuje rozdělení Autoenkodérů dle struktury umělé neuronové sítě.
+
+\subsection{Využítí Autoenkodéru}
+
+\begin{itemize}
+    \item Mapování vysokorozměrných dat do 2D pro vizualizaci
+    \item Učení se abstraktních vlastností o vstupních datech bez učitele, pro následné využití v supervizovaných úlohách
+    \item Komprese
+\end{itemize}
