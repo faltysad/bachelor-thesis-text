@@ -77,6 +77,20 @@ Autoenkodér je trénován k rekonstrukci jeho vstupů.
 Pokud by se Autoenkodér naučil jednoduše určit $\mathbf{\emph{x}} = g(f(\mathbf{\emph{x}}))$ pro každé $\emph{x}$, získali bychom \emph{identitu}, která není patřičně užitečná.
 Proto je při trénování zavedena řada omezení, jejichž účelem je zabránit možnosti naučení Autoenkodéru perfektně kopírovat vstupní data.
 
+\subsection{Historický pohled}
+Vícevrstvý Perceptron \autoref{sec:multilayer_perceptron} je univerzálním aproximátorem \autoref{sec:universal_approximation_theorem} – tedy historicky nalézá uplatnění zejména v klasifikačních úlohách učení s učitelem.
+Sofistikovaný algoritmus se schopností trénování Vícevrstvého Perceptronu s větším počtem skrytých vrstev stále schází, a to zejména v důsledku problému mizejícího gradientu (\emph{vanishing gradient problem}).
+Až příchod algoritmu gradientního sestupu \autoref{sec:gradient_descent}, který adresuje problém mizejícího gradientu v aplikacích s použitím konvolučních sítí \autoref{sec:cnn} a úloh učení se bez učitele, značí počátek moderních metod hlubokého učení.
+V oblasti hlubokého učení \autoref{sec:deep_learning} dochází k emergenci a vývoji řady technik pro řešení úloh učení se bez učitele.
+V této kapitole je popsána pouze jedna z nich – architektura umělé neuronové sítě založené na \emph{enkodér-dekodér} modulech: Autoenkodér.
+Autoenkodéry byly poprvé představeny jako způsob pro předtrénování umělých neuronových sítí (formou automatizované extrakce vlastností \emph{feature extraction}). 
+Později Autoenkodéry nalézají uplatnění zejména v úloháh redukce dimenzionality \autoref{sec:dimensionality_reduction} či fůzi vlastností (\emph{feature fusion}).
+
+
+Nedávné teoretické propojení Autoenkodéru a Modelů využívajících latentní proměnných \autoref{sec:latent_variable_models} však vedlo ke vzniku zcela nové architektury neuronové sítě kombinující charakter redukce dimenzionality Autoenkodéru se statistickými metodami odvozování.
+To vyneslo Autoenkodéry na popředí v oblasti generativního modelování – této architektuře je věnována kapitola \autoref{chap:vae}.
+
+Byť Autoenkodéry vznikly v kontextu hlubokého učení, není pravidlem že všechny modely Autoenkodéru obsahují vícero skrytých vrstev. Následuje rozdělení Autoenkodérů dle struktury umělé neuronové sítě.
 
 \subsection{Autoenkodér s neúplnou skrytou vrstvou}
 Autoenkodér s neúplnou skrytou vrstvou (\emph{Undercomplete autoencoder}) je Autoenkodér, jehož dimenze kódu (\emph{h}) je menší, než dimenze vstupu.
@@ -141,7 +155,8 @@ Autoenkodér s rozšířenou skrytou vrstvou (\emph{Overcomplete Autoencoder}) j
 \subsection{Stacked autoenkodér}
 
 \subsection{Hlubuký autoenkodér}
-Hluboký autoenkodér (\emph{Deep} autoenkodér)
+Hluboký autoenkodér (\emph{Deep} autoenkodér), je takový Autoenkodér, který má víc než jednu skrytou vrstvu.
+Hluboký autoenkodér lze trénovat vrstvu po vrstvě formou více \emph{shallow stacked} autoenkodérů zasebou. Nebo jako hlubokou neuronovou síť.
 
 \begin{figure}[H]
     \centering
@@ -166,22 +181,55 @@ Hluboký autoenkodér (\emph{Deep} autoenkodér)
 
 
 \subsection{Řídký autoenkodér}
-Řídký autoenkodér (\emph{Sparse Autoecoder}) je Autoenkodér jehož ztrátová funkce je rozšířena o penalizaci řídkosti kódovací vrstvy $\textbf{\emph{h}}$ (tzv. \emph{sparsity penalty}) vztahem $\Omega(\textbf{\emph{h}})$ následovně:
+Řídká reprezentace dat (\emph{sparsity}) ve strojovém učení znamená, že většina hodnot daného vzorku je nulová. 
+Motivací pro řídkou reprezentaci dat ve strojovém učení je napodobení chování buněk v primární zrakové oblasti (\emph{V1}) mozku savců.
+Konkrétně schopnosti odhalit a uložit efektivní kódovací strategie pozorovaných vjemů. 
+
+Pro sestrojení Řídkého autoenkodérů je tedy nutné představit omezení (regularizační prvek) hodnot aktivací neuronů ve skryté (kódovací) vrstvě $\textbf{\emph{h}}$ (resp. počtu aktivních neuronů ve skrýte vrstvě).
+
+Řídký autoenkodér (\emph{Sparse Autoecoder}) je Autoenkodér, jehož ztrátová funkce je rozšířena o penalizaci řídkosti kódovací vrstvy $\textbf{\emph{h}}$ (tzv. \emph{sparsity penalty}) vztahem $\Omega(\textbf{\emph{h}})$:
 
 \begin{equation}
     L(\mathbf{x}, g(f(\mathbf{x}))) + \Omega(\textbf{\emph{h}}),
 \end{equation}
 
-kde 
+kde $\Omega$ je \textbf{regularizační prvek}, jehož cílem je přiblížit hodnoty aktivací neuronů kódovací vrstvy k cílové hodnotě (a zabránit přeučení).
+Chceme tak penalizovat neurony kódovací vrstvy, které se aktivují příliš často.
+
+Běžně lze $\Omega$ stanovit následovně. Mějme Bernoulliho náhodnou proměnou $\emph{i}$ modelující aktivace neuronů skrýte (kódovací) vrstvy – můžou tedy nastat dva stavy: neuron skryté vrstvy je buď aktivován, nebo není aktivován.
+Pro konkrétní vstup $\emph{x}$ dostaneme:
+
+\begin{equation}
+    \hat{p_i} = \frac{1}{|S|}\sum_{x \in S}^{}f_i(x),
+\end{equation}
+
+kde $ f = (f_1, f_2, \dots, f_c)$, $c$ je počet neuronů skryté (kódovací) vrstvy a $\hat{p_i}$ je průměrná aktivační hodnota neuronu skryté vrstvy (resp. střední hodnota příslušného Bernoulliho schématu).
+
+Dále mějme $p$ jako cílové rozdělení aktivací.
+Kullback-Leibnerova divergence mezi náhodnou proměnnou $i$ a $p$ pak udává rozdíl obou rozdělení:
+
+\begin{equation}
+    KL(p \parallel \hat{p_i}) = p \log \frac{p}{\hat{p_i}} + (1 - p) \log \frac{1 - p}{1 - \hat{p_i}}.
+\end{equation}
+
+Výsledný penalizační prvek $\Omega$ pro Řídký autoenkodér má tedy následující podobu:
+\begin{equation}
+    \Omega_{ŘAE}(W, b; S) = \sum_{i=1}^{c}KL(p \parallel \hat{p_i}),
+\end{equation}
+
+kde průměrná hodnota aktivací $\hat{p_i}$ závisí na parametrech enkodéru a množině trénovacích dat $S$. 
+
+Přičtením tohoto penalizačního prvku ke ztrátové funkci (a následnou minimalizací celkové ztrátové funkce) je Autoenkodér nucen \textbf{omezit počet aktivních neuronů v skrýté (kódovací) vrstvě}.
+V důsledku tohoto omezení pak každý neuron skryté vrstvy reprezentuje nějakou \textbf{salientní vlastnost} vstupních dat (a rovněž je zamezeno naučení pouhé identity \autoref{sec:identity}).
 
 \subsection{Denoising autoenkodér}
 Autoenkodéry běžně minimalizují funkci ve tvaru:
 \begin{equation}
     L(\mathbf{x}, g(f(\mathbf{x}))),
-\end{equation},
+\end{equation}
 
 kde $L$ je ztrátová funkce penalizující $g(f(x))$ za odlišnost od $\mathbf{x}$ (např. Euklidovská norma jejich rozdílů).
-Jak ale bylo ukázáno v \autoref{sec:identity}, to umožňuje $f \circ g$ naučit se být pouhou identitou.
+Jak ale bylo ukázáno v \autoref{sec:identity}, to umožňuje $f \circ g$ naučit se být pouhou identitu.
 
 
 Z toho důvodu Denoising autoenkodér (\emph{Denoising Autoencoder}) minimalizuje funkci:
@@ -189,7 +237,7 @@ Z toho důvodu Denoising autoenkodér (\emph{Denoising Autoencoder}) minimalizuj
     L(\textbf{\emph{x}}, g(f(\tilde{\textbf{\emph{x}}}))),
 \end{equation}
 
-kde $\tilde{\textbf{\emph{x}}}$ je kopií $\textbf{\emph{x}}$ která byla úmyslně poškozena.
+kde $\tilde{\textbf{\emph{x}}}$ je kopií $\textbf{\emph{x}}$ která byla úmyslně poškozena (např. přidáním šumu, smazáním části vstupních neuronů).
 
 Denoising autoenkodér se tedy musí naučit toto poškození odstranit a rekonstruovat tak původní vstup (namísto pouhého naučení se identitě).
 
@@ -202,25 +250,12 @@ Denoising Autoenkodéry jsou příkladem hned dvou jevů:
 \end{itemize}
 
 \subsection{Contractive autoenkodér}
+-> dva podobné vstupy musí mít podobné i kódy!
 
 \subsection{Stochastický enkodér dekodér}
-
+\subsection{Další druhy autoenkoderů}
 \subsection{Taxonomie autoenkodérů}
 
-\subsection{Historický pohled}
-Vícevrstvý Perceptron \autoref{sec:multilayer_perceptron} je univerzálním aproximátorem \autoref{sec:universal_approximation_theorem} – tedy historicky nalézá uplatnění zejména v klasifikačních úlohách učení s učitelem.
-Sofistikovaný algoritmus se schopností trénování Vícevrstvého Perceptronu s větším počtem skrytých vrstev stále schází, a to zejména v důsledku problému mizejícího gradientu (\emph{vanishing gradient problem}).
-Až příchod algoritmu gradientního sestupu \autoref{sec:gradient_descent}, který adresuje problém mizejícího gradientu v aplikacích s použitím konvolučních sítí \autoref{sec:cnn} a úloh učení se bez učitele, značí počátek moderních metod hlubokého učení.
-V oblasti hlubokého učení \autoref{sec:deep_learning} dochází k emergenci a vývoji řady technik pro řešení úloh učení se bez učitele.
-V této kapitole je popsána pouze jedna z nich – architektura umělé neuronové sítě založené na \emph{enkodér-dekodér} modulech: Autoenkodér.
-Autoenkodéry byly poprvé představeny jako způsob pro předtrénování umělých neuronových sítí (formou automatizované extrakce vlastností \emph{feature extraction}). 
-Později Autoenkodéry nalézají uplatnění zejména v úloháh redukce dimenzionality \autoref{sec:dimensionality_reduction} či fůzi vlastností (\emph{feature fusion}).
-
-
-Nedávné teoretické propojení Autoenkodéru a Modelů využívajících latentní proměnných \autoref{sec:latent_variable_models} však vedlo ke vzniku zcela nové architektury neuronové sítě kombinující charakter redukce dimenzionality Autoenkodéru se statistickými metodami odvozování.
-To vyneslo Autoenkodéry na popředí v oblasti generativního modelování – této architektuře je věnována kapitola \autoref{chap:vae}.
-
-Byť Autoenkodéry vznikly v kontextu hlubokého učení, není pravidlem že všechny modely Autoenkodéru obsahují vícero skrytých vrstev. Následuje rozdělení Autoenkodérů dle struktury umělé neuronové sítě.
 
 \subsection{Využítí Autoenkodéru}
 
