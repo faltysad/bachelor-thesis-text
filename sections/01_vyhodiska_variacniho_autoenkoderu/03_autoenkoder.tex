@@ -314,6 +314,30 @@ Takto modifikovaný kód je poté dekodérem přetaven na výstup a dostáváme 
 Bylo představeno několik tříd Autoenkoderů (rozdělení dle navržení ANN sítě, rozdělení dle regularizačního prvku) a následně popsáno několik dalśích druhú AE.
 Zde je jejich (nevyčerpávající) taxonomie.
 
+\begin{figure}[H]
+    \centering
+
+    \begin{forest}
+        forked edges,
+        for tree={grow=0, draw},
+        [
+            Autoenkodér
+                [Architektura umělé neuronové sítě
+                    [Autoenkodér s neúplnou skrytou vrstvou]
+                    [Autoenkodér s rozšířenou skrytou vrstvou]
+                    [Hluboký autoenkodér]
+                ]
+                [Regularizační prvek
+                    [Řídký autoenkodér]
+                    [Denoising autoenkodér]
+                    [Contractive autoenkodér]
+                ]
+        ]
+    \end{forest}
+
+    \caption{Autoenkodéry rozděleny podle charakteristik zpracování kódovací vrstvy}
+\end{figure}
+
 \subsection{Využítí Autoenkodéru}
 
 \begin{itemize}
