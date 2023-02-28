@@ -314,28 +314,55 @@ Takto modifikovaný kód je poté dekodérem přetaven na výstup a dostáváme 
 Bylo představeno několik tříd Autoenkoderů (rozdělení dle navržení ANN sítě, rozdělení dle regularizačního prvku) a následně popsáno několik dalśích druhú AE.
 Zde je jejich (nevyčerpávající) taxonomie.
 
+\tikzset{
+	basic/.style  = {draw, text width=5cm, rectangle},
+	root/.style   = {basic, thin, align=center},
+	level-2/.style = {basic, thin, align=center, text width=4.5cm},
+	level-3/.style = {basic, thin, align=center, text width=3.75cm}
+}
 \begin{figure}[H]
-    \centering
+	\centering
+	\begin{tikzpicture}[
+			level 1/.style={sibling distance=13em, level distance=6em},
+			edge from parent/.style={->,solid,black,thick,sloped,draw}, 
+			edge from parent path={(\tikzparentnode.south) -- (\tikzchildnode.north)},
+		>=latex, node distance=1.5cm, edge from parent fork down]
+    
+    \node[root] {\textbf{Autoenkodér}}
+        child {node[level-2] (c1) {\textbf{Architektura ANN}}}
+        child {node[level-2] (c2) {\textbf{Regularizační prvek}}}
+        child {node[level-2] (c3) {\textbf{Dle kategorie TBA}}};
 
-    \begin{forest}
-        forked edges,
-        for tree={grow=0, draw},
-        [
-            Autoenkodér
-                [Architektura umělé neuronové sítě
-                    [Autoenkodér s neúplnou skrytou vrstvou]
-                    [Autoenkodér s rozšířenou skrytou vrstvou]
-                    [Hluboký autoenkodér]
-                ]
-                [Regularizační prvek
-                    [Řídký autoenkodér]
-                    [Denoising autoenkodér]
-                    [Contractive autoenkodér]
-                ]
-        ]
-    \end{forest}
+    \begin{scope}[every node/.style={level-3}]
+        \node [below of = c1, xshift=40pt] (c11) {Autoenkodér s neúplnou skrytou vrstvou};
+        \node [below of = c11] (c12) {Autoenkodér s rozšířenou skrytou vrstvou};
+        \node [below of = c12] (c13) {Stacked autoenkodér};
+        \node [below of = c13] (c14) {Hluboký autoenkodér};
+        
+        \node [below of = c2, xshift=40pt] (c21) {Řídký autoenkodér};
+        \node [below of = c21] (c22) {Denoising autoenkodér};
+        \node [below of = c22] (c23) {Contractive autoenkodér};
+        \node [below of = c23] (c24) {Stochastický enkodér-dekodér};
+        
+        \node [below of = c3, xshift=40pt] (c31) {item 3-1};
+        \node [below of = c31] (c32) {item 3-2};
+        \node [below of = c32] (c33) {item 3-3};
+        \node [below of = c33] (c34) {item 3-4};
+        \node [below of = c34] (c35) {item 3-5};
+    \end{scope}
 
-    \caption{Autoenkodéry rozděleny podle charakteristik zpracování kódovací vrstvy}
+    \foreach \value in {1,...,4}
+        \draw[->] (c1.195) -- (c1\value.west);
+
+    \foreach \value in {1,...,4}
+        \draw[->] (c2.195) -- (c2\value.west);
+      
+    \foreach \value in {1,...,5}
+        \draw[->] (c3.195) -- (c3\value.west);
+		  
+	\end{tikzpicture}
+	\caption{Autoenkodéry rozděleny dle charakteristik zpracování kódovací vrstvy}
+	\label{fig:autoencoder_taxonomy}
 \end{figure}
 
 \subsection{Využítí Autoenkodéru}
