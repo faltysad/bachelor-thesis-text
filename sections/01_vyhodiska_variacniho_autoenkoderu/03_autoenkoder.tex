@@ -92,7 +92,10 @@ To vyneslo Autoenkodéry na popředí v oblasti generativního modelování – 
 
 Byť Autoenkodéry vznikly v kontextu hlubokého učení, není pravidlem že všechny modely Autoenkodéru obsahují vícero skrytých vrstev. Následuje rozdělení Autoenkodérů dle struktury umělé neuronové sítě.
 
+\subsection{Mělké autoenkodéry}
+\label{sec:shallow_autoncoder}
 \subsection{Autoenkodér s neúplnou skrytou vrstvou}
+\label{sec:undercomplete_autoencoder}
 Autoenkodér s neúplnou skrytou vrstvou (\emph{Undercomplete autoencoder}) je Autoenkodér, jehož dimenze kódu (\emph{h}) je menší, než dimenze vstupu.
 Tuto skrytou vrstvu \emph{h} nazýváme \textbf{bottleneck}. Bottleneck je způsob, kterým se Autoenkodér s neúplnou skrytou vrstvou učí kompresované reprezentaci znalostí. 
 V důsledku bottleneck vrstvy je Autoenkodér nucen zachytit pouze ty stěžejní vlastnosti trénovacích dat, které následně budou použity pro rekonstrukci.
@@ -149,14 +152,15 @@ Proto je třeba Autoenkodéry regularizovat.
 
 Dále tedy budou představeny přístupy k architekturám Autoenkodérů \textbf{s využitím regularizace}.
 \subsection{Autoenkodér s rozšířenou skrytou vrstvou}
+\label{sec:overcomplete_autoencoder}
 % TODO: Zapsat toto matematicky
 Autoenkodér s rozšířenou skrytou vrstvou (\emph{Overcomplete Autoencoder}) je Autoenkodér, jehož počet neuronů ve skrýté vrstvě je větší než počet neuronů vstupní (a výstupní) vrstvy.
 
-\subsection{Stacked autoenkodér}
-
 \subsection{Hlubuký autoenkodér}
-Hluboký autoenkodér (\emph{Deep} autoenkodér), je takový Autoenkodér, který má víc než jednu skrytou vrstvu.
-Hluboký autoenkodér lze trénovat vrstvu po vrstvě formou více \emph{shallow stacked} autoenkodérů zasebou. Nebo jako hlubokou neuronovou síť.
+V sekci \autoref{sec:undercomplete_autoencoder} a \autoref{sec:overcomplete_autoencoder} byly představeny Autonkodéry s jednovrstvým enkodérém a s jednovrstvým dekodérem.
+Existují však i Autoenkodéry, jejichž enkodér a dekodér moduly jsou vícevrstvé, tedy mají hloubky vyšší než jedna.
+
+Hluboký autoenkodér (\emph{Deep} autoenkodér), je Autoenkodér s netriviální hlobkou skryté vrstvy (\emph{kód}) $\textbf{\emph{h}}$.
 
 \begin{figure}[H]
     \centering
@@ -179,8 +183,25 @@ Hluboký autoenkodér lze trénovat vrstvu po vrstvě formou více \emph{shallow
     \label{fig:stacked_autoencoder}
 \end{figure}
 
+Z netriviální hloubky dopředné umělé neuronové sítě plyne \autoref{sec:universal_approximation_theorem},
+který garantuje, že dopředná umělá neuronová síť s alespoň jednou skrytou vrstvou dokáže aproximovat (\emph{libovolně přesně}) jakoukoliv funkci (za předpokladu dostatečného počtu neuron skryté vrstvy).
+
+Nicméně u mělkých enkodérů, které jsou rovněž dopřednou sítí, neexistuje možnost představit libovolná omezení a regularizační prvky (například řídkost \emph{kódu} $\textbf{\emph{h}}$ – viz \autoref{sec:sparse_autoencoder}).
+A tedy nelze zamezit problému naučiení pouhé identity \autoref{sec:identity}. Narozdíl od mělkých autoenkoderů \autoref{sec:shallow_autoncoder},
+však mohou Hluboké autoenkodéry (\emph{libovolně přesně}) aproximovat jakékoliv mapování vstupu na kód (\emph{opět s předpokladem dostatečného počtu neuronů skryté vrstvy}).
+
+S netriviální hloubkou se rovněž pojí významná redukce výpočetních nákladů spojených s reprezentací některých funkcí. 
+V důsledku možnosti efektivnější reprezentace takových funkcí tak dochazí i k zmenšení nároků na velikost množiny trénovacích dat.
+
+
+\subsubsection{Stacked autoenkodér}
+Běžnou strategií pro trénování Hlubokého autoenkodéru je hladově předtrénovat (\emph{greedy pretraining}) model individuálním natrénováním většího počtu Mělkých autoenkodérů (představených v sekci \autoref{sec:shallow_autoncoder}), které jsou následně vloženy za sebe.
+Takto složený Autoenkodér nazýváme Stacked autoenkodér.
+
+
 
 \subsection{Řídký autoenkodér}
+\label{sec:sparse_autoencoder}
 Řídká reprezentace dat (\emph{sparsity}) ve strojovém učení znamená, že většina hodnot daného vzorku je nulová. 
 Motivací pro řídkou reprezentaci dat ve strojovém učení je napodobení chování buněk v primární zrakové oblasti (\emph{V1}) mozku savců.
 Konkrétně schopnosti odhalit a uložit efektivní kódovací strategie pozorovaných vjemů. 
@@ -329,15 +350,14 @@ Zde je jejich (nevyčerpávající) taxonomie.
 		>=latex, node distance=1.5cm, edge from parent fork down]
     
     \node[root] {\textbf{Autoenkodér}}
-        child {node[level-2] (c1) {\textbf{Architektura ANN}}}
-        child {node[level-2] (c2) {\textbf{Regularizační prvek}}}
+        child {node[level-2] (c1) {\textbf{Dle kompozice skryté vrstvy}}}
+        child {node[level-2] (c2) {\textbf{Dle formulace regularizačního prvku}}}
         child {node[level-2] (c3) {\textbf{Dle kategorie TBA}}};
 
     \begin{scope}[every node/.style={level-3}]
         \node [below of = c1, xshift=40pt] (c11) {Autoenkodér s neúplnou skrytou vrstvou};
         \node [below of = c11] (c12) {Autoenkodér s rozšířenou skrytou vrstvou};
-        \node [below of = c12] (c13) {Stacked autoenkodér};
-        \node [below of = c13] (c14) {Hluboký autoenkodér};
+        \node [below of = c12] (c13) {Hluboký autoenkodér};
         
         \node [below of = c2, xshift=40pt] (c21) {Řídký autoenkodér};
         \node [below of = c21] (c22) {Denoising autoenkodér};
@@ -351,7 +371,7 @@ Zde je jejich (nevyčerpávající) taxonomie.
         \node [below of = c34] (c35) {item 3-5};
     \end{scope}
 
-    \foreach \value in {1,...,4}
+    \foreach \value in {1,...,3}
         \draw[->] (c1.195) -- (c1\value.west);
 
     \foreach \value in {1,...,4}
