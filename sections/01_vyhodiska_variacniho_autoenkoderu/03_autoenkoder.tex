@@ -145,7 +145,7 @@ může se naučit kopírovat vstupní data na výstupní vrstvu bez extrakce už
 \label{sec:identity}
 Extrémním případem je teoretický scénář, ve kterém je Autoenkodér složen z kódu (\emph{h}) o jedné vrstvě a velmi výkonného enkodéru.
 Takový Autoenkodér by se mohl naučit reprezentovat každý vstup $x_i$ kódem \emph{i}.
-Dekodér by se pak tyto indexy mohl naučit mapovát zpátky na hodnoty konkrétních trénovacích vzorků dat.
+Dekodér by se pak tyto indexy mohl naučit mapovat zpátky na hodnoty konkrétních trénovacích vzorků dat.
 Tento příklad se v praxi běžně nenaskytne, nicméne jasně ilustruje,
 jak může Autoenkodér při úloze kopírování vstupu na výstupní vrstvu selhat naučit se užitečné vlastnosti o vstupních datech, jsou-li restrikce při učení příliš nízké.
 Proto je třeba Autoenkodéry regularizovat.
@@ -329,8 +329,58 @@ Jakobián (\emph{Jacobiho determinant}) enkodéru je (jako \emph{drobný šum}) 
 Takto modifikovaný kód je poté dekodérem přetaven na výstup a dostáváme nový vzorek dat.
 
 
-\subsection{Stochastický enkodér dekodér}
-\subsection{Další druhy autoenkoderů}
+\subsection{Stochastický autoenkodér}
+Struktura stochastického autoenkodéru se vůči struktuře představené v \ref{fig:basic_autoencoder_structure} liší reprezentací enkodér a dekodér modulů.
+V stochastickém autoenkodéru jsou enkodér a dekodér moduly reprezentovány rozdělením pravděpodobností (nejedná se tedy pouze o funkce, ale moduly zahrnují i určitou míru šumu).
+Výstup těchto modulů tedy obdržíme \textbf{výběrem z příslušného rozdělení pravěpodobnosti}.
+
+Mějme skrytou vrstvu (\emph{kód}) $\textbf{\emph{h}}$. Obecně má pro enkodér toto rozdělení podobu $p_{enkodér}(\textbf{\emph{h}}\mid\textbf{\emph{x}})$ a pro dekodér $p_{dekodér}(\textbf{\emph{x}}\mid\textbf{\emph{h}})$.
+Modifikací základní struktury autoenkodéru (\ref{fig:basic_autoencoder_structure}) tedy dostáváme:
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[round/.style={circle, draw, minimum size=10mm, node distance=25mm, on grid}]
+        \node[round](h){h};
+        \node[round](x)[below left of=h]{x};
+        \node[round](r)[below right of=h]{r};
+        
+        \draw[-Triangle] (x) -- node [left] {$p_{enkodér}(\textbf{\emph{h}}\mid\textbf{\emph{x}})$} (h);
+        \draw[-Triangle] (h) -- node [right] {$p_{dekodér}(\textbf{\emph{x}}\mid\textbf{\emph{h}})$} (r);
+    \end{tikzpicture}
+    \caption{Obecná struktura Autoenkodéru. Ze vstupu $\emph{x}$ je enkodérem vytvořen kód $\emph{h}$} (funkce $\emph{f}$). Tento kód je následně dekodérem přetaven na rekonstrukci $\emph{r}$ (funkce $\emph{g}$).
+    \label{fig:stochastic_autoencoder_structure}
+\end{figure}
+
+
+V tradiční dopředné umělé neuronové síti \autoref{sec:feedforward_nn} je běžnou strategií pro návrh výstupní vrstvy definování (\emph{výstupního}) rozdělení pravděpodobnosti $p(\textbf{\emph{y}} \mid \textbf{\emph{x}})$. Pro návrh ztrátové funkce pak minimalizace záporného logaritmu věrohodnosti $-\log p(\textbf{\emph{y}}\mid\textbf{\emph{x}})$.
+V takové architektuře je $\textbf{\emph{x}}$ vektor vstupních dat a  $\textbf{\emph{y}}$ vektor cílových proměnných, které se umělá neuronová síť snaží předpovědět (např. štítků jednotlivých tříd).
+
+S architekturou autoenkodérů se však pojí jeden zásadní rozdíl. V autoenkodéru \textbf{je $\textbf{\emph{x}}$ jak vstupní, tak cílová proměnná}.
+
+Dekodér pak lze interpretovat jako modul poskytující podmíněné rozdělení $p_{dekodér}(\textbf{\emph{x}} \mid \textbf{\emph{h}})$.
+Autoenkodér lze trénovat minimalizací $-\log p_{dekodér}(\textbf{\emph{x}} \mid \textbf{\emph{h}})$.
+Konkrétní podoba ztrátové funkce se odvíjí od požadovaných vlastností autoenkodéru a od přesné podoby modulu dekodéru
+(pokud hodnoty $\textbf{\emph{x}} \in \mathbb{R}$, pak jsou pro parametrizaci normálního rozdělení použity linéarní výstupní jednotky,
+tedy $-\log p_{dekodér}(\textbf{\emph{x}} \mid \textbf{\emph{h}})$ vrací \emph{střední kvadtratickou chybu}).
+
+Stochastický autoenkodér tedy \textbf{generalizuje kódovací funkci} $f(x)$ na \textbf{kódovací rozdělení pravděpodobnosti} $p_{enkodér}(\textbf{\emph{h}}\mid\textbf{\emph{x}})$.
+
+Enkodér a dekodér moduly stochastického autoenkodéru tedy lze považovat za \textbf{modely využívající latentní proměnné} (\emph{latent variable models}, viz \autoref{sec:latent_variable_models}).
+Model využívající latentní proměnné značíme $p_{model}(\textbf{\emph{h}}, \textbf{\emph{x}})$.
+
+\textbf{Stochastický enkodér} je pak definován následovně:
+\begin{equation}
+    p_{enkodér}(\textbf{\emph{h}}\mid\textbf{\emph{x}}) = p_{model}(\textbf{\emph{h}}, \textbf{\emph{x}})
+\end{equation}
+
+a \textbf{stochastický dekodér} následovně:
+\begin{equation}
+    p_{dekodér}(\textbf{\emph{x}}\mid\textbf{\emph{h}}) = p_{model}(\textbf{\emph{x}}, \textbf{\emph{h}})
+\end{equation}
+
+
+
+\subsection{Další typy autoenkoderů}
 \subsection{Taxonomie autoenkodérů}
 Bylo představeno několik tříd Autoenkoderů (rozdělení dle navržení ANN sítě, rozdělení dle regularizačního prvku) a následně popsáno několik dalśích druhú AE.
 Zde je jejich (nevyčerpávající) taxonomie.
