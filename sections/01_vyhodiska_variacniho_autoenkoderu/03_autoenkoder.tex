@@ -92,7 +92,8 @@ To vyneslo Autoenkodéry na popředí v oblasti generativního modelování – 
 
 Byť Autoenkodéry vznikly v kontextu hlubokého učení, není pravidlem že všechny modely Autoenkodéru obsahují vícero skrytých vrstev. Následuje rozdělení Autoenkodérů dle struktury umělé neuronové sítě.
 
-\subsection{Mělké autoenkodéry}
+\subsection{Mělký autoenkodér}
+Mělký autoenkodér (\emph{Shallow autoencoder})
 \label{sec:shallow_autoncoder}
 \subsection{Autoenkodér s neúplnou skrytou vrstvou}
 \label{sec:undercomplete_autoencoder}
@@ -158,7 +159,7 @@ Autoenkodér s rozšířenou skrytou vrstvou (\emph{Overcomplete Autoencoder}) j
 
 \subsection{Hlubuký autoenkodér}
 V sekci \autoref{sec:undercomplete_autoencoder} a \autoref{sec:overcomplete_autoencoder} byly představeny Autonkodéry s jednovrstvým enkodérém a s jednovrstvým dekodérem.
-Existují však i Autoenkodéry, jejichž enkodér a dekodér moduly jsou vícevrstvé, tedy mají hloubky vyšší než jedna.
+Existují však i Autoenkodéry, jejichž enkodér a dekodér moduly jsou vícevrstvé, tedy mají hloubku vyšší než jedna.
 
 Hluboký autoenkodér (\emph{Deep} autoenkodér), je Autoenkodér s netriviální hlobkou skryté vrstvy (\emph{kód}) $\textbf{\emph{h}}$.
 
@@ -244,6 +245,7 @@ Přičtením tohoto penalizačního prvku ke ztrátové funkci (a následnou min
 V důsledku tohoto omezení pak každý neuron skryté vrstvy reprezentuje nějakou \textbf{salientní vlastnost} vstupních dat (a rovněž je zamezeno naučení pouhé identity \autoref{sec:identity}).
 
 \subsection{Denoising autoenkodér}
+\label{sec:denoising_autoencoder}
 Denoising autoenkodér je autoenkodér, který na vstupu obdrží poškozená vstupní data
 a při trénování je jeho předpovědět originální vstup bez poškození, a ten na výstupní vrstvě vrátit.
 
@@ -301,6 +303,27 @@ Denoising Autoenkodéry jsou příkladem hned dvou jevů:
     \item Emergence užitečných vlastností o vstupních datech jako výsledek minimalizace chyby rekonstrukce
     \item Schopnosti modelů s vysokou kapacitou/rozšířenou skrytou vrstvou fungovat jako Autoenkodér, \textbf{za předpokladu že je jim zabráněno naučit se identické zobrazení vstupních dat}
 \end{itemize}
+
+\subsection{Robustní autoenkodér}
+Robustní autoenkodér (\emph{Robust autoencoder}) představuje další způsob, jakým se vypořádat s \emph{drobným šumem} ve vstupních datech, která má následně rekonstruovat.
+
+
+Robustní autoenkodéry, narozdíl od Denoising autoenkodéru (viz \autoref{sec:denoising_autoencoder}), využivájí alternativně definovanou ztŕatovou funkci, která je modifikována pro minimalizaci chyby rekonstrukce.
+Obecně jsou ne-Gaussovským šumem ovlivněny \textbf{méně než triviální mělké autoenkodéry} (viz \autoref{sec:shallow_autoncoder}).
+Tato alternativní ztrátová funkce je založena na correntropii (\emph{correntropy}, lokalizovaná míra podobnosti), která je v \textbf{CITACE} definována následovně:
+
+\begin{equation}
+    \mathcal{L}_{MCC}(u, v) = -\sum_{k=1}^{d} \mathcal{K}_\sigma(u_k - v_k),
+\end{equation}
+kde
+\begin{equation}
+    \mathcal{K}_\sigma(\alpha) = \frac{1}{\sqrt[]{2\pi\sigma}}\exp(-\frac{\alpha^2}{2\sigma^2}),
+\end{equation}
+a $\sigma$ je parameter kernelu $\mathcal{K}$.
+
+Correntropie měří hustotu pravdepodobnostni, že dvě \emph{události} jsou si rovny (zde událost může být např.:).
+Correntropie je \textbf{výrazně méně ovlivněna odlehlými hodnotami}, než např. střední kvadratická chyba.
+Robustní autoenkodér se snaží tuto míru maximalizovat, což intuitivně vede k \textbf{vyšší odolnosti} Robustního autoenkodéru \textbf{na ne-Gaussovský šum} přítomný ve vstupních datech.
 
 \subsection{Contractive autoenkodér}
 Přehnaná citlivost na \emph{drobné rozdíly} ve vstupních datech by mohla vést k architektuře Autoenkodéru, která pro velmi podobné vstupy generuje odlišné kódy.
@@ -378,10 +401,22 @@ a \textbf{stochastický dekodér} následovně:
     p_{dekodér}(\textbf{\emph{x}}\mid\textbf{\emph{h}}) = p_{model}(\textbf{\emph{x}}, \textbf{\emph{h}})
 \end{equation}
 
+Výběr nových dat z rozdělení pravděpodobnosti autoenkodéru je detailněji představen v kaptiole \autoref{chap:vae}.
 
 
+\subsection{Ostatní typy autoenkoderů}
+Na poli výzkumu strojového se autoenkodéry těší velkému úspěchu. Přirozeně tak existuje celá řada architektur a modifikací, které slouží k specifickým účelům.
+V této kapitole byly představeny pouze ty architektury autoenkodéru, na kterých bude později stavět kapitola \autoref{chap:applications}.
 
-\subsection{Další typy autoenkoderů}
+V této sekci budou stučně shrnuty \emph{ostatní} typy autoenkodérů, které nejsou pro předmět nadcházejících kapitol stěžejní, ale obecně se jim dostává vysoké míry využití.
+
+\subsubsection{Adversariální autoenkodér}
+Adversariální autoenkodér (\emph{Adversarial autoencoder}) přináší koncept Generativních Adversariálních sítí \textbf{CITACE} na pole autoenkodérů.
+V adversariálním autoenkodéru je kód ($\textbf{\emph{h}}$) modelován uložením předchozího statistického rozdělení (\emph{prior}).
+Následně je natrénován \emph{běžný} autoenkodér, současně se \emph{diskriminativní} síť snaží odlišit kódy modelu od výběrů dat z přechozího statistického rozdělení.
+Jelikož generátor (v tomto případě enkodér) je trénován k \emph{přelstění} diskriminátoru, kódy mají tendenci následovat uložené rozdělení pravděpodobnosti.
+Tím pádem, z Adversariálního autoenkodéru lze \textbf{provádět výběr zcela nových dat} (\emph{generovat nové vzorky}).
+
 \subsection{Taxonomie autoenkodérů}
 Bylo představeno několik tříd Autoenkoderů (rozdělení dle navržení ANN sítě, rozdělení dle regularizačního prvku) a následně popsáno několik dalśích druhú AE.
 Zde je jejich (nevyčerpávající) taxonomie.
@@ -403,7 +438,7 @@ Zde je jejich (nevyčerpávající) taxonomie.
     \node[root] {\textbf{Autoenkodér}}
         child {node[level-2] (c1) {\textbf{Dle kompozice skryté vrstvy}}}
         child {node[level-2] (c2) {\textbf{Dle formulace regularizačního prvku}}}
-        child {node[level-2] (c3) {\textbf{Dle kategorie TBA}}};
+        child {node[level-2] (c3) {\textbf{Dle reprezentace enkodér dekodér modulů}}};
 
     \begin{scope}[every node/.style={level-3}]
         \node [below of = c1, xshift=40pt] (c11) {Autoenkodér s neúplnou skrytou vrstvou};
@@ -415,11 +450,8 @@ Zde je jejich (nevyčerpávající) taxonomie.
         \node [below of = c22] (c23) {Contractive autoenkodér};
         \node [below of = c23] (c24) {Stochastický enkodér-dekodér};
         
-        \node [below of = c3, xshift=40pt] (c31) {item 3-1};
-        \node [below of = c31] (c32) {item 3-2};
-        \node [below of = c32] (c33) {item 3-3};
-        \node [below of = c33] (c34) {item 3-4};
-        \node [below of = c34] (c35) {item 3-5};
+        \node [below of = c3, xshift=40pt] (c31) {Funkce};
+        \node [below of = c31] (c32) {Rozdělení pravděpodobnosti};
     \end{scope}
 
     \foreach \value in {1,...,3}
@@ -428,7 +460,7 @@ Zde je jejich (nevyčerpávající) taxonomie.
     \foreach \value in {1,...,4}
         \draw[->] (c2.195) -- (c2\value.west);
       
-    \foreach \value in {1,...,5}
+    \foreach \value in {1,...,2}
         \draw[->] (c3.195) -- (c3\value.west);
 		  
 	\end{tikzpicture}
