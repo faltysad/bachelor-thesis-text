@@ -14,14 +14,14 @@
 %%% Settings for using a separate bibliographic database.
 \usepackage[
    backend=biber
-%  ,style=iso-authoryear
-  ,style=iso-numeric
+ ,style=iso-authoryear
+  % ,style=iso-numeric
   ,sortlocale=cs_CZ
   ,alldates=iso
   ,bibencoding=UTF8
   ,maxnames=2
   ,maxbibnames=99
-  %,block=ragged
+  ,block=ragged
 ]{biblatex}
 \let\cite\parencite
 \renewcommand*{\multinamedelim}{, \addspace}
@@ -185,6 +185,14 @@
 \hypersetup{unicode}
 \hypersetup{breaklinks=true}
 \hypersetup{hidelinks}
+
+% Přejmenování objektů autoref pro odkazování v textu
+\renewcommand{\chapterautorefname}{kapitola}
+\renewcommand{\sectionautorefname}{sekce}
+\renewcommand{\subsectionautorefname}{podsekce}
+\renewcommand{\tableautorefname}{tabulka}
+\renewcommand{\figureautorefname}{obrázek}
+\renewcommand{\equationautorefname}{rovnice}
 
 \renewcommand{\UrlBreaks}{\do\/\do\=\do\+\do\-\do\_\do\ \do\a\do\b\do\c\do\d%
 \do\e\do\f\do\g\do\h\do\i\do\j\do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s%
