@@ -1,64 +1,44 @@
-%
-%  Vzor bibliografické databáze pro automatickou tvorbu seznamu referencí
-%  pomocí BibTeXu
-%
-%  Doporučený software pro správu databáze literatury formátu *.bib:
-%    JabRef, http://jabref.sourceforge.net/
-%
-%  POZOR:
-%
-%    *  Písmena v názvech publikací, jež je třeba tisknout vždy velká, se musejí psát
-%       do složených závorek ({T}hailand, {HIV})
-%
-%  ===========================================================================
-
-@BOOK{Pecakova2018,
-  title = {Statistika v terénních průzkumech},
-  publisher = {Professional Publishing},
-  year = {2018},
-  author = {Pecáková, Iva},
-  address = {Praha},
-  isbn = {978-80-88260-10-3}
+@TechReport{Kingma2013,
+  author   = {Kingma, Diederik P. and Welling, Max},
+  title    = {Auto-{Encoding} {Variational} {Bayes}},
+  year     = {2013},
+  month    = dec,
+  note     = {arXiv:1312.6114 [cs, stat] version: 1 type: article},
+  abstract = {How can we perform efficient inference and learning in directed probabilistic models, in the presence of continuous latent variables with intractable posterior distributions, and large datasets? We introduce a stochastic variational inference and learning algorithm that scales to large datasets and, under some mild differentiability conditions, even works in the intractable case. Our contributions are two-fold. First, we show that a reparameterization of the variational lower bound yields a lower bound estimator that can be straightforwardly optimized using standard stochastic gradient methods. Second, we show that for i.i.d. datasets with continuous latent variables per datapoint, posterior inference can be made especially efficient by fitting an approximate inference model (also called a recognition model) to the intractable posterior using the proposed lower bound estimator. Theoretical advantages are reflected in experimental results.},
+  annote   = {Comment: Fixes a typo in the abstract, no other changes},
+  doi      = {10.48550/arXiv.1312.6114},
+  file     = {arXiv Fulltext PDF:https\://arxiv.org/pdf/1312.6114v1.pdf:application/pdf},
+  keywords = {Statistics - Machine Learning, Computer Science - Machine Learning},
+  school   = {arXiv},
+  url      = {http://arxiv.org/abs/1312.6114},
+  urldate  = {2023-03-04},
 }
 
-
-@incollection{Cermak2018,
-  author = "Čermák, Radim and Smutný, Zdeněk",
-  year = "2018",
-  isbn = "978-1-5225-2727-5",
-  url = "https://doi.org/10.4018/978-1-5225-2727-5.ch013",
-  doi = "10.4018/978-1-5225-2727-5.ch013",
-  title = "A Framework for Cultural Localization of Websites and for Improving Their Commercial Utilization",
-  booktitle = "Global Observations of the Influence of Culture on Consumer Buying Behavior",
-  address = "Hershey",
-  publisher = "IGI Global",
-  pages = "206-232",
+@Book{Goodfellow2016,
+  author    = {Ian Goodfellow and Yoshua Bengio and Aaron Courville},
+  publisher = {MIT Press},
+  title     = {Deep Learning},
+  year      = {2016},
+  note      = {\url{http://www.deeplearningbook.org}},
 }
 
-@inproceedings{Hladik2018,
-  author = "Hladík, Milan and Černý, Michal",
-  year = "2018",
-  isbn = "978-3-319-67136-9",
-  url = "https://link.springer.com/chapter/10.1007%2F978-3-319-67137-6_31",
-  doi = "10.1007/978-3-319-67137-6_31",
-  title = "The Shape of the Optimal Value of a Fuzzy Linear Programming Problem",
-  booktitle = "Fuzzy Logic in Intelligent System Design",
-  address = "Cham",
-  publisher = "Springer",
-  pages = "281-286",
-  series = "Advances in Intelligent Systems and Computing 648",
-  venue = "Cancum",
-  eventdate = "2017-10-16/2017-10-18",
+@Article{Charte2018,
+  author     = {Charte, David and Charte, Francisco and García, Salvador and del Jesus, María J. and Herrera, Francisco},
+  journal    = {Information Fusion},
+  title      = {A practical tutorial on autoencoders for nonlinear feature fusion: {Taxonomy}, models, software and guidelines},
+  year       = {2018},
+  issn       = {15662535},
+  month      = nov,
+  note       = {arXiv:1801.01586 [cs]},
+  pages      = {78--96},
+  volume     = {44},
+  abstract   = {Many of the existing machine learning algorithms, both supervised and unsupervised, depend on the quality of the input characteristics to generate a good model. The amount of these variables is also important, since performance tends to decline as the input dimensionality increases, hence the interest in using feature fusion techniques, able to produce feature sets that are more compact and higher level. A plethora of procedures to fuse original variables for producing new ones has been developed in the past decades. The most basic ones use linear combinations of the original variables, such as PCA (Principal Component Analysis) and LDA (Linear Discriminant Analysis), while others find manifold embeddings of lower dimensionality based on non-linear combinations, such as Isomap or LLE (Linear Locally Embedding) techniques. More recently, autoencoders (AEs) have emerged as an alternative to manifold learning for conducting nonlinear feature fusion. Dozens of AE models have been proposed lately, each with its own specific traits. Although many of them can be used to generate reduced feature sets through the fusion of the original ones, there also AEs designed with other applications in mind. The goal of this paper is to provide the reader with a broad view of what an AE is, how they are used for feature fusion, a taxonomy gathering a broad range of models, and how they relate to other classical techniques. In addition, a set of didactic guidelines on how to choose the proper AE for a given task is supplied, together with a discussion of the software tools available. Finally, two case studies illustrate the usage of AEs with datasets of handwritten digits and breast cancer.},
+  doi        = {10.1016/j.inffus.2017.12.007},
+  file       = {arXiv Fulltext PDF:https\://arxiv.org/pdf/1801.01586.pdf:application/pdf},
+  keywords   = {Computer Science - Machine Learning, Computer Science - Neural and Evolutionary Computing},
+  shorttitle = {A practical tutorial on autoencoders for nonlinear feature fusion},
+  url        = {http://arxiv.org/abs/1801.01586},
+  urldate    = {2023-03-04},
 }
 
-@article{Jasek2018,
-  author = "Jašek, Pavel and Vraná, Lenka and Šperková, Lucie and Smutný, Zdeněk and Kobulský, Marek",
-  year = "2018",
-  url = "http://www.mdpi.com/2227-9709/5/1/2/pdf",
-  title = "Modeling and Application of Customer Lifetime Value in Online Retail",
-  journal = "Informatics",
-  volume = "5",
-  number = "1",
-  numpages = "22",
-}
-
+@Comment{jabref-meta: databaseType:bibtex;}

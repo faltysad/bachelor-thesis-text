@@ -1,9 +1,9 @@
 \section{Autoenkodér}
 Autoenkodér je typ umělé neuronové sítě se schopností učit se efektivní reprezentace vstupních dat bez učitele. Umělá neuronová síť Autoenkodéru má symetrickou strukturu a skrytou vrstvu \emph{h}, která popisuje \emph{kód} použitý pro reprezentaci vstupu.
-Architekturu Autoenkodéru (viz \ref{fig:basic_autoencoder_structure}) lze principiálně rozdělit na dvě části – kódovací funkci $h = f(x)$, resp. \textbf{enkodér}
+Architekturu Autoenkodéru (viz \autoref{fig:basic_autoencoder_structure}) lze principiálně rozdělit na dvě části – kódovací funkci $h = f(x)$, resp. \textbf{enkodér}
 a dekódovací funkci $r = g(h)$, resp. \textbf{dekodér}.
 Hovoříme tedy o typu umělé neuronové sítě s \emph{enkodér-dekodér} moduly.
-Výstupem enkodéru je \textbf{kód} vstupu $\emph{h}$. Výstupem dekodéru je \textbf{rekonstrukce} vstupu \emph{r}.
+Výstupem enkodéru je \textbf{kód} vstupu $\emph{h}$. Výstupem dekodéru je \textbf{rekonstrukce} vstupu \emph{r}. \cite{Goodfellow2016}
 
 \begin{figure}[h]
     \centering
@@ -19,10 +19,10 @@ Výstupem enkodéru je \textbf{kód} vstupu $\emph{h}$. Výstupem dekodéru je \
     \label{fig:basic_autoencoder_structure}
 \end{figure}
 
-Obecnou strukturu (viz \ref{fig:basic_autoencoder_structure}) lze reprezentovat dopřednou umělou neuronovou sítí.
+Obecnou strukturu (viz \autoref{fig:basic_autoencoder_structure}) lze reprezentovat dopřednou umělou neuronovou sítí.
 Jejím cílem je \textbf{rekonstruovat vstupní data na výstupní vrstvě}. Počet vstupů je tak totožný s počtem neuronů ve výstupní vrstvě umělé neuronové sítě (tedy $x$ a $r$ mají stejnou dimenzi).
 \emph{h} může mít \emph{menší} či \emph{větší} dimenzi – volba dimenze \emph{h} se odvíjí od požadovaných vlastností Autoenkodéru.
-Obecná architektura modulů umělé neuronové sítě Autoenkodéru je zachycena v \ref{fig:autoencoder}.
+Obecná architektura modulů umělé neuronové sítě Autoenkodéru je zachycena v \autoref{fig:autoencoder}. \cite{Charte2018}
 
 
 \begin{figure}[H]
@@ -278,7 +278,7 @@ které je odhadnuto z trénovacích dvojic následovně:
 
 Při trénování Denoising autoenkodéru jsou funkce $\emph{f}$ a $\emph{g}$ nuceny zachytit implicitní strukturu $p_{data}(\textbf{\emph{x}})$.
 
-Trénovací procedura Denoising autoenkodéru lze schematicky znázornit následovně (viz \ref{fig:denoising_autoencoder}):
+Trénovací procedura Denoising autoenkodéru lze schematicky znázornit následovně (viz \autoref{fig:denoising_autoencoder}):
 
 \begin{figure}[h]
     \centering
@@ -354,12 +354,12 @@ Takto modifikovaný kód je poté dekodérem přetaven na výstup a dostáváme 
 
 
 \subsection{Stochastický autoenkodér}
-Struktura stochastického autoenkodéru se vůči struktuře představené v \ref{fig:basic_autoencoder_structure} liší reprezentací enkodér a dekodér modulů.
+Struktura stochastického autoenkodéru se vůči struktuře představené v \autoref{fig:basic_autoencoder_structure} liší reprezentací enkodér a dekodér modulů.
 V stochastickém autoenkodéru jsou enkodér a dekodér moduly reprezentovány rozdělením pravděpodobností (nejedná se tedy pouze o funkce, ale moduly zahrnují i určitou míru šumu).
 Výstup těchto modulů tedy obdržíme \textbf{výběrem z příslušného rozdělení pravěpodobnosti}.
 
 Mějme skrytou vrstvu (\emph{kód}) $\textbf{\emph{h}}$. Obecně má pro enkodér toto rozdělení podobu $p_{enkodér}(\textbf{\emph{h}}\mid\textbf{\emph{x}})$ a pro dekodér $p_{dekodér}(\textbf{\emph{x}}\mid\textbf{\emph{h}})$.
-Modifikací základní struktury autoenkodéru (\ref{fig:basic_autoencoder_structure}) tedy dostáváme:
+Modifikací základní struktury autoenkodéru (\autoref{fig:basic_autoencoder_structure}) tedy dostáváme:
 
 \begin{figure}[h]
     \centering
