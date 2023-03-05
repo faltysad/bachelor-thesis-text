@@ -1,0 +1,57 @@
+\section{Autoenkodér s neúplnou skrytou vrstvou}
+\label{sec:undercomplete_autoencoder}
+Autoenkodér s neúplnou skrytou vrstvou (\emph{Undercomplete autoencoder}) je Autoenkodér, jehož dimenze kódu (\emph{h}) je menší, než dimenze vstupu.
+Tuto skrytou vrstvu \emph{h} nazýváme \textbf{bottleneck}. Bottleneck je způsob, kterým se Autoenkodér s neúplnou skrytou vrstvou učí kompresované reprezentaci znalostí. 
+V důsledku bottleneck vrstvy je Autoenkodér nucen zachytit pouze ty stěžejní vlastnosti trénovacích dat, které následně budou použity pro rekonstrukci.
+
+Trénovací proces Neuplného autoenkodéru je popsán jako minimalizace ztrátové funkce:
+
+\begin{equation}
+    L(\mathbf{x}, g(f(\mathbf{x}))),
+\end{equation}
+
+kde $L$ je ztrátová funkce, penalizující $g(f(\mathbf{x}))$ za \emph{rozdílnost} vůči $\mathbf{x}$ (např. \emph{střední kvadratická chyba}).
+
+
+\begin{figure}[H]
+    \centering
+    \begin{neuralnetwork}[height=4]
+        \tikzstyle{input neuron}=[neuron, circle, draw=black, fill=white];
+        \tikzstyle{hidden neuron}=[neuron, circle, draw=black, fill=white];
+        \tikzstyle{output neuron}=[neuron, circle, draw=black, fill=white];
+      
+        \inputlayer[count=4, bias=false, title=Enkodér, text=\xin]
+      
+      
+        \hiddenlayer[count=2, bias=false, title=Kód $\emph{h}$]
+        \linklayers
+      
+        \outputlayer[count=4, title=Dekodér, text=\xout]
+        \linklayers
+      
+      \end{neuralnetwork}
+    \caption{Jednoduchá architektura umělé neuronové sítě Autoenkodéru s neúplnou skrytou vrstvou. Skrytá vrstva představuje \emph{bottleneck}.}
+    \label{fig:autoencoder_bottleneck}
+\end{figure}
+\subsubsection{Od Analýzy hlavních komponent po Autoenkodér}
+Máme-li linéární dekodér (Autoenkodér používá pouze linéárni aktivační funkce) a jako ztrátová funkce $L$ je použita \emph{střední kvadratická chyba},
+pak se Neuplný autoenkodér naučí stejný \emph{vektorový prostor}, který by byl výsledkem Analýzy hlavních komponentů \autoref{sec:pca}.
+V tomto speciálním případě lze ukázat, že Autoenkodér trénovaný na úloze kompresované reprezentace znalostí jako vedlejší efekt provedl Analýzu hlavních komponentů.
+
+Důležitým důsledkem tohoto jevu je, že \textbf{Autoenkodéry} s nelineární kódovací funkcí $f$
+a nelineární dekódovací funkcní $g$ \textbf{jsou schopny učit se obecnější generalizaci}
+než u Analýzy hlavních komponent.
+
+Na druhou stranu, má-li Autoenkodér k dispozici příliš mnoho kapacity,
+může se naučit kopírovat vstupní data na výstupní vrstvu bez extrakce užitečných (charakteristických) vlastností o rozdělení vstupních dat.
+
+\subsubsection{Problém s naučením pouhého identického zobrazení}
+\label{sec:identity}
+Extrémním případem je teoretický scénář, ve kterém je Autoenkodér složen z kódu (\emph{h}) o jedné vrstvě a velmi výkonného enkodéru.
+Takový Autoenkodér by se mohl naučit reprezentovat každý vstup $x_i$ kódem \emph{i}.
+Dekodér by se pak tyto indexy mohl naučit mapovat zpátky na hodnoty konkrétních trénovacích vzorků dat.
+Tento příklad se v praxi běžně nenaskytne, nicméne jasně ilustruje,
+jak může Autoenkodér při úloze kopírování vstupu na výstupní vrstvu selhat naučit se užitečné vlastnosti o vstupních datech, jsou-li restrikce při učení příliš nízké.
+Proto je třeba Autoenkodéry regularizovat.
+
+Dále tedy budou představeny přístupy k architekturám Autoenkodérů \textbf{s využitím regularizace}.

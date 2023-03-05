@@ -1,0 +1,13 @@
+\section{Ostatní typy autoenkoderů}
+Na poli výzkumu strojového se autoenkodéry těší velkému úspěchu. Přirozeně tak existuje celá řada architektur a modifikací, které slouží k specifickým účelům.
+V této kapitole byly představeny pouze ty architektury autoenkodéru, na kterých bude později stavět kapitola \autoref{chap:applications}.
+
+V této sekci budou stučně shrnuty \emph{ostatní} typy autoenkodérů, které nejsou pro předmět nadcházejících kapitol stěžejní, ale obecně se jim dostává vysoké míry využití.
+
+\subsection{Adversariální autoenkodér}
+Adversariální autoenkodér (\emph{Adversarial autoencoder}) přináší koncept Generativních Adversariálních sítí \textbf{CITACE} na pole autoenkodérů.
+V adversariálním autoenkodéru je kód ($\textbf{\emph{h}}$) modelován uložením předchozího statistického rozdělení (\emph{prior}).
+Následně je natrénován \emph{běžný} autoenkodér, současně se \emph{diskriminativní} síť snaží odlišit kódy modelu od výběrů dat z přechozího statistického rozdělení.
+Jelikož generátor (v tomto případě enkodér) je trénován k \emph{přelstění} diskriminátoru, kódy mají tendenci následovat uložené rozdělení pravděpodobnosti.
+Tím pádem, z Adversariálního autoenkodéru lze \textbf{provádět výběr zcela nových dat} (\emph{generovat nové vzorky}).
+

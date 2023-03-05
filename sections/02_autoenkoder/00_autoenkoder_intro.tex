@@ -1,0 +1,77 @@
+Autoenkodér je typ umělé neuronové sítě se schopností učit se efektivní reprezentace vstupních dat bez učitele. Umělá neuronová síť Autoenkodéru má symetrickou strukturu a skrytou vrstvu \emph{h}, která popisuje \emph{kód} použitý pro reprezentaci vstupu.
+Architekturu Autoenkodéru (viz \autoref{fig:basic_autoencoder_structure}) lze principiálně rozdělit na dvě části – kódovací funkci $h = f(x)$, resp. \textbf{enkodér}
+a dekódovací funkci $r = g(h)$, resp. \textbf{dekodér}.
+Hovoříme tedy o typu umělé neuronové sítě s \emph{enkodér-dekodér} moduly.
+Výstupem enkodéru je \textbf{kód} vstupu $\emph{h}$. Výstupem dekodéru je \textbf{rekonstrukce} vstupu \emph{r}. \cite{Goodfellow2016}
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[round/.style={circle, draw, minimum size=10mm, node distance=25mm, on grid}]
+        \node[round](h){h};
+        \node[round](x)[below left of=h]{x};
+        \node[round](r)[below right of=h]{r};
+        
+        \draw[-Triangle] (x) -- node [above] {$f$} (h);
+        \draw[-Triangle] (h) -- node [above] {$g$} (r);
+    \end{tikzpicture}
+    \caption{Obecná struktura Autoenkodéru. Ze vstupu $\emph{x}$ je enkodérem vytvořen kód $\emph{h}$} (funkce $\emph{f}$). Tento kód je následně dekodérem přetaven na rekonstrukci $\emph{r}$ (funkce $\emph{g}$).
+    \label{fig:basic_autoencoder_structure}
+\end{figure}
+
+Obecnou strukturu (viz \autoref{fig:basic_autoencoder_structure}) lze reprezentovat dopřednou umělou neuronovou sítí.
+Jejím cílem je \textbf{rekonstruovat vstupní data na výstupní vrstvě}. Počet vstupů je tak totožný s počtem neuronů ve výstupní vrstvě umělé neuronové sítě (tedy $x$ a $r$ mají stejnou dimenzi).
+\emph{h} může mít \emph{menší} či \emph{větší} dimenzi – volba dimenze \emph{h} se odvíjí od požadovaných vlastností Autoenkodéru.
+Obecná architektura modulů umělé neuronové sítě Autoenkodéru je zachycena v \autoref{fig:autoencoder}. \cite{Charte2018}
+
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \node[trapezium,
+            draw,
+            text=black,
+            trapezium angle=20,
+            trapezium stretches=true,
+            minimum height=2.5cm,
+            minimum width=5cm,
+            rotate=270] (encoder) at (1, 0) {Enkodér};
+        
+        \node[
+            preaction={clip, postaction={draw=black, line width=0.3mm,}},
+            minimum height=5cm,
+            left=of encoder.center,
+        ] (input) at (0, 0) {$\mathbf{x}$};
+
+        \node[
+            preaction={clip, postaction={draw=black, line width=0.3mm,}},
+            minimum height=18.5mm,
+            right=of encoder.north,
+        ] (h)  {$\mathbf{h}$}; 
+
+        \node[trapezium,
+            draw,
+            text=black,
+            trapezium angle=20,
+            trapezium stretches=true,
+            minimum height=2.5cm,
+            minimum width=5cm,
+            rotate=90] (decoder) at (6, 0) {Dekodér};
+
+        \node[
+            preaction={clip, postaction={draw=black, line width=0.3mm,}},
+            minimum height=5cm,
+            right=of decoder.center,
+        ] (output) at (7, 0) {$\mathbf{\hat{x}}$};
+
+        \draw[-Triangle] (input) -- (encoder);
+        \draw[-Triangle] (encoder) -- (h);
+        \draw[-Triangle] (h) -- (decoder);
+        \draw[-Triangle] (decoder) -- (output);
+    \end{tikzpicture}
+    \caption{Jednotlivé moduly architektury umělé neuronové sítě Autoenkodéru. }
+    \label{fig:autoencoder}
+\end{figure}
+
+Autoenkodér je trénován k rekonstrukci jeho vstupů.
+Pokud by se Autoenkodér naučil jednoduše určit $\mathbf{\emph{x}} = g(f(\mathbf{\emph{x}}))$ pro každé $\emph{x}$, získali bychom \emph{identitu}, která není patřičně užitečná.
+Proto je při trénování zavedena řada omezení, jejichž účelem je zabránit možnosti naučení Autoenkodéru perfektně kopírovat vstupní data.

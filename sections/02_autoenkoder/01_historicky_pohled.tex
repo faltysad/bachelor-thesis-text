@@ -1,0 +1,14 @@
+\section{Historický pohled}
+Vícevrstvý Perceptron \autoref{sec:multilayer_perceptron} je univerzálním aproximátorem \autoref{sec:universal_approximation_theorem} – tedy historicky nalézá uplatnění zejména v klasifikačních úlohách učení s učitelem.
+Sofistikovaný algoritmus se schopností trénování Vícevrstvého Perceptronu s větším počtem skrytých vrstev stále schází, a to zejména v důsledku problému mizejícího gradientu (\emph{vanishing gradient problem}).
+Až příchod algoritmu gradientního sestupu \autoref{sec:gradient_descent}, který adresuje problém mizejícího gradientu v aplikacích s použitím konvolučních sítí \autoref{sec:cnn} a úloh učení se bez učitele, značí počátek moderních metod hlubokého učení.
+V oblasti hlubokého učení \autoref{sec:deep_learning} dochází k emergenci a vývoji řady technik pro řešení úloh učení se bez učitele.
+V této kapitole je popsána pouze jedna z nich – architektura umělé neuronové sítě založené na \emph{enkodér-dekodér} modulech: Autoenkodér.
+Autoenkodéry byly poprvé představeny jako způsob pro předtrénování umělých neuronových sítí (formou automatizované extrakce vlastností \emph{feature extraction}). 
+Později Autoenkodéry nalézají uplatnění zejména v úloháh redukce dimenzionality \autoref{sec:dimensionality_reduction} či fůzi vlastností (\emph{feature fusion}).
+
+
+Nedávné teoretické propojení Autoenkodéru a Modelů využívajících latentní proměnných \autoref{sec:latent_variable_models} však vedlo ke vzniku zcela nové architektury neuronové sítě kombinující charakter redukce dimenzionality Autoenkodéru se statistickými metodami odvozování.
+To vyneslo Autoenkodéry na popředí v oblasti generativního modelování – této architektuře je věnována kapitola \autoref{chap:vae}.
+
+Byť Autoenkodéry vznikly v kontextu hlubokého učení, není pravidlem že všechny modely Autoenkodéru obsahují vícero skrytých vrstev. Následuje rozdělení Autoenkodérů dle struktury umělé neuronové sítě.

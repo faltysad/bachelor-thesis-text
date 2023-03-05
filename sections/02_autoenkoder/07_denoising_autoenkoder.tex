@@ -1,0 +1,59 @@
+\section{Denoising autoenkodér}
+\label{sec:denoising_autoencoder}
+Denoising autoenkodér je autoenkodér, který na vstupu obdrží poškozená vstupní data
+a při trénování je jeho předpovědět originální vstup bez poškození, a ten na výstupní vrstvě vrátit.
+
+Autoenkodéry běžně minimalizují funkci ve tvaru:
+\begin{equation}
+    L(\mathbf{x}, g(f(\mathbf{x}))),
+\end{equation}
+
+kde $L$ je ztrátová funkce penalizující $g(f(x))$ za odlišnost od $\mathbf{x}$ (např. Euklidovská norma jejich rozdílů).
+Jak ale bylo ukázáno v \autoref{sec:identity}, to umožňuje $f \circ g$ naučit se být pouhou identitu.
+
+
+Z toho důvodu Denoising autoenkodér (\emph{Denoising Autoencoder}) minimalizuje funkci:
+\begin{equation}
+    L(\textbf{\emph{x}}, g(f(\tilde{\textbf{\emph{x}}}))),
+\end{equation}
+
+kde $\tilde{\textbf{\emph{x}}}$ je kopií $\textbf{\emph{x}}$ která byla úmyslně poškozena procesem $C(\tilde{x} | x)$ (\emph{corruption process}),
+který reprezentuje podmíněné rozdělení pravděpodobnosti poškozenných vzorků $\tilde{x}$ v závislosti na vzorku vstupních dat $x$.
+
+Denoising autoenkodér se pak učí \textbf{rozdělení rekonstrukce} $p_{reconstruct}$($\mathbf{x}|\mathbf{\tilde{x}}$),
+které je odhadnuto z trénovacích dvojic následovně:
+
+\begin{enumerate}
+    \item Zvolit trénovací vzorek $\emph{\textbf{x}}$ z množiny trénovacích dat
+    \item Vygenerovat poškozenou verzi zvoleného vzorku ($\tilde{\textbf{\emph{x}}}$) procesem $C$
+    \item Použít dvojice ($\emph{\textbf{x}}$, $\tilde{\textbf{\emph{x}}}$) jako množinu trénovacích dat pro odhadnutí rozdělení rekonstrukce Denoising autoenkodéru $p_{reconstruct}(\textbf{x} | \tilde{\textbf{x}}) = p_{decoder}(\textbf{\emph{x}}|\textbf{\emph{h}})$, kde $p_{decoder}$ je výstupem funkce dekodéru $g(\textbf{\emph{h}})$
+\end{enumerate}
+
+Při trénování Denoising autoenkodéru jsou funkce $\emph{f}$ a $\emph{g}$ nuceny zachytit implicitní strukturu $p_{data}(\textbf{\emph{x}})$.
+
+Trénovací procedura Denoising autoenkodéru lze schematicky znázornit následovně (viz \autoref{fig:denoising_autoencoder}):
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[round/.style={circle, draw, minimum size=10mm, node distance=25mm}]
+        \node[round](h){$h$};
+        \node[round](x_tilde)[below left of=h]{$\tilde{x}$};
+        \node[round](l)[below right of=h]{$L$};
+        \node[round](x)[below right of=x_tilde]{$x$};
+        
+        \draw[-Triangle] (x_tilde) -- node [above] {$f$} (h);
+        \draw[-Triangle] (h) -- node [above] {$g$} (l);
+        \draw[-Triangle] (x) -- node [below left] {$C(\tilde{x} | x)$} (x_tilde);
+        \draw[-Triangle] (x) -- (l);
+    \end{tikzpicture}
+    \caption{DAE}
+    \label{fig:denoising_autoencoder}
+\end{figure}
+
+Denoising autoenkodér se tedy musí naučit toto poškození odstranit a rekonstruovat tak původní vstup (namísto pouhého naučení se identitě).
+
+Denoising Autoenkodéry jsou příkladem hned dvou jevů:
+\begin{itemize}
+    \item Emergence užitečných vlastností o vstupních datech jako výsledek minimalizace chyby rekonstrukce
+    \item Schopnosti modelů s vysokou kapacitou/rozšířenou skrytou vrstvou fungovat jako Autoenkodér, \textbf{za předpokladu že je jim zabráněno naučit se identické zobrazení vstupních dat}
+\end{itemize}
