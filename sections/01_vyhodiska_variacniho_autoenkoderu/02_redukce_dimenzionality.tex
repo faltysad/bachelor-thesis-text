@@ -4,8 +4,15 @@
 Do oblasti reducke dimenzionality patří celá řada technik pro práci s vysokodimenzionálními daty.
 Cílem této oblasti, narozdíl od regresních problémů, není predikovat hodnotu cílové proměnné – ale porozumět tvaru dat, se kterými pracuje.
 Typickou úlohou redukce dimenzionality dat je sestrojit \textbf{nízkodimenzionální reprezentaci}, která zachytí \emph{většinu významu} původní, vysokodimenzionální, reprezentace.
-Tento jev nazýváme hledáním \textbf{salientních vlastnostní} původní reprezentace dat. \cite{Phillips2021}
+Tento jev nazýváme hledáním \textbf{salientních vlastnostní} původní sady dat. \cite{Phillips2021}
 
-\subsection{The Curse of Dimensionality}
+\subsection{The curse of dimensionality}
+S rostoucím počtem vstupních vlastností je chování většiny algoritmů (strojového učení) značně degradováno.
+Tento problém je známý pod termínem \textbf{curse of dimensionality}. \cite{Bellman1957}
+
+I to vedlo ke vzniku oblasti zvané \emph{feature engineering}.
+Tedy selekci vlastností dat, které při trénování modelu budou využity.
+Selekce pouze \emph{nejlepšího} podprostoru vstupních vlastností dat je NP-těžký kombinatorický problém.
+
 \subsection{Analýza hlavních komponent}
 \label{sec:pca}
