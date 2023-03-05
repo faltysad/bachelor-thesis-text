@@ -1,18 +1,35 @@
 \section{Redukce dimenzionality}
 \label{sec:dimensionality_reduction}
 
-Do oblasti reducke dimenzionality patří celá řada technik pro práci s vysokodimenzionálními daty.
+Do oblasti redukce dimenzionality patří celá řada technik pro práci s vysokodimenzionálními daty.
 Cílem této oblasti, narozdíl od regresních problémů, není predikovat hodnotu cílové proměnné – ale porozumět tvaru dat, se kterými pracuje.
 Typickou úlohou redukce dimenzionality dat je sestrojit \textbf{nízkodimenzionální reprezentaci}, která zachytí \emph{většinu významu} původní, vysokodimenzionální, reprezentace.
 Tento jev nazýváme hledáním \textbf{salientních vlastnostní} původní sady dat. \cite{Phillips2021}
 
 \subsection{The curse of dimensionality}
-S rostoucím počtem vstupních vlastností je chování většiny algoritmů (strojového učení) značně degradováno.
+S rostoucím počtem vstupních proměnných exponenciálně roste počet vzorků dat nutný pro \emph{libovolně přesnou} aproximaci dané funkce.
+V důsledku je tedy s rostoucí dimenzí vstupních dat chování většiny algoritmů (strojového učení) značně degradováno.
 Tento problém je známý pod termínem \textbf{curse of dimensionality}. \cite{Bellman1957}
 
-I to vedlo ke vzniku oblasti zvané \emph{feature engineering}.
-Tedy selekci vlastností dat, které při trénování modelu budou využity.
-Selekce pouze \emph{nejlepšího} podprostoru vstupních vlastností dat je NP-těžký kombinatorický problém.
+I proto došlo k vzniku oblasti zvané \emph{feature engineering}.
+Tedy oblasti, která se, mimo jiné, zabývá disciplínou selekce vlastností dat, které budou použity při trénování modelu.
+Pro automatizovanou selekci vlastnostní existuje rovněž celá tecnik.
+Výběr podprostoru, který \emph{nejlépe} reprezentuje vlastnosti původních dat je NP-těžký kombinatorický problém (\emph{exhaustive search through all the subsets of features}).
+Tyto techniky dokonce často vyhodnocují každou vstupní proměnnou nezávisle, což může vést ke zkresleným závěrům o jejich významnosti – naopak je běžné, že proměnné žačnou vykazovat určitou míru významnosti \textbf{až při vzájemném využití}. \cite{Stanczyk2015}
+
+Výše stanovené důvody vedly k emergenci další disciplíny, kterou je \textbf{extrakce vlastnostní}, která je pro předmět této práce patřičně důležitější.
+
+\subsection{Extrakce vlastností}
+Cílem extrakce vlastnostní \emph{feature extraction} je najít reprezentaci vstupních dat, která je vhodná pro algoritmus strojového učení, který se chystáme využít (jelikož původní reprezentace může být z mnoha důvodů nevhodná – například vysokodimenzionální).
+Typicky tak musí dojít k redukci dimenzionality vstupních dat. \cite{Liu1998}
+
+K extrakci nových vlastností lze dojít mnoha způsoby.
+Existují techniky založené na hledání lineárních kombinací původních vstupních vlastností, například Analýza hlavních komponent (\emph{PCA Analýza}) nebo Lineární diskriminační analýza (\emph{LDA Analýza}) .
+
+Pro nelineární redukci dimenzionality lze využít technik tzv. manifold learningu.
+
 
 \subsection{Analýza hlavních komponent}
 \label{sec:pca}
+
+\subsection{Manifold learning}
