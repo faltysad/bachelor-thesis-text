@@ -55,6 +55,16 @@
   language  = {en},
 }
 
+@Book{2010,
+  title    = {Dynamic {Programming}},
+  year     = {2010},
+  isbn     = {9780691146683},
+  month    = jul,
+  language = {en},
+  url      = {https://press.princeton.edu/books/paperback/9780691146683/dynamic-programming},
+  urldate  = {2023-03-05},
+}
+
 @Book{Bellman1957,
   author    = {Bellman, Richard},
   publisher = {Princeton University Press},
@@ -103,6 +113,79 @@
   keywords  = {algorithms, data analysis, data mining, genetic algorithms, knowledge discovery, learning, machine learning, robot},
   url       = {http://link.springer.com/10.1007/978-1-4615-5725-8},
   urldate   = {2023-03-05},
+}
+
+@Book{Mitchell1997,
+  author    = {Mitchell, Tom M.},
+  publisher = {McGraw-Hill},
+  title     = {Machine Learning},
+  year      = {1997},
+  address   = {New York},
+  isbn      = {978-0-07-042807-2},
+  abstract  = {This book covers the field of machine learning, which is the study of algorithms that allow computer programs to automatically improve through experience. This exciting addition to the McGraw-Hill Series in Computer Science focuses on the concepts and techniques that contribute to the rapidly changing field of machine learning---including probability and statistics, artificial intelligence, and neural networks---unifying them all in a logical and coherent manner.},
+  added-at  = {2017-05-08T14:37:30.000+0200},
+  biburl    = {https://www.bibsonomy.org/bibtex/23e79734ee1a6e49aee02ffd108224d1c/flint63},
+  file      = {eBook:1900-99/Mitchell97.pdf:PDF;McGraw-Hill Product page:http\://www.mhprofessional.com/product.php?isbn=0070428077:URL;Amazon Search inside:http\://www.amazon.de/gp/reader/0070428077/:URL},
+  groups    = {public},
+  interhash = {479a66c32badb3a455fbdcf8e6633a5d},
+  intrahash = {3e79734ee1a6e49aee02ffd108224d1c},
+  keywords  = {01624 105 book shelf ai learn algorithm},
+  timestamp = {2017-07-13T17:10:10.000+0200},
+  username  = {flint63},
+}
+
+@Book{Chollet2017,
+  author    = {Chollet, François},
+  publisher = {Manning},
+  title     = {Deep Learning with Python},
+  year      = {2017},
+  isbn      = {9781617294433},
+  month     = nov,
+  added-at  = {2018-08-01T08:16:18.000+0200},
+  biburl    = {https://www.bibsonomy.org/bibtex/231f94815ebbd65d3a31e4a69e818573e/jaeschke},
+  interhash = {cfbfd3f93853a469e5e6978f61a74a0a},
+  intrahash = {31f94815ebbd65d3a31e4a69e818573e},
+  keywords  = {ai deep deeplearning learning ml},
+  timestamp = {2021-05-19T08:35:34.000+0200},
+}
+
+@Article{Erhan2010,
+  author   = {Erhan, Dumitru and Bengio, Yoshua and Courville, Aaron and Manzagol, Pierre-Antoine and Vincent, Pascal and Bengio, Samy},
+  journal  = {Journal of Machine Learning Research},
+  title    = {Why {Does} {Unsupervised} {Pre}-training {Help} {Deep} {Learning}?},
+  year     = {2010},
+  issn     = {1533-7928},
+  number   = {19},
+  pages    = {625--660},
+  volume   = {11},
+  abstract = {Much recent research has been devoted to learning algorithms for deep architectures such as Deep Belief Networks and stacks of auto-encoder variants, with impressive results obtained in several areas, mostly on vision and language data sets. The best results obtained on supervised learning tasks involve an unsupervised learning component, usually in an unsupervised pre-training phase. Even though these new algorithms have enabled training deep models, many questions remain as to the nature of this difficult learning problem. The main question investigated here is the following: how does unsupervised pre-training work? Answering this questions is important if learning in deep architectures is to be further improved. We propose several explanatory hypotheses and test them through extensive simulations. We empirically show the influence of pre-training with respect to architecture depth, model capacity, and number of training examples. The experiments confirm and clarify the advantage of unsupervised pre-training. The results suggest that unsupervised pre-training guides the learning towards basins of attraction of minima that support better generalization from the training data set; the evidence from these results supports a regularization explanation for the effect of pre-training.},
+  file     = {Full Text PDF:http\://jmlr.org/papers/volume11/erhan10a/erhan10a.pdf:application/pdf},
+  url      = {http://jmlr.org/papers/v11/erhan10a.html},
+  urldate  = {2023-03-06},
+}
+
+@InProceedings{Ranzato2007,
+  author   = {Ranzato, M.A. and Huang, Fu and Boureau, Y-Lan and Lecun, Yann},
+  title    = {Unsupervised {Learning} of {Invariant} {Feature} {Hierarchies} with {Applications} to {Object} {Recognition}},
+  year     = {2007},
+  month    = jul,
+  pages    = {1--8},
+  abstract = {We present an unsupervised method for learning a hierarchy of sparse feature detectors that are invariant to small shifts and distortions. The resulting feature extractor consists of multiple convolution filters, followed by a feature-pooling layer that computes the max of each filter output within adjacent windows, and a point-wise sigmoid non-linearity. A second level of larger and more invariant features is obtained by training the same algorithm on patches of features from the first level. Training a supervised classifier on these features yields 0.64\% error on MNIST, and 54\% average recognition rate on Caltech 101 with 30 training samples per category. While the resulting architecture is similar to convolutional networks, the layer-wise unsupervised training procedure alleviates the over-parameterization problems that plague purely supervised learning procedures, and yields good performance with very few labeled training samples.},
+  doi      = {10.1109/CVPR.2007.383157},
+  file     = {Full Text PDF:https\://www.researchgate.net/profile/Yann-Lecun/publication/224716259_Unsupervised_Learning_of_Invariant_Feature_Hierarchies_with_Applications_to_Object_Recognition/links/0912f50f9e762562f3000000/Unsupervised-Learning-of-Invariant-Feature-Hierarchies-with-Applications-to-Object-Recognition.pdf:application/pdf;ResearchGate Link:https\://www.researchgate.net/publication/224716259_Unsupervised_Learning_of_Invariant_Feature_Hierarchies_with_Applications_to_Object_Recognition:},
+}
+
+@InProceedings{Bengio2006,
+  author    = {Bengio, Yoshua and Lamblin, Pascal and Popovici, Dan and Larochelle, Hugo},
+  booktitle = {Advances in {Neural} {Information} {Processing} {Systems}},
+  title     = {Greedy {Layer}-{Wise} {Training} of {Deep} {Networks}},
+  year      = {2006},
+  publisher = {MIT Press},
+  volume    = {19},
+  abstract  = {Recent analyses (Bengio, Delalleau, \& Le Roux, 2006; Bengio \& Le Cun, 2007) of modern nonparametric machine learning algorithms that are kernel machines, such as Support Vector Machines (SVMs), graph-based manifold and semi-supervised learning algorithms suggest fundamental limitations of some learning algorithms. The problem is clear in kernel-based approaches when the kernel is "local" (e.g., the Gaussian kernel), i.e., K (x, y ) converges to a constant when {\textbar}{\textbar}x - y {\textbar}{\textbar} increases. These analyses point to the difficulty of learning "highly-varying functions", i.e., functions that have a large number of "variations" in the domain of interest, e.g., they would require a large number of pieces to be well represented by a piecewise-linear approximation. Since the number of pieces can be made to grow exponentially with the number of factors of variations in the input, this is connected with the well-known curse of dimensionality for classical non-parametric learning algorithms (for regression, classification and density estimation). If the shapes of all these pieces are unrelated, one needs enough examples for each piece in order to generalize properly. However, if these shapes are related and can be predicted from each other, "non-local" learning algorithms have the potential to generalize to pieces not covered by the training set. Such ability would seem necessary for learning in complex domains such as Artificial Intelligence tasks (e.g., related to vision, language, speech, robotics). Kernel machines (not only those with a local kernel) have a shallow architecture, i.e., only two levels of data-dependent computational elements. This is also true of feedforward neural networks with a single hidden layer (which can become SVMs when the number of hidden units becomes large (Bengio, Le Roux, Vincent, Delalleau, \& Marcotte, 2006)). A serious problem with shallow architectures is that they can be very inefficient in terms of the number of computational units (e.g., bases, hidden units), and thus in terms of required examples (Bengio \& Le Cun, 2007). One way to represent a highly-varying function compactly (with few parameters) is through the composition of many non-linearities, i.e., with a deep architecture. For example, the parity function with d inputs requires O(2d ) examples and parameters to be represented by a Gaussian SVM (Bengio et al., 2006), O(d2 ) parameters for a one-hidden-layer neural network, O(d) parameters and units for a multi-layer network with O(log2 d) layers, and O(1) parameters with a recurrent neural network. More generally,},
+  file      = {Full Text PDF:https\://proceedings.neurips.cc/paper/2006/file/5da713a690c067105aeb2fae32403405-Paper.pdf:application/pdf},
+  url       = {https://proceedings.neurips.cc/paper/2006/hash/5da713a690c067105aeb2fae32403405-Abstract.html},
+  urldate   = {2023-03-06},
 }
 
 @Comment{jabref-meta: databaseType:bibtex;}
