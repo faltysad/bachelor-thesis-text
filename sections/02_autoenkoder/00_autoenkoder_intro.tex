@@ -1,4 +1,6 @@
-Autoenkodér je typ umělé neuronové sítě se schopností učit se efektivní reprezentace vstupních dat bez učitele. Umělá neuronová síť Autoenkodéru má symetrickou strukturu a skrytou vrstvu \emph{h}, která popisuje \emph{kód} použitý pro reprezentaci vstupu.
+Autoenkodér je typ umělé neuronové sítě se schopností učit se efektivní reprezentace vstupních dat bez učitele
+\footnote{V literatuře se můžeme zřídka setkat s zařazením autoenkodérů \textbf{obecně} do třídy \emph{semi-supervised} algoritmů strojového učení, například \cite[str. 95]{Chollet2017}. Domnívám se, že přesnější formulací je zařazení \textbf{obecné} architektury autoenkodérů do třídy algoritmů učení bez učitele. Nutno předeslat (viz \autoref{sec:stacked_autoencoder}), že v architekturách hlubokých autoenkodérů je běžným jevem tzv. \emph{stacked autoenkodér}, kde je nejprve trénováno vícero \emph{mělkých} autoenkodérů stylem učení bez učitele. Takto natrénované autoenkodérý jsou poté seřazeny za sebe jako vrstvy nové umělé neuronové sítě, která v další fázi prochází trénování stylem učení s učitelem, a to za účelem ladění celé sítě k specifickému účelu \cite{Bengio2006}, \cite{Ranzato2007}, \cite{Erhan2010}. V instancích tohoto případu \textbf{lze} hovořit o zařazení autoenkodéru do třídy semi-supervizovaného učení.}.
+Umělá neuronová síť Autoenkodéru má symetrickou strukturu a skrytou vrstvu \emph{h}, která popisuje \emph{kód} použitý pro reprezentaci vstupu.
 Architekturu Autoenkodéru (viz \autoref{fig:basic_autoencoder_structure}) lze principiálně rozdělit na dvě části – kódovací funkci $h = f(x)$, resp. \textbf{enkodér}
 a dekódovací funkci $r = g(h)$, resp. \textbf{dekodér}.
 Hovoříme tedy o typu umělé neuronové sítě s \emph{enkodér-dekodér} moduly.
@@ -19,7 +21,7 @@ Výstupem enkodéru je \textbf{kód} vstupu $\emph{h}$. Výstupem dekodéru je \
 \end{figure}
 
 Obecnou strukturu (viz \autoref{fig:basic_autoencoder_structure}) lze reprezentovat dopřednou umělou neuronovou sítí.
-Jejím cílem je \textbf{rekonstruovat vstupní data na výstupní vrstvě}. Počet vstupů je tak totožný s počtem neuronů ve výstupní vrstvě umělé neuronové sítě (tedy $x$ a $r$ mají stejnou dimenzi).
+Jejím cílem je \textbf{rekonstruovat vstupní data na výstupní vrstvě} (tzv. \emph{unsupervised learning objective}). Počet vstupů je tak totožný s počtem neuronů ve výstupní vrstvě umělé neuronové sítě (tedy $x$ a $r$ mají stejnou dimenzi).
 \emph{h} může mít \emph{menší} či \emph{větší} dimenzi – volba dimenze \emph{h} se odvíjí od požadovaných vlastností Autoenkodéru.
 Obecná architektura modulů umělé neuronové sítě Autoenkodéru je zachycena v \autoref{fig:autoencoder}. \cite{Charte2018}
 
