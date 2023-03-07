@@ -48,8 +48,24 @@ Na rozdíl od \autoref{sec:supervised_learning}, název \emph{učení bez učite
 \subsection{Konvoluční sítě}
 \label{sec:cnn}
 
-\subsection{No free lunch theorem for machine learning}
-\cite{Goodfellow2016}
+\subsection{"No free lunch theorem" pro strojové učení}
+Dle teorie má algoritmus strojového učení schopnost generalizace i z konečné množiny trénovacích dat. 
+Toto tvrzení je ale v rozporu s elementárními principy logiky – indukce obecných pravidel z omezeného vzorku dat je logicky nevalidní.
+Chceme-li provést indukci obecného pravidla, které popisuje každý prvek množiny, musíme mít k dispozici informaci o každém prvku z množiny.  \cite{Goodfellow2016}
+
+Pro logické vyvrácení takto naučené generalizace stačí byť jeden vzorek, který je s tímto pravidlem v nesouladu a nebyl součástí trénovací množiny (tzv. \emph{black swan paradox}).
+
+Oblast strojového učení se tomuto paradoxu z části vyhýbá tím, že pracuje pouze s \textbf{pravděpodobnostními pravidly} (oproti zcela určitým pravidlům jako v logické indukci).
+Algoritmy strojového učení hledají pravidla, která jsou tzv. \emph{probably approximately correct}. \cite{Valiant1984}
+
+Ani tento trik však kompletně neřeší představený problém. Zjednodušeně, \textbf{"No free lunch theorem"} pro strojové učení tvrdí, že každý klasifikační algoritmus má v průměru, skrze všechny distribuce generující data, \textbf{stejnou chybovost} při klasifikování dosud nepozorovaných datových bodů. \cite{Wolpert1996}
+Jinými slovy, \textbf{žádný algoritmus strojového učení není univerzálně lepší, než kterýkoliv jiný algoritmus strojového učení}.
+
+Toto tvrzení je pravdivé až při zohlednění \emph{všech možných distribucí generujících data} – tedy v teoretické rovině.
+Lze pozorovat, že v praktických aplikacích je možné navrhnout algoritmus, který si v určitých distribucích vede v průměru lépe, než ostatní algoritmy.
+
+Cílem této práce je představit Variační autoenkodér – architekturu umělé neuronové sítě, která se těší dobrým výsledkům v pečlivě vybraných úlohách učení bez učitele, představených v \autoref{chap:applications}, ale v důsledku má i své nedostatky (představené v \autoref{chap:vae}) v ostatních třídách úloh.
+
 \subsection{Regularizace}
 
 
