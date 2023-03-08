@@ -29,26 +29,6 @@ Mezi další techniky strojového učení bez učitele se, mimo jiné, řadí sh
 Obecně lze říct, že učení bez učitele zahrnuje pozorování několika příkladů náhodného vektoru $\mathbf{x}$ na základě kterého se snaží implicitně či explicitně \emph{naučit} rozdělení pravděpodobnosti $p(\mathbf{x})$, případně \emph{užitečné vlastnosti} tohoto pravděpodobnostního rozdělení.
 
 Na rozdíl od \autoref{sec:supervised_learning}, název \emph{učení bez učitele} napovídá, že v procesu učení není zapojen žádný \emph{instruktor} či \emph{učitel}, a tak systém strojového učení sám musí vyvodit smysl a užitečné vlastnosti předložené datové sady. \cite{Goodfellow2016}
-\subsection{Perceptron}
-\subsection{Hebbovské účení}
-\subsection{Umělé neuronové sítě}
-\subsection{Universal approximation theorem}
-\label{sec:universal_approximation_theorem}
-% https://writings.stephenwolfram.com/2023/02/what-is-chatgpt-doing-and-why-does-it-work/ And what we is that if the net is too small, it just can’t reproduce the function we want. But above some size, it has no problem—at least if one trains it for long enough, with enough examples. And, by the way, these pictures illustrate a piece of neural net lore: that one can often get away with a smaller network if there’s a “squeeze” in the middle that forces everything to go through a smaller intermediate number of neurons. (It’s also worth mentioning that “no-intermediate-layer”—or so-called “perceptron”-networks can only learn essentially linear functions—but as soon as there’s even one intermediate layer it’s always in principle possible to approximate any function arbitrarily well, at least if one has enough neurons, though to make it feasibly trainable one typically has some kind of regularization or normalization.)
-
-\subsection{Vícevrstvý Perceptron}
-\label{sec:multilayer_perceptron}
-
-\subsection{Dopředná umělá neuronová síť}
-\label{sec:feedforward_nn}
-\subsection{Gradient descent}
-\label{sec:gradient_descent}
-\subsection{Backpropagation}
-\subsection{Hluboké učení}
-\label{sec:deep_learning}
-\subsection{Konvoluční sítě}
-\label{sec:cnn}
-
 \subsection{\textquote{No free lunch theorem} pro strojové učení}
 \label{sec:no_free_lunch}
 Dle teorie má algoritmus strojového učení schopnost generalizace i z konečné množiny trénovacích dat. 
