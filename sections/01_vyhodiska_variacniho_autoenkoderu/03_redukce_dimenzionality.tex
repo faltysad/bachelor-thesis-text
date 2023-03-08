@@ -6,6 +6,8 @@ Cílem této oblasti, na rozdíl od regresních problémů, není predikovat hod
 Typickou úlohou redukce dimenzionality dat je sestrojit \textbf{nízkodimenzionální reprezentaci}, která zachytí \emph{většinu významu} původní, vysokodimenzionální, reprezentace.
 Tento jev nazýváme hledáním \textbf{salientních vlastnostní} původní sady dat. \cite{Phillips2021}
 
+Redukci dimenzionality lze chápat jako úlohu učení bez učitele, ve které se algoritmus strojového učení učí mapování z vysokodimenzionálního prostoru $\textbf{\emph{x}} \in \mathbb{R}^D$ do nízkodimenzionálního latentního prostoru $\textbf{\emph{z}} \in \mathbb{R}^L$. \cite{Murphy2022}
+
 \subsection{The curse of dimensionality}
 S rostoucím počtem vstupních proměnných exponenciálně roste počet vzorků dat nutný pro \emph{libovolně přesnou} aproximaci dané funkce.
 V důsledku je tedy s rostoucí dimenzí vstupních dat značně degradováno chování většiny algoritmů (strojového učení).
@@ -29,7 +31,28 @@ Existují techniky založené na hledání lineárních kombinací původních v
 Pro nelineární redukci dimenzionality lze využít technik tzv. manifold learningu.
 
 
-\subsection{Analýza hlavních komponent}
+\subsection{Analýza hlavních komponent (PCA)}
 \label{sec:pca}
+Jednou z nejrozšířenějších metod pro redukci dimenzionality je PCA analýza (\emph{principal component analysis}).
+
+V principu se jedná o nalezení lineární a ortogonální projekce vysokodimenzionálníhch dat $\textbf{\emph{x}} \in \mathbb{R}^D$ do nízkodimenzionální podprostoru  $\textbf{\emph{z}} \in \mathbb{R}^L$,
+tak aby tato nízkodimenzionální reprezentace byla \emph{dobrou aproximací} původních dat.
+Provedeme-li projekci (resp. \textbf{kódování}) $\textbf{\emph{x}}$, získáme $\mathbf{z} = \mathbf{W^{\top}} \textbf{\emph{x}}$ (funkci kódování označme $e$),
+a následně \textbf{dekódujeme} $\textbf{\emph{z}}$ abychom získali $\hat{\textbf{\emph{x}}} = \mathbf{W}\textbf{\emph{z}}$ (funkci dekódování označme $d$),
+pak chceme aby $\hat{\textbf{\emph{x}}}$ bylo co možná nejblíže $\textbf{\emph{x}}$ (měřeno pomocí $\ell_2$ vzdálenosti). \cite{Murphy2022}
+
+Konkrétně můžeme definovat následující \textbf{chybu rekonstrukce} \cite{Murphy2022}:
+\begin{equation}
+    \mathcal{L}(\mathbf{W}) \triangleq \frac{1}{N} \| \textbf{\emph{x}} - d(e(\textbf{\emph{x}}_n; \mathbf{W}); \mathbf{W})\|^2_2
+\end{equation}
+
+kde fáze $e$ a $d$ jsou lineární funkce (\emph{mappings}).
+
+Na PCA analýzu tak lze pohlížet jako na algoritmus učení bez učitele, který se učí reprezentaci vstupních dat. Tato reprezentace má dvě kritéria \cite{Goodfellow2016}:
+
+\begin{itemize}
+    \item PCA se učí reprezentaci vstupních dat, která má menší dimenzi než původní vstupní reprezentace
+    \item PCA se učí reprezentaci, jejíž elementy mezi sebou nemají žádnou lineární koleraci
+\end{itemize}
 
 \subsection{Manifold learning}

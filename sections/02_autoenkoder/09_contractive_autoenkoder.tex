@@ -6,7 +6,7 @@ který vynucuje aby derivace kódů ve vztahu k jejich vstupu byly co možná ne
 Tedy \textbf{dva \emph{podobné} vstupy musí mít vzájemně \emph{podobné} kódy}.
 Přesněji je dosaženo lokální invariance na přípustně malé změny vstupních dat.
 
-Citlivost na \emph{drobné rozdíly} ve vstupních datech lze měřit pomocí Frobeniovy normy $\lVert \cdot \rVert_F$ Jacobiho matice enkodéru ($J_f$):
+Citlivost na \emph{drobné rozdíly} ve vstupních datech lze měřit pomocí Frobeniovy maticové normy $\lVert \cdot \rVert_F$ Jacobiho matice enkodéru ($J_f$):
 \begin{equation}
     \lVert J_f(x) \rVert^2_F = \sum_{j=1}^{d}\sum_{i=1}^{c} \left( \frac{\partial f_i}{\partial x_j} (x) \right) ^2 .
 \end{equation}
