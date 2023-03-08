@@ -23,14 +23,17 @@ Cílem dopředné umělé neuronové sítě je aproximovat nějakou funkci $f*$.
 \footnote{Například pro klasifikátor, $y=f*(x)$ mapuje vstup $x$ do kategorie $y$. Převzato z \cite{Goodfellow2016}.}
 Dopředná umělá neuronová síť definuje mapovací funkci $\textbf{\emph{y}} = \emph{f}(\textbf{\emph{x}};\boldsymbol{\theta})$ a učí se hodnotu parametrů $\boldsymbol{\theta}$, jejichž výsledky je nejlepší aproximace cílové funkce. \cite{Goodfellow2016}
 
-Dopředné umělé neuronové sítě nazýváme \emph{dopředné}, jelikož v této architektuře neexistují žádné zpětnovazební propojení, které by sloužily jako vstup zpět pro sebe sama
-\footnote{Je-li dopředná umělé neuronové sítě obohacena o zpětnovazební propojení se sebou sama, nazýváme ji \textbf{Rekurentní neuronová síť}.}.
+\textbf{Dopředné} umělé neuronové \textbf{sítě} nazýváme:
+\begin{itemize}
+    \item \emph{Dopředné}, jelikož v této architektuře neexistují žádné zpětnovazební propojení, které by sloužily jako vstup zpět pro sebe sama
+    \footnote{Je-li dopředná umělé neuronové sítě obohacena o zpětnovazební propojení se sebou sama, nazýváme ji \textbf{Rekurentní neuronová síť}.}.
+    \item \emph{Sítě}, jelikož jsou typicky reprezentovány kompozicí více různých funkcí.
+    Model takové sítě je asociován s orientovaným acyklickým grafem, který popisuje jakým způsobem je tato kompozice tvořena
+    Mějme tři funkce $f^{(1)}$, $f^{(2)}$, $f^{(3)}$ které jsou zřetězeny následovně: $f(\textbf{\emph{x}}) = f^{(3)}(f^{(2)}(f^{(1)}(\textbf{\emph{x}})))$.
+    Takto zřetězené struktury nazýváme \textbf{vrstvy} umělé neuronové sítě. Délku tohoto zřetězení nazýváme \textbf{hloubkou} modelu – od tud \emph{hluboké} neuronové sítě (umělé neuronové sítě s 2 a více skrytými vrstvami). \cite{Goodfellow2016}
+    \footnote{V tomto případě je $f^{(1)}$ \textbf{první vrstva}, $f^{(2)}$ je \textbf{druhá vrstva} a $f^{(3)}$ \textbf{třetí vrstva}.}.
+\end{itemize}
 
-Dopředné umělé neuronové sítě nazýváme \emph{sítě}, jelikož jsou typicky reprezentovány kompozicí více různých funkcí.
-Model takové sítě je asociován s orientovaným acyklickým grafem, který popisuje jakým způsobem je tato kompozice tvořena
-Mějme tři funkce $f^{(1)}$, $f^{(2)}$, $f^{(3)}$ které jsou zřetězeny následovně: $f(\textbf{\emph{x}}) = f^{(3)}(f^{(2)}(f^{(1)}(\textbf{\emph{x}})))$.
-Takto zřetězené struktury nazýváme \textbf{vrstvy} umělé neuronové sítě. Délku tohoto zřetězení nazýváme \textbf{hloubkou} modelu – od tud \emph{hluboké} učení. \cite{Goodfellow2016}
-\footnote{V tomto případě je $f^{(1)}$ \textbf{první vrstva}, $f^{(2)}$ je \textbf{druhá vrstva} a $f^{(3)}$ \textbf{třetí vrstva}.}.
 
 
 
@@ -66,8 +69,18 @@ Závěrem algoritmus \emph{lehce} upraví váhy jednotlivých propojení za úč
 
 Pro správný chod algoritmu autoři \cite{Rumelhart1987} do architektury Vícevrstvého Perceptronu zanesli další zásadní změnu – jako tzv. \textbf{aktivační funkci} využili logistickou regresi (zcela běžné je využití i dalších aktivačních funkcí, například ReLU).
 
-\subsection{Universal approximation theorem}
+\subsection{Univerzální aproximační teorém}
 \label{sec:universal_approximation_theorem}
-% https://writings.stephenwolfram.com/2023/02/what-is-chatgpt-doing-and-why-does-it-work/ And what we is that if the net is too small, it just can’t reproduce the function we want. But above some size, it has no problem—at least if one trains it for long enough, with enough examples. And, by the way, these pictures illustrate a piece of neural net lore: that one can often get away with a smaller network if there’s a “squeeze” in the middle that forces everything to go through a smaller intermediate number of neurons. (It’s also worth mentioning that “no-intermediate-layer”—or so-called “perceptron”-networks can only learn essentially linear functions—but as soon as there’s even one intermediate layer it’s always in principle possible to approximate any function arbitrarily well, at least if one has enough neurons, though to make it feasibly trainable one typically has some kind of regularization or normalization.)
+Univerzální aproximační teorém\footnote{Universal approximation theorem} \cite{Hornik1989}, \cite{Cybenko1989} tvrdí, že dopředná umělá neuronová síť (s alespoň jednou skrytou vrstvou a \emph{potlačující} aktivační funkcí – např. logistická (sigmoida)) je schopna aproximovat libovolnou (borelovsky měřitelnou) funkci s \emph{libovolnou mírou přesnosti}\footnote{Derivacemi dopředné umělé neuronové sítě lze stejně tak aproximovat derivace cílové funkce \cite{Hornik1990}.}.
 
+Důsledkem Univerzálního aproximačního teorému je, že dostatečně velký \textbf{Vícevrstvý perceptron zvládne \emph{reprezentovat} libovolnou funkci}.
+Ale neexistuje zde jistota, že se algoritmus strojového učení bude schopen takovou funkci vždy \emph{naučit}  \cite{Goodfellow2016}:
+
+\begin{itemize}
+    \item Zvolený optimalizér algoritmu strojového učení použitý pro trénování nemusí být schopen najít parametry umělé neuronové sítě, které korespondují s cílovou funkcí.
+    \item Algoritmus nemusí vybrat správnou funkci v důsledku přeučení
+\end{itemize}
+
+Dopředné umělé neuronové sítě tak nabízejí univerzální systém pro \textbf{reprezentaci} libovolné funkce. \textbf{Pro libovolnou funkci existuje dopředná umělá neuronová síť, která ji aproximuje}
+\footnote{S ohledem na \autoref{sec:no_free_lunch} neexistuje žádný univerzální způsob pro prozkoumání trénovací množiny dat a zvolení funkce, která bude libovolně přesně generalizovat na instance dat, které nejsou součástí této trénovací množiny.}.
 \subsection{Architektura umělé neuronové sítě}
