@@ -7,6 +7,22 @@ V průběhu času se však konstrukce umělých neuronových sítí začala jeji
 
 Představení kompletních principů umělých neuronových sítí není východiskem variačního autoenkodéru, nýbrž svým obsahem pokrývají několik monografií – pro úvod například \cite{Chollet2017}, \cite{Geron2019}.
 V této sekci tedy budou představeny pouze stěžejní techniky využívané autoenkodéry.
+\subsection{Architektura umělé neuronové sítě}
+Pojem \textbf{architektura} rozumíme \textbf{celkovou strukturu} umělé neuronové sítě – počet neuronů a způsob jakým jsou tyto neurony mezi sebou propojeny, jejich aktivační funkce a podobně.
+
+Většina umělých neuronových sítí je organizována do skupin neuronů zvaných \textbf{vrstvy}.
+Architektury umělých neuronových sítí poté uspořádávají tyto vrstvy do zřetězené struktury, kde každá vrstva je funkcí předcházející vrstvy. \cite{Goodfellow2016}
+
+V takové struktuře je první vrstva dána následovně:
+\begin{equation}
+    \textbf{\emph{h}}^{(1)} = g^{(1)} \left( \mathbf{W}^{(1)\top}\textbf{\emph{x}}+\textbf{\emph{b}}^{(1)} \right),
+\end{equation}
+a druhá vrstva je dána následovně:
+\begin{equation}
+    \textbf{\emph{h}}^{(2)} = g^{(2)} \left( \mathbf{W}^{(2)\top}\textbf{\emph{h}}^{(1)}+\textbf{\emph{b}}^{(2)} \right).
+\end{equation}
+
+Mezi hlavní architektonická rozhodnutí při návrhu umělé neuronové sítě patří volba \textbf{hloubky sítě} a \textbf{šířky každé z vrstev}.
 \subsection{Anatomie umělé neuronové sítě}
 Proces trénování umělé neuronové sítě z pravidla zahrnuje následující objekty \cite{Chollet2017}:
 \begin{itemize}
@@ -33,10 +49,6 @@ Dopředná umělá neuronová síť definuje mapovací funkci $\textbf{\emph{y}}
     Takto zřetězené struktury nazýváme \textbf{vrstvy} umělé neuronové sítě. Délku tohoto zřetězení nazýváme \textbf{hloubkou} modelu – od tud \emph{hluboké} neuronové sítě (umělé neuronové sítě s 2 a více skrytými vrstvami). \cite{Goodfellow2016}
     \footnote{V tomto případě je $f^{(1)}$ \textbf{první vrstva}, $f^{(2)}$ je \textbf{druhá vrstva} a $f^{(3)}$ \textbf{třetí vrstva}.}.
 \end{itemize}
-
-
-
-
 
 \subsection{Perceptron}
 \label{sec:perceptron}
@@ -83,4 +95,3 @@ Ale neexistuje zde jistota, že se algoritmus strojového učení bude schopen t
 
 Dopředné umělé neuronové sítě tak nabízejí univerzální systém pro \textbf{reprezentaci} libovolné funkce. \textbf{Pro libovolnou funkci existuje dopředná umělá neuronová síť, která ji aproximuje}
 \footnote{S ohledem na \autoref{sec:no_free_lunch} neexistuje žádný univerzální způsob pro prozkoumání trénovací množiny dat a zvolení funkce, která bude libovolně přesně generalizovat na instance dat, které nejsou součástí této trénovací množiny.}.
-\subsection{Architektura umělé neuronové sítě}
