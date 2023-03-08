@@ -48,7 +48,8 @@ Na rozdíl od \autoref{sec:supervised_learning}, název \emph{učení bez učite
 \subsection{Konvoluční sítě}
 \label{sec:cnn}
 
-\subsection{"No free lunch theorem" pro strojové učení}
+\subsection{\textquote{No free lunch theorem} pro strojové učení}
+\label{sec:no_free_lunch}
 Dle teorie má algoritmus strojového učení schopnost generalizace i z konečné množiny trénovacích dat. 
 Toto tvrzení je ale v rozporu s elementárními principy logiky – indukce obecných pravidel z omezeného vzorku dat je logicky nevalidní.
 Chceme-li provést indukci obecného pravidla, které popisuje každý prvek množiny, musíme mít k dispozici informaci o každém prvku z množiny.  \cite{Goodfellow2016}
@@ -64,8 +65,28 @@ Jinými slovy, \textbf{žádný algoritmus strojového učení není univerzáln
 Toto tvrzení je pravdivé až při zohlednění \emph{všech možných distribucí generujících data} – tedy v teoretické rovině.
 Lze pozorovat, že v praktických aplikacích je možné navrhnout algoritmus, který si v určitých distribucích vede v průměru lépe, než ostatní algoritmy. \cite{Goodfellow2016}
 
-Cílem této práce je představit Variační autoenkodér – architekturu umělé neuronové sítě, která se těší dobrým výsledkům v pečlivě vybraných úlohách učení bez učitele, představených v \autoref{chap:applications}, ale v důsledku má i své nedostatky (představené v \autoref{chap:vae}) v ostatních třídách úloh.
+Cílem této práce je představit Variační autoenkodér – architekturu umělé neuronové sítě, která se těší dobrým výsledkům ve vybraných úlohách učení bez učitele, představených v \autoref{chap:applications}, ale v důsledku má i své nedostatky (představené v \autoref{chap:vae}) v ostatních třídách úloh.
 
 \subsection{Regularizace}
+\textquote{No free lunch theorem} pro strojové učení (představený v \autoref{sec:no_free_lunch}) implikuje nutnost návrhu algoritmu strojového učení pro konkrétní úlohu, chceme-li aby jeho výkonnost byla vyšší než výkonnost ostatních algoritmů v průměru.
+Toho lze docílit \emph{zabudováním} určité sady preferencí přímo do algoritmu strojového učení (předpokladem je, že tyto preference jsou v souladu s cílovým problémem, který se algoritmus snaží řešit). \cite{Goodfellow2016}
+
+Chování a výkonnost algoritmu strojového učení lze ovlivnit zvolením velikosti množiny funkcí (a následně konkrétní podoby jejich identity), které jsou v jeho prostoru hypotéz povoleny\footnote{Například prostor hypotéz lineární regrese je složen z množiny lineárních funkcí jejího vstupu. Tedy lineární regrese zřejmě bude mít problém věrohodně predikovat hodnotu $\sin(x)$ z $x$ (a stejně tak řešit další nelineární problémy).}.
+V prostoru hypotéz algoritmu lze rovněž lze vyjádřit preferenci jednoho řešení před druhým.
+To znamená, že obě takové funkce budou přípustné, ale jedna z nich má preferenci (tedy nepreferovaná funkce bude zvolena když a pouze když je její evaluace vůči trénovací sadě \emph{výrazně} lepší, než preferovaná funkce)\footnote{Například \emph{weight decay}.}.
+Případně můžeme funkci (nebo množinu funkcí) z prostoru hypotéz vyřadit kompletně (resp. vyjádřit tak nekonečně velkou míru neupřednostnění takové funkce, či množiny funkcí). \cite{Goodfellow2016}
+
+Obecně můžeme regularizovat model, přičtením \emph{trestu} k jeho ztrátové funkci. Tento trest nazýváme \textbf{regularizační prvek} (\emph{regularizer}) a značíme jej $\Omega$.
+
+Regularizaci pak definujeme jako:
+\begin{displayquote}
+    \textquote{\emph{Regularization is any modiﬁcation we make to alearning algorithm that is intended to reduce its generalization error but not itstraining error. Regularization is one of the central concerns of the ﬁeld of machinelearning, rivaled in its importance only by optimization}.} \cite{Goodfellow2016}
+\end{displayquote}
+
+Formu regularizace je tedy nutné pečlivě zvolit s ohledem na typ úlohy, který má algoritmus za cíl řešit.
+I autoenkodéry (a variačí autoenkodéry) mohou být navrhnuty k řešení celé řady problémů. Jednotlivé metody regularizace autoenkodérů jsou představeny v \autoref{chap:autoencoder} a jejich následné aplikace v \autoref{chap:applications}.
+
+
+
 
 
