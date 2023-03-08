@@ -1,0 +1,27 @@
+\section{Umělá neuronová síť}
+\label{neural_network}
+Umělá neuronová síť je model strojového učení inspirovaný přírodou.
+Zdá se být intuitivní, že chceme-li napodobit lidskou inteligenci, měli bychom se pro inspiraci podívat na architekturu lidského mozku.
+V průběhu času se však konstrukce umělých neuronových sítí začala jejich přírodnímu protějšku podstatně vzdalovat.
+Řada architektur umělých neuronových sítí tvoří biologicky nerealistický model, byť z této původní myšlenky vychází (stejně tak jako letadla vycházejí z přírodního vzoru létajících ptáků, pohybem svými křídly se ve skutečnosti ve vzduchu neodrážejí). \cite{Geron2019}
+
+Představení kompletních principů umělých neuronových sítí není východiskem variačního autoenkodéru, nýbrž svým obsahem pokrývají několik monografií – pro úvod například \cite{Chollet2017}, \cite{Geron2019}.
+V této sekci tedy budou představeny pouze stěžejní techniky využívané autoenkodéry.
+\subsection{Anatomie umělé neuronové sítě}
+Proces trénování umělé neuronové sítě z pravidla zahrnuje následující objekty \cite{Chollet2017}:
+\begin{itemize}
+    \item \emph{Vrstvy} ze kterých je následně složena \emph{síť} (resp. \emph{model})
+    \item \emph{Vstupní data} (a případně jejich \emph{cílové třídy})
+    \item \emph{Ztrátová funkce}, která slouží jako signál zpětné vazby použití pro učení modelu
+    \item \emph{Optimizér}, který modifikuje parametry umělé neuronové sítě (např. váhy)
+\end{itemize}
+
+\subsection{Perceptron}
+Jedna z nejjednodušších architektur umělé neuronové sítě (a zároveň \emph{model umělého neuronu}) představena v \cite{Rosenblatt1957} inspirována principy Hebbovského učení \cite{Hebb1949}.
+Perceptron přichází s důležitým principem \textbf{numerických hodnot vstupů, výstupů} (oproti pouhým binárním hodnotám) a \textbf{vah} mezi jednotlivými neurony. 
+Perceptron byl později kritizován \cite{Minsky1969} za jeho neschopnost řešit triviální problémy (např. \emph{XOR} klasifikace), což eventuálně vedlo ke krátkodobé stagnaci konekcionismu.
+
+Jak se ale ukázalo, některé z těchto limitací lze vyřešit uspořádáním více Perceptronů za sebe do vrstev. \cite{Rumelhart1987}
+
+Takto uspořádaná umělá neuronová síť se nazývá Vícevrstvý Perceptron.
+
