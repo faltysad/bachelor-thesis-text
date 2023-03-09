@@ -1,11 +1,13 @@
+\newpage
 \section{Stochastický autoenkodér}
+\label{sec:stochastic_autoencoder}
 Struktura stochastického autoenkodéru se vůči obecné struktuře autoenkodéru (\autoref{fig:basic_autoencoder_structure}) liší reprezentací enkodér a dekodér modulů.
 
 V stochastickém autoenkodéru jsou enkodér a dekodér moduly reprezentovány rozdělením pravděpodobností (nejedná se tedy pouze o funkce, ale moduly zahrnují i určitou míru šumu).
 Výstup těchto modulů tedy obdržíme \textbf{výběrem z příslušného rozdělení pravděpodobnosti}. \cite{Goodfellow2016}
 
 Mějme skrytou vrstvu (\emph{kód}) $\textbf{\emph{h}}$. Obecně má pro enkodér toto rozdělení podobu $p_{enkodér}(\textbf{\emph{h}}\mid\textbf{\emph{x}})$ a pro dekodér $p_{dekodér}(\textbf{\emph{x}}\mid\textbf{\emph{h}})$.
-Modifikací základní struktury autoenkodéru (\autoref{fig:basic_autoencoder_structure}) tedy dostáváme :
+Modifikací základní struktury autoenkodéru (\autoref{fig:basic_autoencoder_structure}) tedy dostáváme:
 
 \begin{figure}[h]
     \centering

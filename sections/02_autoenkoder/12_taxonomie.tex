@@ -1,6 +1,8 @@
+\newpage
 \section{Taxonomie autoenkodérů}
-Bylo představeno několik tříd autoenkoderů (rozdělení dle navržení ANN sítě, rozdělení dle regularizačního prvku) a následně popsáno několik dalśích druhú AE.
-Zde je jejich (nevyčerpávající) taxonomie.
+Bylo představeno několik tříd autoenkodérů (rozdělení dle navržení umělé neuronové sítě, rozdělení dle regularizačního prvku) a následně popsáno několik dalších druhů autoenkodérů.
+
+\autoref{fig:autoencoder_taxonomy} nabízí jejich (nevyčerpávající) taxonomii. Autoenkodéry jsou zde rozděleny podle představených charakteristik jejich reprezentace a zpracování skryté vrstvy.
 
 \tikzset{
 	basic/.style  = {draw, text width=5cm, rectangle},
@@ -22,16 +24,16 @@ Zde je jejich (nevyčerpávající) taxonomie.
         child {node[level-2] (c3) {\textbf{Dle reprezentace enkodér dekodér modulů}}};
 
     \begin{scope}[every node/.style={level-3}]
-        \node [below of = c1, xshift=40pt] (c11) {Autoenkodér s neúplnou skrytou vrstvou};
+        \node [below of = c1, xshift=10pt] (c11) {Autoenkodér s neúplnou skrytou vrstvou};
         \node [below of = c11] (c12) {Autoenkodér s rozšířenou skrytou vrstvou};
         \node [below of = c12] (c13) {Hluboký autoenkodér};
         
-        \node [below of = c2, xshift=40pt] (c21) {Řídký autoenkodér};
+        \node [below of = c2, xshift=10pt] (c21) {Řídký autoenkodér};
         \node [below of = c21] (c22) {Denoising autoenkodér};
         \node [below of = c22] (c23) {Contractive autoenkodér};
         \node [below of = c23] (c24) {Stochastický enkodér-dekodér};
         
-        \node [below of = c3, xshift=40pt] (c31) {Funkce};
+        \node [below of = c3, xshift=10pt] (c31) {Funkce};
         \node [below of = c31] (c32) {Rozdělení pravděpodobnosti};
     \end{scope}
 

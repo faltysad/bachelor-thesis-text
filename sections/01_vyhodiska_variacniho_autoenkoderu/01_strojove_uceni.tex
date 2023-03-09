@@ -1,5 +1,5 @@
 \section{Strojové učení}
-Strojové učení je podpoblast umělé inteligence, která se zabývá algoritmy a technikami, které počítačovým systémům umožňují \emph{učit se} z dat.
+Strojové učení je podoblast umělé inteligence zabývající se algoritmy a technikami, které počítačovým systémům umožňují \emph{učit se} z dat.
 \begin{displayquote}
     \textquote{\emph{Machine Learning is the field of study that gives computers the ability to learn without being explicitly programmed}.} \cite{Samuel1967}\footnote{Parafrázováno}
 \end{displayquote}
@@ -10,11 +10,11 @@ Definici algoritmu strojového učení výstižně shrnuje následující defini
     \textquote{\emph{A computer program is said to learn from experience $E$ with respect to some class of tasks $T$ and performance measure $P$, if its performance at tasks in $T$, as measured by $P$, improves with experience $E$.}}
 \end{displayquote}
 Algoritmy strojového učení lze obecně rozdělit na čtyři třídy – učení s učitelem (\emph{supervised learning}),
-učení bez učitele (\emph{unsupervised learnaing}), kombinaci učení s učitelem a učení bez učitele (\emph{semi-supervised learning}) a posilovaného učení (\emph{reinforcement learning}).
+učení bez učitele (\emph{unsupervised learning}), kombinaci učení s učitelem a učení bez učitele (\emph{semi-supervised learning}) a posilovaného učení (\emph{reinforcement learning}).
 
 Toto dělení vychází ze zkušenosti $E$, resp. míry, do jaké má algoritmus strojového učení \textbf{povoleno} interagovat s datovou sadou (resp. jakou možnost taková datová sada nabízí). \cite{Goodfellow2016}
 
-Pro předmět této práce budou blíže představeny pouze oblasti \textbf{a učení s učitelem} a \textbf{učení bez učitele}.
+Pro předmět této práce budou blíže představeny pouze oblasti \textbf{učení s učitelem} a \textbf{učení bez učitele}.
 \subsection{Učení s učitelem}
 \label{sec:supervised_learning}
 Zkušenost $E$ algoritmů učení bez učitele vychází z datové sady, která může mít celou řadu vlastností a zároveň je \textbf{předem známá klasifikace každého datového bodu do definovaných tříd}.
@@ -27,7 +27,7 @@ Samotný termín \emph{učení s učitelem} vychází ze situace, kdy je cílov�
 \subsection{Učení bez učitele}
 Ve vztahu k definici (viz \autoref{sec:machine_learning_algorithm}) lze říci, že zkušenost $E$ algoritmů učení bez učitele vychází z datové sady, která může mít celou řadu vlastností.
 Cílem trénování algoritmů učení bez učitele je \textbf{naučit se užitečné a charakteristické vlastnosti o struktuře vstupní datové sady}.
-V kontextu hlubokého učení (\autoref{sec:deep_learning}) je pak obvyklým cílem algoritmu naučit se celé rozdělení pravděpodobnosti, které generuje původní datovou sadu (ať už explicitně – např. odhad hustoty, či implicitně – např. úlohy syntézy dat a odstranění šumu).
+V kontextu hlubokého učení je pak obvyklým cílem algoritmu naučit se celé rozdělení pravděpodobnosti, které generuje původní datovou sadu (ať už explicitně – např. odhad hustoty, či implicitně – např. úlohy syntézy dat a odstranění šumu).
 Mezi další techniky strojového učení bez učitele se, mimo jiné, řadí shluková analýza.
 
 Obecně lze říct, že učení bez učitele zahrnuje pozorování několika příkladů náhodného vektoru $\mathbf{x}$ na základě kterého se snaží implicitně či explicitně \emph{naučit} rozdělení pravděpodobnosti $p(\mathbf{x})$, případně \emph{užitečné vlastnosti} tohoto pravděpodobnostního rozdělení.
@@ -66,11 +66,11 @@ Obecně můžeme regularizovat model, přičtením \emph{trestu} k jeho ztrátov
 
 Regularizaci pak definujeme jako:
 \begin{displayquote}
-    \textquote{\emph{Regularization is any modiﬁcation we make to a learning algorithm that is intended to reduce its generalization error but not its training error. Regularization is one of the central concerns of the ﬁeld of machine learning, rivaled in its importance only by optimization}.} \cite{Goodfellow2016}
+    \textquote{\emph{Regularization is any modification we make to a learning algorithm that is intended to reduce its generalization error but not its training error. Regularization is one of the central concerns of the ﬁeld of machine learning, rivaled in its importance only by optimization}.} \cite{Goodfellow2016}
 \end{displayquote}
 
 Formu regularizace je tedy nutné pečlivě zvolit s ohledem na typ úlohy, který má algoritmus za cíl řešit.
-I autoenkodéry (a variačí autoenkodéry) mohou být navrhnuty k řešení celé řady problémů. Jednotlivé metody regularizace autoenkodérů jsou představeny v \autoref{chap:autoencoder} a jejich následné aplikace v \autoref{chap:applications}.
+I autoenkodéry (a variační autoenkodéry) mohou být navrhnuty k řešení celé řady problémů. Jednotlivé metody regularizace autoenkodérů jsou představeny v \autoref{chap:autoencoder} a jejich následné aplikace v \autoref{chap:applications}.
 
 
 

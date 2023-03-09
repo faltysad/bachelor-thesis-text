@@ -4,7 +4,7 @@
 Do oblasti redukce dimenzionality patří celá řada technik pro práci s vysokodimenzionálními daty.
 Cílem této oblasti, na rozdíl od regresních problémů, není predikovat hodnotu cílové proměnné – ale porozumět tvaru dat, se kterými pracuje.
 Typickou úlohou redukce dimenzionality dat je sestrojit \textbf{nízkodimenzionální reprezentaci}, která zachytí \emph{většinu významu} původní, vysokodimenzionální, reprezentace.
-Tento jev nazýváme hledáním \textbf{salientních vlastnostní} původní sady dat. \cite{Phillips2021}
+Tento jev nazýváme hledáním \textbf{salientních vlastností} původní sady dat. \cite{Phillips2021}
 
 Redukci dimenzionality lze chápat jako úlohu učení bez učitele, ve které se algoritmus strojového učení učí mapování z vysokodimenzionálního prostoru $\textbf{\emph{x}} \in \mathbb{R}^D$ do nízkodimenzionálního latentního prostoru $\textbf{\emph{z}} \in \mathbb{R}^L$. \cite{Murphy2022}
 
@@ -29,14 +29,14 @@ Typicky tak musí dojít k redukci dimenzionality vstupních dat. \cite{Liu1998}
 K extrakci nových vlastností lze dojít mnoha způsoby.
 Existují techniky založené na hledání lineárních kombinací původních vstupních vlastností, například Analýza hlavních komponent (\emph{PCA Analýza}) nebo Lineární diskriminační analýza (\emph{LDA Analýza}).
 
-Pro nelineární redukci dimenzionality lze využít technik tzv. manifold learningu.
+Pro nelineární redukci dimenzionality lze využít technik tzv. \emph{manifold learningu}, viz \cite[kap. 5.11.3.]{Goodfellow2016}. 
 
 
 \subsection{Analýza hlavních komponent (PCA)}
 \label{sec:pca}
 Jednou z nejrozšířenějších metod pro redukci dimenzionality je PCA analýza (\emph{principal component analysis}).
 
-V principu se jedná o nalezení lineární a ortogonální projekce vysokodimenzionálníhch dat $\textbf{\emph{x}} \in \mathbb{R}^D$ do nízkodimenzionální podprostoru  $\textbf{\emph{z}} \in \mathbb{R}^L$,
+V principu se jedná o nalezení lineární a ortogonální projekce vysokodimenzionálních dat $\textbf{\emph{x}} \in \mathbb{R}^D$ do nízkodimenzionální podprostoru  $\textbf{\emph{z}} \in \mathbb{R}^L$,
 tak aby tato nízkodimenzionální reprezentace byla \emph{dobrou aproximací} původních dat.
 Provedeme-li projekci (resp. \textbf{kódování}) $\textbf{\emph{x}}$, získáme $\mathbf{z} = \mathbf{W^{\top}} \textbf{\emph{x}}$ (funkci kódování označme $e$),
 a následně \textbf{dekódujeme} $\textbf{\emph{z}}$ abychom získali $\hat{\textbf{\emph{x}}} = \mathbf{W}\textbf{\emph{z}}$ (funkci dekódování označme $d$),

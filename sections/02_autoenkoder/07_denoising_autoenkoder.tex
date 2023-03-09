@@ -1,3 +1,4 @@
+\newpage
 \section{Denoising autoenkodér}
 \label{sec:denoising_autoencoder}
 Denoising autoenkodér je autoenkodér, který na vstupu obdrží poškozená vstupní data
@@ -18,7 +19,7 @@ Z toho důvodu denoising autoenkodér minimalizuje funkci:
 \end{equation}
 
 kde $\tilde{\textbf{\emph{x}}}$ je kopií $\textbf{\emph{x}}$ která byla úmyslně poškozena procesem $C(\tilde{x} | x)$ (\emph{corruption process}),
-který reprezentuje podmíněné rozdělení pravděpodobnosti poškozenných vzorků $\tilde{x}$ v závislosti na vzorku vstupních dat $x$. \cite{Goodfellow2016}
+který reprezentuje podmíněné rozdělení pravděpodobnosti poškozených vzorků $\tilde{x}$ v závislosti na vzorku vstupních dat $x$. \cite{Goodfellow2016}
 
 Denoising autoenkodér se pak učí \textbf{rozdělení rekonstrukce} $p_{reconstruct}$($\mathbf{x}|\mathbf{\tilde{x}}$),
 které je odhadnuto z trénovacích dvojic následovně:

@@ -53,7 +53,7 @@ Dopředná umělá neuronová síť definuje mapovací funkci $\textbf{\emph{y}}
 \subsection{Perceptron}
 \label{sec:perceptron}
 Jedna z nejjednodušších architektur umělé neuronové sítě (a zároveň \emph{model umělého neuronu}) představena v \cite{Rosenblatt1957} inspirována principy Hebbovského učení \cite{Hebb1949}.
-Perceptron přichází s důležitým principem \textbf{numerických hodnot vstupů, výstupů} (oproti pouhým binárním hodnotám) – tzv \emph{linear treshold unit, LTU} a \textbf{vah} propojení mezi jednotlivými neurony. 
+Perceptron přichází s důležitým principem \textbf{numerických hodnot vstupů, výstupů} (oproti pouhým binárním hodnotám) – tzv. \emph{linear treshold unit, LTU} a \textbf{vah} propojení mezi jednotlivými neurony. 
 Perceptron byl později kritizován \cite{Minsky1969} za jeho neschopnost řešit triviální problémy (např. \emph{XOR} klasifikace), což eventuálně vedlo ke krátkodobé stagnaci konekcionismu.
 
 Jak se ale ukázalo, některé z těchto limitací lze vyřešit uspořádáním více Perceptronů za sebe do vrstev. \cite{Rumelhart1987}
@@ -65,7 +65,7 @@ Takto uspořádaná umělá neuronová síť se nazývá Vícevrstvý Perceptron
 Vícevrstvý Perceptron je tvořen umělou neuronovou sítí, která se skládá z jedné vstupní vrstvy, \textbf{jedné nebo více skrytých vrstev} LTU jednotek, a jedné výstupní vrstvy rovněž složené z LTU jednotek.
 Součástí každé vrstvy (vyjma výstupní) je tzv. \textbf{bias} neuron který je \textbf{plně propojený} s další vrstvou sítě. \cite{Geron2019}
 
-Pokud má umělá neuronová síť dvě a více skrytých vrstev, nazýváme ji \textbf{hlubokou neuronouvou sítí}.
+Pokud má umělá neuronová síť dvě a více skrytých vrstev, nazýváme ji \textbf{hlubokou neuronovou sítí}.
 
 Jak již víme, Vícevrstvý Perceptron adresuje limitace Perceptronu (viz \autoref{sec:perceptron}).
 Článek \cite{Rumelhart1987} ale představil i další revoluční myšlenku – algoritmus \textbf{zpětné propagace}
@@ -89,7 +89,7 @@ Důsledkem Univerzálního aproximačního teorému je, že dostatečně velký 
 Ale neexistuje zde jistota, že se algoritmus strojového učení bude schopen takovou funkci vždy \emph{naučit}  \cite{Goodfellow2016}:
 
 \begin{itemize}
-    \item Zvolený optimalizér algoritmu strojového učení použitý pro trénování nemusí být schopen najít parametry umělé neuronové sítě, které korespondují s cílovou funkcí.
+    \item Zvolený optimizér algoritmu strojového učení použitý pro trénování nemusí být schopen najít parametry umělé neuronové sítě, které korespondují s cílovou funkcí.
     \item Algoritmus nemusí vybrat správnou funkci v důsledku přeučení
 \end{itemize}
 
