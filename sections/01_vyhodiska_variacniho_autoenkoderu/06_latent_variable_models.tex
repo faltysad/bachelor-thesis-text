@@ -1,2 +1,17 @@
-\section{Modely využívající latentních proměnných // Latent Variable Models}
+\section{Model využívající latentních proměnných}
 \label{sec:latent_variable_models}
+Model využívající latentních proměnných (\emph{latent variable model}) označíme $\emph{p}_\theta(\mathbf{x}, \mathbf{z})$.
+Jsou-li rozdělení pravděpodobností tohoto modelu parametrizovány neuronovou sítí,
+nazveme jej \textbf{hluboký model využívající latentních proměnných} (\emph{deep latent variable model, DLVM}). DLVM může být podmíněný vůči libovolnému kontextu, tedy $\emph{p}_{\theta}(\mathbf{x}, \mathbf{z}|\mathbf{y})$.
+Důležitou vlastností (a výhodou) DLVM je, že marginální rozdělení $\emph{p}_\theta$ může být velmi komplexní (tedy obsahovat takřka jakékoliv závislosti).
+Tato expresivní vlastnost činí DLVM atraktivní pro \textbf{aproximaci složitých skrytých rozdělení pravděpodobnosti} $\emph{p}^*(\mathbf{x})$. \cite{Kingma2019}
+
+Jedním z nejjednoduších (a nejznámějších) DLVM modelů je faktorizace s následující strukturou \cite{Kingma2019}:
+\begin{equation}
+    \emph{p}_\theta(\mathbf{x}, \mathbf{z}) = \emph{p}_\theta(\mathbf{z})\emph{p}_\theta(\mathbf{x}\mid\mathbf{z}),
+\end{equation}
+
+kde $\emph{p}_\theta(\mathbf{z})$ a $\emph{p}_\theta(\mathbf{x}\mid\mathbf{z})$ jsou předem dány.
+\subsection{Latentní proměnné}
+Latentní proměnné jsou proměnné, které jsou součástí modelu, ale nejsou přímo pozorovatelné (a tím pádem nejsou součástí vstupních dat).
+Pro označení takových proměnných používáme $\mathbf{z}$. U latentních proměnných se předpokládá jejich vliv na hodnotu cílové proměnné (resp. cílových proměnných). \cite{Kingma2019}
