@@ -1,0 +1,24 @@
+\section{Kullback–Lieblerova divergence}
+\label{sec:kl_divergence}
+
+Kullback–Leiblerova divergence (\emph{KL divergence}) vyjadřuje míru \emph{podobnosti} rozdělení pravděpodobnosti $p$ vůči jinému rozdělení pravděpodobnosti $q$
+\footnote{Nutno zdůraznit, že ačkoliv lze intuitivně hovořit o \emph{podobnosti} či \emph{vzdálenosti} mezi distribucí $p$ a $q$, KL divergence \textbf{není metrická}. Není symetrická (tedy nesplňuje M3) a neplatí v ní trojúhelníková nerovnost (tedy nesplňuje M4). \cite{Phillips2021}}.
+
+
+Nechť $p(x)$ a $q(x)$ jsou rozdělení pravděpodobnosti diskrétní náhodné veličiny pro $x$
+\footnote{Tedy součet $p(x)$ a $q(x) = 1$}.
+A dále $p(x) > 0$ a $q(x) > 0$ pro každé $x \in X$. Pak definujeme KL divergenci následovně \cite{Murphy2022}:
+
+\begin{equation}
+    D_{KL}(p(x) \| q(x)) = \sum_{x \in X}^{}p(x)\ln{\frac{p(x)}{q(x)}}
+\end{equation}
+
+A spojitou verzi KL divergence následovně \cite{Murphy2022}:
+\begin{equation}
+    D_{KL}(p(x) \| q(x)) = \int_{-\infty}^{\infty}p(x)\ln{\frac{p(x)}{q(x)}}dx 
+\end{equation}
+
+KL divergence je úzce spjata s \emph{relativní entropií} a \emph{teorií informace}.
+Lze ji tedy interpretovat, jako \emph{počet bitů které jsou \textbf{dodatečně} potřebné} pro kódování vzorků dat nevhodnou distribucí $q$ v porovnání s kódováním stejných vzorků dat jejich původní distribucí $p$.
+
+Existuje celá řada dalších (a přesnějších) interpretací KL divergence. Pro formální zavedení a definici vlastností KL divergence odkazuji na \cite[kap. 5.1]{Murphy2023}.
