@@ -13,13 +13,13 @@ S rostoucím počtem vstupních proměnných exponenciálně roste počet vzork�
 V důsledku je tedy s rostoucí dimenzí vstupních dat značně degradováno chování většiny algoritmů (strojového učení).
 Tento problém je známý pod termínem \textbf{curse of dimensionality}. \cite{Bellman1957}
 
-I proto došlo k vzniku oblasti zvané \emph{feature engineering}.
+I proto došlo ke vzniku oblasti zvané \emph{feature engineering}.
 Feature engineering je oblast, která se, mimo jiné, zabývá disciplínou selekce vlastností dat, které budou použity při trénování modelu.
 Pro automatizovanou selekci vlastností existuje celá řada technik.
 Výběr podprostoru, který \emph{nejlépe} reprezentuje vlastnosti původních dat je NP-těžký kombinatorický problém (\emph{exhaustive search through all the subsets of features}).
 Tyto techniky dokonce často vyhodnocují každou vstupní proměnnou nezávisle, což může vést ke zkresleným závěrům o jejich významnosti – naopak je běžné, že proměnné začínají vykazovat určitou míru významnosti \textbf{až při vzájemném využití}. \cite{Stanczyk2015}
 
-Výše stanovené důvody vedly k emergenci další disciplíny, a to \textbf{extrakce vlastností}, která je pro předmět této práce patřičně důležitější.
+Výše stanovené důvody vedly k emergenci další disciplíny, a to \textbf{extrakce vlastností}, o níž pojednává \autoref{sec:feature_extraction}. 
 
 \subsection{Extrakce vlastností}
 \label{sec:feature_extraction}
@@ -36,7 +36,7 @@ Pro nelineární redukci dimenzionality lze využít technik tzv. \emph{manifold
 \label{sec:pca}
 Jednou z nejrozšířenějších metod pro redukci dimenzionality je PCA analýza (\emph{principal component analysis}).
 
-V principu se jedná o nalezení lineární a ortogonální projekce vysokodimenzionálních dat $\textbf{\emph{x}} \in \mathbb{R}^D$ do nízkodimenzionální podprostoru  $\textbf{\emph{z}} \in \mathbb{R}^L$,
+V principu se jedná o nalezení lineární a ortogonální projekce vysokodimenzionálních dat $\textbf{\emph{x}} \in \mathbb{R}^D$ do nízkodimenzionálního podprostoru  $\textbf{\emph{z}} \in \mathbb{R}^L$,
 tak aby tato nízkodimenzionální reprezentace byla \emph{dobrou aproximací} původních dat.
 Provedeme-li projekci (resp. \textbf{kódování}) $\textbf{\emph{x}}$, získáme $\mathbf{z} = \mathbf{W^{\top}} \textbf{\emph{x}}$ (funkci kódování označme $e$),
 a následně \textbf{dekódujeme} $\textbf{\emph{z}}$ abychom získali $\hat{\textbf{\emph{x}}} = \mathbf{W}\textbf{\emph{z}}$ (funkci dekódování označme $d$),
@@ -47,11 +47,11 @@ Konkrétně můžeme definovat následující \textbf{chybu rekonstrukce} \cite{
     \mathcal{L}(\mathbf{W}) \triangleq \frac{1}{N} \| \textbf{\emph{x}} - d(e(\textbf{\emph{x}}_n; \mathbf{W}); \mathbf{W})\|^2_2
 \end{equation}
 
-kde fáze $e$ a $d$ jsou lineární funkce (\emph{mappings}).
+kde $e$ a $d$ jsou lineární funkce (\emph{mappings}).
 
 Na PCA analýzu tak lze pohlížet jako na algoritmus učení bez učitele, který se učí reprezentaci vstupních dat. Tato reprezentace má dvě kritéria \cite{Goodfellow2016}:
 
 \begin{itemize}
-    \item PCA se učí reprezentaci vstupních dat, která má menší dimenzi než původní vstupní reprezentace
-    \item PCA se učí reprezentaci, jejíž elementy mezi sebou nemají žádnou lineární korelaci
+    \item PCA se učí reprezentaci vstupních dat, která má menší dimenzi než původní vstupní reprezentace.
+    \item PCA se učí reprezentaci, jejíž elementy mezi sebou nemají žádnou lineární korelaci.
 \end{itemize}

@@ -45,10 +45,10 @@ Oblast strojového učení se tomuto paradoxu z části vyhýbá tím, že pracu
 Algoritmy strojového učení hledají pravidla, která jsou tzv. \emph{probably approximately correct}. \cite{Valiant1984}
 
 Ani tento trik však kompletně neřeší představený problém. Zjednodušeně, \textbf{"No free lunch theorem"} pro strojové učení tvrdí, že každý klasifikační algoritmus má v průměru, skrze všechny distribuce generující data, \textbf{stejnou chybovost} při klasifikování dosud nepozorovaných datových bodů. \cite{Wolpert1996}
-Jinými slovy, \textbf{žádný algoritmus strojového učení není univerzálně lepší, než kterýkoliv jiný algoritmus strojového učení}.
+Jinými slovy, \textbf{žádný algoritmus strojového učení není univerzálně lepší než kterýkoliv jiný algoritmus strojového učení}.
 
 Toto tvrzení je pravdivé až při zohlednění \emph{všech možných distribucí generujících data} – tedy v teoretické rovině.
-Lze pozorovat, že v praktických aplikacích je možné navrhnout algoritmus, který si v určitých distribucích vede v průměru lépe, než ostatní algoritmy. \cite{Goodfellow2016}
+Lze pozorovat, že v praktických aplikacích je možné navrhnout algoritmus, který si v určitých distribucích vede v průměru lépe než ostatní algoritmy. \cite{Goodfellow2016}
 
 Cílem této práce je představit Variační autoenkodér – architekturu umělé neuronové sítě, která se těší dobrým výsledkům ve vybraných úlohách učení bez učitele, představených v \autoref{chap:applications}, ale v důsledku má i své nedostatky (představené v \autoref{chap:vae}) v ostatních třídách úloh.
 
@@ -58,11 +58,11 @@ Cílem této práce je představit Variační autoenkodér – architekturu umě
 Toho lze docílit \emph{zabudováním} určité sady preferencí přímo do algoritmu strojového učení (předpokladem je, že tyto preference jsou v souladu s cílovým problémem, který se algoritmus snaží řešit). \cite{Goodfellow2016}
 
 Chování a výkonnost algoritmu strojového učení lze ovlivnit zvolením velikosti množiny funkcí (a následně konkrétní podoby jejich identity), které jsou v jeho prostoru hypotéz povoleny\footnote{Například prostor hypotéz lineární regrese je složen z množiny lineárních funkcí jejího vstupu. Tedy lineární regrese zřejmě bude mít problém věrohodně predikovat hodnotu $\sin(x)$ z $x$ (a stejně tak řešit další nelineární problémy).}.
-V prostoru hypotéz algoritmu lze rovněž lze vyjádřit preferenci jednoho řešení před druhým.
-To znamená, že obě takové funkce budou přípustné, ale jedna z nich má preferenci (tedy nepreferovaná funkce bude zvolena když a pouze když je její evaluace vůči trénovací sadě \emph{výrazně} lepší, než preferovaná funkce)\footnote{Například \emph{weight decay}.}.
+V prostoru hypotéz algoritmu lze rovněž vyjádřit preferenci jednoho řešení před druhým.
+To znamená, že obě takové funkce budou přípustné, ale jedna z nich má preferenci (tedy nepreferovaná funkce bude zvolena právě když je její evaluace vůči trénovací sadě \emph{výrazně} lepší, než preferovaná funkce)\footnote{Například \emph{weight decay}.}.
 Případně můžeme funkci (nebo množinu funkcí) z prostoru hypotéz vyřadit kompletně (resp. vyjádřit tak nekonečně velkou míru neupřednostnění takové funkce, či množiny funkcí). \cite{Goodfellow2016}
 
-Obecně můžeme regularizovat model, přičtením \emph{trestu} k jeho ztrátové funkci. Tento trest nazýváme \textbf{regularizační prvek} (\emph{regularizer}) a značíme jej $\Omega$.
+Obecně můžeme regularizovat model přičtením \emph{trestu} k jeho ztrátové funkci. Tento trest nazýváme \textbf{regularizační prvek} (\emph{regularizer}) a značíme jej $\Omega$.
 
 Regularizaci pak definujeme jako:
 \begin{displayquote}

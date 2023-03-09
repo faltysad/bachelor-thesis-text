@@ -44,15 +44,15 @@ Dopředná umělá neuronová síť definuje mapovací funkci $\textbf{\emph{y}}
     \item \emph{Dopředné}, jelikož v této architektuře neexistují žádné zpětnovazební propojení, které by sloužily jako vstup zpět pro sebe sama
     \footnote{Je-li dopředná umělé neuronové sítě obohacena o zpětnovazební propojení se sebou sama, nazýváme ji \textbf{Rekurentní neuronová síť}.}.
     \item \emph{Sítě}, jelikož jsou typicky reprezentovány kompozicí více různých funkcí.
-    Model takové sítě je asociován s orientovaným acyklickým grafem, který popisuje jakým způsobem je tato kompozice tvořena
-    Mějme tři funkce $f^{(1)}$, $f^{(2)}$, $f^{(3)}$ které jsou zřetězeny následovně: $f(\textbf{\emph{x}}) = f^{(3)}(f^{(2)}(f^{(1)}(\textbf{\emph{x}})))$.
-    Takto zřetězené struktury nazýváme \textbf{vrstvy} umělé neuronové sítě. Délku tohoto zřetězení nazýváme \textbf{hloubkou} modelu – od tud \emph{hluboké} neuronové sítě (umělé neuronové sítě s 2 a více skrytými vrstvami). \cite{Goodfellow2016}
+    Model takové sítě je asociován s orientovaným acyklickým grafem, který popisuje, jakým způsobem je tato kompozice tvořena.
+    Mějme tři funkce $f^{(1)}$, $f^{(2)}$, $f^{(3)}$, které jsou zřetězeny následovně: $f(\textbf{\emph{x}}) = f^{(3)}(f^{(2)}(f^{(1)}(\textbf{\emph{x}})))$.
+    Takto zřetězené struktury nazýváme \textbf{vrstvy} umělé neuronové sítě. Délku tohoto zřetězení nazýváme \textbf{hloubkou} modelu – odtud \emph{hluboké} neuronové sítě (umělé neuronové sítě s 2 a více skrytými vrstvami). \cite{Goodfellow2016}
     \footnote{V tomto případě je $f^{(1)}$ \textbf{první vrstva}, $f^{(2)}$ je \textbf{druhá vrstva} a $f^{(3)}$ \textbf{třetí vrstva}.}.
 \end{itemize}
 
 \subsection{Perceptron}
 \label{sec:perceptron}
-Jedna z nejjednodušších architektur umělé neuronové sítě (a zároveň \emph{model umělého neuronu}) představena v \cite{Rosenblatt1957} inspirována principy Hebbovského učení \cite{Hebb1949}.
+Jedná se o jednu z nejjednodušších architektur umělé neuronové sítě (a \emph{model umělého neuronu}) představenou v \cite{Rosenblatt1957} inspirovanou principy Hebbovského učení \cite{Hebb1949}.
 Perceptron přichází s důležitým principem \textbf{numerických hodnot vstupů, výstupů} (oproti pouhým binárním hodnotám) – tzv. \emph{linear treshold unit, LTU} a \textbf{vah} propojení mezi jednotlivými neurony. 
 Perceptron byl později kritizován \cite{Minsky1969} za jeho neschopnost řešit triviální problémy (např. \emph{XOR} klasifikace), což eventuálně vedlo ke krátkodobé stagnaci konekcionismu.
 
@@ -63,7 +63,7 @@ Takto uspořádaná umělá neuronová síť se nazývá Vícevrstvý Perceptron
 \subsection{Vícevrstvý Perceptron a Algoritmus zpětné propagace}
 \label{sec:multilayer_perceptron}
 Vícevrstvý Perceptron je tvořen umělou neuronovou sítí, která se skládá z jedné vstupní vrstvy, \textbf{jedné nebo více skrytých vrstev} LTU jednotek, a jedné výstupní vrstvy rovněž složené z LTU jednotek.
-Součástí každé vrstvy (vyjma výstupní) je tzv. \textbf{bias} neuron který je \textbf{plně propojený} s další vrstvou sítě. \cite{Geron2019}
+Součástí každé vrstvy (vyjma výstupní) je tzv. \textbf{bias} neuron, který je \textbf{plně propojený} s další vrstvou sítě. \cite{Geron2019}
 
 Pokud má umělá neuronová síť dvě a více skrytých vrstev, nazýváme ji \textbf{hlubokou neuronovou sítí}.
 
@@ -72,25 +72,25 @@ Jak již víme, Vícevrstvý Perceptron adresuje limitace Perceptronu (viz \auto
 \footnote{Algoritmus zpětné propagace byl ve skutečnosti nezávisle objeven více výzkumníky, počínaje \cite{Werbos1974}. Převzato z \cite{Geron2019}.} (\emph{backpropagation}).
 
 Algoritmus zpětné propagace lze velmi zjednodušeně interpretovat následovně: Pro každou trénovací instanci je vypočten výstup každého jejího neuronu každé jednotlivé vrstvy.
-Poté je změřena výstupní chyba celé sítě (například střední kvadratická chyba, MSE) a vypočten podílem, jakým každý neuron poslední skryté vrstvy přispěl k hodnotě každého neuronu výstupní vrstvy.
+Poté je změřena výstupní chyba celé sítě (například střední kvadratická chyba, MSE) a vypočten podíl, kterým každý neuron poslední skryté vrstvy přispěl k hodnotě každého neuronu výstupní vrstvy.
 Následně je stejným způsobem měřeno, jak moc byla ovlivněna hodnota jednotlivých neuronů poslední skryté vrstvy hodnotami neuronů předchozí skryté vrstvy – a podobný proces se opakuje než algoritmus dosáhne vstupní vrstvy. \cite{Geron2019}
 
-Průchod algoritmu sítí lze intuitivně popsat následovně: Pro každou trénovací instanci algoritmus zpětné propagace nejprve učiní predikci cílové hodnoty – tzv. \emph{forward pass}).
-Poté změří chybu této predikce. Následně zpětně projde každou vrstvu sítě za účelem změření míry přispění k této chybě každým propojením (a její váhou) – tzv. \emph{reverse pass}.
+Průchod algoritmu sítí lze intuitivně popsat následovně: Pro každou trénovací instanci algoritmus zpětné propagace nejprve učiní predikci cílové hodnoty – tzv. \emph{forward pass}.
+Poté změří chybu této predikce. Následně zpětně projde každou vrstvu sítě za účelem změření míry přispění k této chybě každým propojením (a jeho vahou) – tzv. \emph{reverse pass}.
 Závěrem algoritmus \emph{lehce} upraví váhy jednotlivých propojení za účelem snížení chyby – tzv. \emph{Gradient Descent step}. \cite{Geron2019}
 
 Pro správný chod algoritmu autoři \cite{Rumelhart1987} do architektury Vícevrstvého Perceptronu zanesli další zásadní změnu – jako tzv. \textbf{aktivační funkci} využili logistickou regresi (zcela běžné je využití i dalších aktivačních funkcí, například ReLU).
 
 \subsection{Univerzální aproximační teorém}
 \label{sec:universal_approximation_theorem}
-Univerzální aproximační teorém\footnote{Universal approximation theorem} \cite{Hornik1989}, \cite{Cybenko1989} tvrdí, že dopředná umělá neuronová síť (s alespoň jednou skrytou vrstvou a \emph{potlačující} aktivační funkcí – např. logistická (sigmoida)) je schopna aproximovat libovolnou (borelovsky měřitelnou) funkci s \emph{libovolnou mírou přesnosti}\footnote{Derivacemi dopředné umělé neuronové sítě lze stejně tak aproximovat derivace cílové funkce \cite{Hornik1990}.}.
+Univerzální aproximační teorém\footnote{Universal approximation theorem} \cite{Hornik1989}, \cite{Cybenko1989} tvrdí, že dopředná umělá neuronová síť (s alespoň jednou skrytou vrstvou a \emph{potlačující} aktivační funkcí – např. logistická funkce) je schopna aproximovat libovolnou (borelovsky měřitelnou) funkci s \emph{libovolnou mírou přesnosti}\footnote{Derivacemi dopředné umělé neuronové sítě lze stejně tak aproximovat derivace cílové funkce \cite{Hornik1990}.}.
 
 Důsledkem Univerzálního aproximačního teorému je, že dostatečně velký \textbf{Vícevrstvý perceptron zvládne \emph{reprezentovat} libovolnou funkci}.
-Ale neexistuje zde jistota, že se algoritmus strojového učení bude schopen takovou funkci vždy \emph{naučit}  \cite{Goodfellow2016}:
+Ale neexistuje zde jistota, že se algoritmus strojového učení bude schopen takovou funkci \emph{vždy} naučit \cite{Goodfellow2016}:
 
 \begin{itemize}
     \item Zvolený optimizér algoritmu strojového učení použitý pro trénování nemusí být schopen najít parametry umělé neuronové sítě, které korespondují s cílovou funkcí.
-    \item Algoritmus nemusí vybrat správnou funkci v důsledku přeučení
+    \item Algoritmus nemusí vybrat správnou funkci v důsledku přeučení.
 \end{itemize}
 
 Dopředné umělé neuronové sítě tak nabízejí univerzální systém pro \textbf{reprezentaci} libovolné funkce. \textbf{Pro libovolnou funkci existuje dopředná umělá neuronová síť, která ji aproximuje}

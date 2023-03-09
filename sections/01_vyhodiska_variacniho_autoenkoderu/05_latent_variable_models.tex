@@ -3,8 +3,8 @@
 Model využívající latentních proměnných (\emph{latent variable model}) označíme $\emph{p}_\theta(\mathbf{x}, \mathbf{z})$.
 
 Jsou-li rozdělení pravděpodobností tohoto modelu parametrizovány neuronovou sítí,
-nazveme jej \textbf{hluboký model využívající latentních proměnných} (\emph{deep latent variable model, DLVM}). DLVM může být podmíněný vůči libovolnému kontextu, tedy $\emph{p}_{\theta}(\mathbf{x}, \mathbf{z}|\mathbf{y})$.
-Důležitou vlastností (a výhodou) DLVM je, že marginální rozdělení $\emph{p}_\theta$ může být velmi komplexní (tedy obsahovat takřka jakékoliv závislosti).
+nazveme jej \textbf{hluboký model využívající latentních proměnných} (\emph{deep latent variable model}, dále jen \emph{DLVM}). DLVM může být podmíněný vůči libovolnému kontextu, tedy $\emph{p}_{\theta}(\mathbf{x}, \mathbf{z}|\mathbf{y})$.
+Důležitou vlastností (a výhodou) DLVM je, že marginální rozdělení $\emph{p}_\theta$ může být velmi komplexní (tedy obsahovat téměř jakékoliv závislosti).
 Tato expresivní vlastnost činí DLVM atraktivní pro \textbf{aproximaci složitých skrytých rozdělení pravděpodobnosti} $\emph{p}^*(\mathbf{x})$. \cite{Kingma2019}
 
 Jedním z nejjednodušších (a nejznámějších) DLVM modelů je faktorizace s následující strukturou \cite{Kingma2019}:
