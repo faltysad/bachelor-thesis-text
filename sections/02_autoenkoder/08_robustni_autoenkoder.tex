@@ -1,10 +1,10 @@
 \section{Robustní autoenkodér}
-Robustní autoenkodér (\emph{Robust autoencoder}) představuje další způsob, jakým se vypořádat s \emph{drobným šumem} ve vstupních datech, která má následně rekonstruovat.
+Robustní autoenkodér (\emph{robust autoencoder}) představuje další způsob, jakým se lze vypořádat s \emph{drobným šumem} ve vstupních datech, která má následně rekonstruovat.
 
 
-Robustní autoenkodéry, narozdíl od Denoising autoenkodéru (viz \autoref{sec:denoising_autoencoder}), využivájí alternativně definovanou ztŕatovou funkci, která je modifikována pro minimalizaci chyby rekonstrukce.
-Obecně jsou ne-Gaussovským šumem ovlivněny \textbf{méně než triviální mělké autoenkodéry} (viz \autoref{sec:shallow_autoncoder}).
-Tato alternativní ztrátová funkce je založena na correntropii (\emph{correntropy}, lokalizovaná míra podobnosti), která je v \textbf{CITACE} definována následovně:
+Robustní autoenkodéry, narozdíl od denoising autoenkodéru (viz \autoref{sec:denoising_autoencoder}), využivájí alternativně definovanou ztŕatovou funkci, která je modifikována pro minimalizaci chyby rekonstrukce.
+Obecně jsou ne-gaussovským šumem ovlivněny \textbf{méně než triviální mělké autoenkodéry} (viz \autoref{sec:shallow_autoncoder}).
+Tato alternativní ztrátová funkce je založena na correntropii (\emph{correntropy}, lokalizovaná míra podobnosti), která je v \cite{Liu2006} definována následovně:
 
 \begin{equation}
     \mathcal{L}_{MCC}(u, v) = -\sum_{k=1}^{d} \mathcal{K}_\sigma(u_k - v_k),
@@ -15,6 +15,6 @@ kde
 \end{equation}
 a $\sigma$ je parameter kernelu $\mathcal{K}$.
 
-Correntropie měří hustotu pravdepodobnostni, že dvě \emph{události} jsou si rovny (zde událost může být např.:).
+Correntropie měří hustotu pravdepodobnostni, že dvě \emph{události} jsou si rovny.
 Correntropie je \textbf{výrazně méně ovlivněna odlehlými hodnotami}, než např. střední kvadratická chyba. \cite{Liu2006}
-Robustní autoenkodér se snaží tuto míru maximalizovat, což intuitivně vede k \textbf{vyšší odolnosti} Robustního autoenkodéru \textbf{na ne-Gaussovský šum} přítomný ve vstupních datech.
+Robustní autoenkodér se snaží tuto míru maximalizovat, což intuitivně vede k \textbf{vyšší odolnosti} Robustního autoenkodéru \textbf{na ne-gaussovský šum} přítomný ve vstupních datech. \cite{Charte2018}

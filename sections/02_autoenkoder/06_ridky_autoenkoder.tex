@@ -2,18 +2,18 @@
 \label{sec:sparse_autoencoder}
 Řídká reprezentace dat (\emph{sparsity}) ve strojovém učení znamená, že většina hodnot daného vzorku je nulová. 
 Motivací pro řídkou reprezentaci dat ve strojovém učení je napodobení chování buněk v primární zrakové oblasti (\emph{V1}) mozku savců.
-Konkrétně schopnosti odhalit a uložit efektivní kódovací strategie pozorovaných vjemů. 
+Konkrétně schopnosti odhalit a uložit efektivní kódovací strategie pozorovaných vjemů. \cite{Olshausen1997}
 
 Pro sestrojení Řídkého autoenkodérů je tedy nutné představit omezení (regularizační prvek) hodnot aktivací neuronů ve skryté (kódovací) vrstvě $\textbf{\emph{h}}$ (resp. počtu aktivních neuronů ve skrýte vrstvě).
 
-Řídký autoenkodér (\emph{Sparse Autoecoder}) je Autoenkodér, jehož ztrátová funkce je rozšířena o penalizaci řídkosti kódovací vrstvy $\textbf{\emph{h}}$ (tzv. \emph{sparsity penalty}) vztahem $\Omega(\textbf{\emph{h}})$:
+Řídký autoenkodér (\emph{sparse autoencoder}) je autoenkodér, jehož ztrátová funkce je rozšířena o penalizaci řídkosti kódovací vrstvy $\textbf{\emph{h}}$ (tzv. \emph{sparsity penalty}) vztahem $\Omega(\textbf{\emph{h}})$:
 
 \begin{equation}
-    L(\mathbf{x}, g(f(\mathbf{x}))) + \Omega(\textbf{\emph{h}}),
+    \mathcal{L}(\mathbf{x}, g(f(\mathbf{x}))) + \Omega(\textbf{\emph{h}}),
 \end{equation}
 
 kde $\Omega$ je \textbf{regularizační prvek}, jehož cílem je přiblížit hodnoty aktivací neuronů kódovací vrstvy k cílové hodnotě (a zabránit přeučení).
-Chceme tak penalizovat neurony kódovací vrstvy, které se aktivují příliš často.
+Chceme tak penalizovat neurony kódovací vrstvy, které se aktivují příliš často. \cite{Goodfellow2016}
 
 Běžně lze $\Omega$ stanovit následovně. Mějme Bernoulliho náhodnou proměnou $\emph{i}$ modelující aktivace neuronů skrýte (kódovací) vrstvy – můžou tedy nastat dva stavy: neuron skryté vrstvy je buď aktivován, nebo není aktivován.
 Pro konkrétní vstup $\emph{x}$ dostaneme:
@@ -22,7 +22,7 @@ Pro konkrétní vstup $\emph{x}$ dostaneme:
     \hat{p_i} = \frac{1}{|S|}\sum_{x \in S}^{}f_i(x),
 \end{equation}
 
-kde $ f = (f_1, f_2, \dots, f_c)$, $c$ je počet neuronů skryté (kódovací) vrstvy a $\hat{p_i}$ je průměrná aktivační hodnota neuronu skryté vrstvy (resp. střední hodnota příslušného Bernoulliho schématu).
+kde $ f = (f_1, f_2, \dots, f_c)$, $c$ je počet neuronů skryté (kódovací) vrstvy a $\hat{p_i}$ je průměrná aktivační hodnota neuronu skryté vrstvy (resp. střední hodnota příslušného Bernoulliho schématu). \cite{Charte2018}
 
 Dále mějme $p$ jako cílové rozdělení aktivací.
 Kullback-Leibnerova divergence mezi náhodnou proměnnou $i$ a $p$ pak udává rozdíl obou rozdělení:
@@ -36,7 +36,7 @@ Výsledný penalizační prvek $\Omega$ pro Řídký autoenkodér má tedy násl
     \Omega_{ŘAE}(W, b; S) = \sum_{i=1}^{c}KL(p \parallel \hat{p_i}),
 \end{equation}
 
-kde průměrná hodnota aktivací $\hat{p_i}$ závisí na parametrech enkodéru a množině trénovacích dat $S$. 
+kde průměrná hodnota aktivací $\hat{p_i}$ závisí na parametrech enkodéru a množině trénovacích dat $S$. \cite{Charte2018}
 
-Přičtením tohoto penalizačního prvku ke ztrátové funkci (a následnou minimalizací celkové ztrátové funkce) je Autoenkodér nucen \textbf{omezit počet aktivních neuronů v skrýté (kódovací) vrstvě}.
-V důsledku tohoto omezení pak každý neuron skryté vrstvy reprezentuje nějakou \textbf{salientní vlastnost} vstupních dat (a rovněž je zamezeno naučení pouhé identity \autoref{sec:identity}).
+Přičtením tohoto penalizačního prvku ke ztrátové funkci (a následnou minimalizací celkové ztrátové funkce) je autoenkodér nucen \textbf{omezit počet aktivních neuronů v skrýté (kódovací) vrstvě}.
+V důsledku tohoto omezení pak každý neuron skryté vrstvy reprezentuje nějakou \textbf{salientní vlastnost} vstupních dat (a rovněž je zamezeno naučení pouhé identity, viz \autoref{sec:identity}). \cite{Goodfellow2016}

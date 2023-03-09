@@ -1,8 +1,9 @@
+\newpage
 \section{Hlubuký autoenkodér}
-V sekci \autoref{sec:undercomplete_autoencoder} a \autoref{sec:overcomplete_autoencoder} byly představeny Autonkodéry s jednovrstvým enkodérém a s jednovrstvým dekodérem.
-Existují však i Autoenkodéry, jejichž enkodér a dekodér moduly jsou vícevrstvé, tedy mají hloubku vyšší než jedna.
+V předchozích sekcích (\autoref{sec:undercomplete_autoencoder}, \autoref{sec:overcomplete_autoencoder}) byly představeny autonkodéry s jednovrstvým enkodérém a s jednovrstvým dekodérem.
+Existují však i autoenkodéry, jejichž enkodér a dekodér moduly jsou vícevrstvé, tedy mají hloubku vyšší než jedna.
 
-Hluboký autoenkodér (\emph{Deep} autoenkodér), je Autoenkodér s netriviální hlobkou skryté vrstvy (\emph{kód}) $\textbf{\emph{h}}$.
+Hluboký autoenkodér (\emph{deep} autoenkodér), je autoenkodér s netriviální hlobkou skryté vrstvy (\emph{kódu}) $\textbf{\emph{h}}$. \cite{Geron2019}
 
 \begin{figure}[H]
     \centering
@@ -21,21 +22,21 @@ Hluboký autoenkodér (\emph{Deep} autoenkodér), je Autoenkodér s netriviáln�
         \outputlayer[count=6, text=\xout]
         \linklayers
       \end{neuralnetwork}
-    \caption{Deep Autoenkodér.}
+    \caption{Schéma umělé neuronové sítě hlubokého autoenkodéru s neúplnou skrytou vrstvou.}
     \label{fig:stacked_autoencoder}
 \end{figure}
 
 Z netriviální hloubky dopředné umělé neuronové sítě plyne \autoref{sec:universal_approximation_theorem},
-který garantuje, že dopředná umělá neuronová síť s alespoň jednou skrytou vrstvou dokáže aproximovat (\emph{libovolně přesně}) jakoukoliv funkci (za předpokladu dostatečného počtu neuron skryté vrstvy).
+který garantuje, že dopředná umělá neuronová síť s alespoň jednou skrytou vrstvou dokáže aproximovat (\emph{libovolně přesně}) jakoukoliv funkci (za předpokladu dostatečného počtu neuron skryté vrstvy). \cite{Goodfellow2016}
 
 Nicméně u mělkých enkodérů, které jsou rovněž dopřednou sítí, neexistuje možnost představit libovolná omezení a regularizační prvky (například řídkost \emph{kódu} $\textbf{\emph{h}}$ – viz \autoref{sec:sparse_autoencoder}).
-A tedy nelze zamezit problému naučiení pouhé identity \autoref{sec:identity}. Narozdíl od mělkých autoenkoderů \autoref{sec:shallow_autoncoder},
-však mohou Hluboké autoenkodéry (\emph{libovolně přesně}) aproximovat jakékoliv mapování vstupu na kód (\emph{opět s předpokladem dostatečného počtu neuronů skryté vrstvy}).
+A tedy nelze zamezit problému naučení pouhé identity (viz \autoref{sec:identity}). Na rozdíl od mělkých autoenkoderů (viz \autoref{sec:shallow_autoncoder}),
+však mohou hluboké autoenkodéry (\emph{libovolně přesně}) aproximovat jakékoliv mapování vstupu na kód (\emph{opět s předpokladem dostatečného počtu neuronů skryté vrstvy}). \cite{Goodfellow2016}, \cite{Charte2018}
 
 S netriviální hloubkou se rovněž pojí významná redukce výpočetních nákladů spojených s reprezentací některých funkcí. 
-V důsledku možnosti efektivnější reprezentace takových funkcí dochazí i k zmenšení nároků na velikost množiny trénovacích dat.
+V důsledku možnosti efektivnější reprezentace takových funkcí dochází i k zmenšení nároků na velikost množiny trénovacích dat.
 
 \subsection{Stacked autoenkodér}
 \label{sec:stacked_autoencoder}
 Běžnou strategií pro trénování Hlubokého autoenkodéru je hladově předtrénovat (\emph{greedy pretraining}) model individuálním natrénováním většího počtu Mělkých autoenkodérů (představených v sekci \autoref{sec:shallow_autoncoder}), které jsou následně vloženy za sebe.
-Takto složený Autoenkodér nazýváme Stacked autoenkodér.
+Takto složený Autoenkodér nazýváme Stacked autoenkodér. \cite{Geron2019}

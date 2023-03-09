@@ -1,10 +1,11 @@
 \section{Stochastický autoenkodér}
-Struktura stochastického autoenkodéru se vůči struktuře představené v \autoref{fig:basic_autoencoder_structure} liší reprezentací enkodér a dekodér modulů.
+Struktura stochastického autoenkodéru se vůči obecné struktuře autoenkodéru (\autoref{fig:basic_autoencoder_structure}) liší reprezentací enkodér a dekodér modulů.
+
 V stochastickém autoenkodéru jsou enkodér a dekodér moduly reprezentovány rozdělením pravděpodobností (nejedná se tedy pouze o funkce, ale moduly zahrnují i určitou míru šumu).
-Výstup těchto modulů tedy obdržíme \textbf{výběrem z příslušného rozdělení pravěpodobnosti}.
+Výstup těchto modulů tedy obdržíme \textbf{výběrem z příslušného rozdělení pravděpodobnosti}. \cite{Goodfellow2016}
 
 Mějme skrytou vrstvu (\emph{kód}) $\textbf{\emph{h}}$. Obecně má pro enkodér toto rozdělení podobu $p_{enkodér}(\textbf{\emph{h}}\mid\textbf{\emph{x}})$ a pro dekodér $p_{dekodér}(\textbf{\emph{x}}\mid\textbf{\emph{h}})$.
-Modifikací základní struktury autoenkodéru (\autoref{fig:basic_autoencoder_structure}) tedy dostáváme:
+Modifikací základní struktury autoenkodéru (\autoref{fig:basic_autoencoder_structure}) tedy dostáváme :
 
 \begin{figure}[h]
     \centering
@@ -22,7 +23,7 @@ Modifikací základní struktury autoenkodéru (\autoref{fig:basic_autoencoder_s
 
 
 V tradiční dopředné umělé neuronové síti \autoref{sec:feedforward_nn} je běžnou strategií pro návrh výstupní vrstvy definování (\emph{výstupního}) rozdělení pravděpodobnosti $p(\textbf{\emph{y}} \mid \textbf{\emph{x}})$. Pro návrh ztrátové funkce pak minimalizace záporného logaritmu věrohodnosti $-\log p(\textbf{\emph{y}}\mid\textbf{\emph{x}})$.
-V takové architektuře je $\textbf{\emph{x}}$ vektor vstupních dat a  $\textbf{\emph{y}}$ vektor cílových proměnných, které se umělá neuronová síť snaží předpovědět (např. štítků jednotlivých tříd).
+V takové architektuře je $\textbf{\emph{x}}$ vektor vstupních dat a  $\textbf{\emph{y}}$ vektor cílových proměnných, které se umělá neuronová síť snaží předpovědět (např. štítků jednotlivých tříd). \cite{Goodfellow2016}
 
 S architekturou autoenkodérů se však pojí jeden zásadní rozdíl. V autoenkodéru \textbf{je $\textbf{\emph{x}}$ jak vstupní, tak cílová proměnná}.
 
@@ -35,16 +36,16 @@ tedy $-\log p_{dekodér}(\textbf{\emph{x}} \mid \textbf{\emph{h}})$ vrací \emph
 Stochastický autoenkodér tedy \textbf{generalizuje kódovací funkci} $f(x)$ na \textbf{kódovací rozdělení pravděpodobnosti} $p_{enkodér}(\textbf{\emph{h}}\mid\textbf{\emph{x}})$.
 
 Enkodér a dekodér moduly stochastického autoenkodéru tedy lze považovat za \textbf{modely využívající latentní proměnné} (\emph{latent variable models}, viz \autoref{sec:latent_variable_models}).
-Model využívající latentní proměnné značíme $p_{model}(\textbf{\emph{h}}, \textbf{\emph{x}})$.
+Model využívající latentní proměnné značíme $p_{model}(\textbf{\emph{h}}, \textbf{\emph{x}})$. \cite{Goodfellow2016}
 
-\textbf{Stochastický enkodér} je pak definován následovně:
+\textbf{Stochastický enkodér} je pak definován následovně \cite{Goodfellow2016}:
 \begin{equation}
     p_{enkodér}(\textbf{\emph{h}}\mid\textbf{\emph{x}}) = p_{model}(\textbf{\emph{h}}, \textbf{\emph{x}})
 \end{equation}
 
-a \textbf{stochastický dekodér} následovně:
+a \textbf{stochastický dekodér} následovně \cite{Goodfellow2016}:
 \begin{equation}
     p_{dekodér}(\textbf{\emph{x}}\mid\textbf{\emph{h}}) = p_{model}(\textbf{\emph{x}}, \textbf{\emph{h}})
 \end{equation}
 
-Výběr nových dat z rozdělení pravděpodobnosti autoenkodéru je detailněji představen v kaptiole \autoref{chap:vae}.
+Výběr nových dat z rozdělení pravděpodobnosti autoenkodéru je detailněji představuje \autoref{chap:vae}.

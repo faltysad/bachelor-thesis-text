@@ -1,10 +1,11 @@
 \section{Contractive autoenkodér}
+\label{sec:contractive_autoencoder}
 Přehnaná citlivost na \emph{drobné rozdíly} ve vstupních datech by mohla vést k architektuře Autoenkodéru, která pro velmi podobné vstupy generuje odlišné kódy.
 
 Contractive autonekodér (\emph{CAE}), je Autoenkodér, který je při trénování omezen regularizačním prvkem,
 který vynucuje aby derivace kódů ve vztahu k jejich vstupu byly co možná nejmenší.
 Tedy \textbf{dva \emph{podobné} vstupy musí mít vzájemně \emph{podobné} kódy}.
-Přesněji je dosaženo lokální invariance na přípustně malé změny vstupních dat.
+Přesněji je dosaženo lokální invariance na přípustně malé změny vstupních dat. \cite{Rifai2012}
 
 Citlivost na \emph{drobné rozdíly} ve vstupních datech lze měřit pomocí Frobeniovy maticové normy $\lVert \cdot \rVert_F$ Jacobiho matice enkodéru ($J_f$):
 \begin{equation}
@@ -18,8 +19,8 @@ Z této metriky je následně sestaven \textbf{regularizační prvek} který je 
     \Omega_{CAE} (W, b, S) = \sum_{x \in S}^{} \lVert J_f(x) \rVert^2_F .
 \end{equation}
 
-Výsledkem je tedy Autoenkodér, jehož dva (lokálně) \emph{podobné} vstupy musejí mít i \emph{podobný} kód.
-Z Contractive autoenkodéru lze rovněž vzorkovat nové výstupy.
-Z takto naučeného modelu Autoenkodéru lze generovat nové instance dat:
+Výsledkem je tedy Autoenkodér, jehož dva (lokálně) \emph{podobné} vstupy musejí mít i \emph{podobný} kód. \cite{Charte2018}
+
+Z contractive autoenkodéru lze rovněž vzorkovat nové výstupy.
 Jakobián (\emph{Jacobiho determinant}) enkodéru je (jako \emph{drobný šum}) přičten ke kódu vstupu.
-Takto modifikovaný kód je poté dekodérem přetaven na výstup a dostáváme nový vzorek dat.
+Takto modifikovaný kód je poté dekodérem přetaven na výstup a dostáváme nový vzorek dat. \cite{Goodfellow2016}
