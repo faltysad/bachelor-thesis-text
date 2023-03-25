@@ -1,0 +1,74 @@
+Variační autoenkodér \cite{Kingma2014}, \cite{Rezende2014}
+poskytuje rámec pro učení hlubokých pravděpodobnostních modelů
+a jejich příslušných modelů pro odvozování s použitím stochastického gradientního sestupu (\emph{stochastic gradient descent}).
+
+Tento rámec nabízí širokou škálu aplikací, od generativního modelování, semi-supervizované učení až po učení se reprezentací.
+
+\subsubsection{Variační autoenkodér jako generativní model a motivace vzniku}
+Jednou z hlavních divizí v odvětví strojového učení je generativní versus diskriminativní modelování.
+V diskriminativním modelování je cílem naučit se prediktor na základě pozorování.
+V generativním modelování je cíl poněkud obecnější – naučit se spojité rozdělení pravděpodobnosti skrze všechny proměnné.
+
+Generativní model simuluje způsob, kterým jsou data generovány v reálném světě.
+\emph{Modelováním} se ve vědních disciplínách rozumí odhalování generujícího procesu stanovením hypotéz a následném testování těchto hypotéz pozorováním
+\footnote{For instance, when meteorologists
+model the weather they use highly complex partial differential equations
+to express the underlying physics of the weather. Or when an astronomer
+models the formation of galaxies s/he encodes in his/her equations of
+motion the physical laws under which stellar bodies interact. The same
+is true for biologists, chemists, economists and so on. Modeling in the
+sciences is in fact almost always generative modeling.}. 
+Generativní modelování má mnoho výhodných vlastností.
+
+První z nich je možnost zabudování předem známých fyzikálních zákonů a omezení do samotného generativního procesu – 
+zatímco neznáme (či nepodstatné) \emph{detaily} můžeme zanedbat formou \emph{šumu} (např. nežádoucí proměnná).
+Výsledný model je často vysoce intuitivní a dobře interpretovatelný a testováním jej vůči pozorováním lze vyvodit závěry naších teorií o fungování reálného světa.
+
+Dalším důvodem pro snahu o pochopení generativního procesu dat je, že přirozeně zahrnují kauzální vztahy reálného světa.
+Pozorování a využití těchto kauzálních vztahů má velkou výhodu v schopnosti generalizovat v dosud nepozorovaných situacích, než pouhé korelace 
+\footnote{Například, rozumíme-li generativnímu procesu zemětřesení, můžeme tuto znalost využít v Kalifornii i Čile}.
+
+V diskriminativních metodách se učíme přímé mapování ve stejném směru, v jakém chceme predikovat.
+Což je oproti generativním modelům opačný směr. Například, lze říci,
+že obrázek je v reálném světe generován zachycením nějakého objektu, následného vygenerování tohoto objektu ve 3D a poté projekcí na mřížku pixelů.
+Diskriminativní model s těmito pixelovými hodnotami pracuje přímo jako se vstupem a predikuje jejich cílové štítky.
+
+Zatímco se generativní modely zvládnou učit efektivní reprezentace vstupních dat, mají oproti diskriminativním modelům tendenci činit \textbf{silnější předpoklady}, což vede k \textbf{vyššímu asymptotickému biasu} pakliže se model \textbf{plete}. \cite{Banerjee2007}
+Z tohoto důvodu, plete-li se náš model (a každý model se \emph{témeř vždy} do určité míry plete), a zajimá-li nás čistě naučení se rozlišovat třídy, pak diskriminativní modely v takové úloze (za předpokladu dostatečného množství dat) často vedou k menší chybovosti.
+
+V každém případě se vyplatí studovat proces generování dat jako způsob, kterým lze trénovací proces diskriminátoru (např. klasifikátoru) zušlechťovat.
+Například, můžeme mít k dispozici množinu vzorků se štítky a řádově větší množinu vzorků bez štítků.
+V takové úloze semi-supervizovaného učení lze využít generativního modelu dat k zpřesnění klasifikace. \cite{Kingma2014}, \cite{Soenderby2016}
+
+Generativní modelování může být využito i více obecně. Nad generativním modelováním lze uvažovat jako nad doprovodnou činností.
+Například, predikce bezprostřední budoucnosti nám může pomoct při sestavování užitečných abstrakcí o chování světa, které mohou být následně použity pro řadu dalších úloh predikce.
+Hledání rozmotaných (\emph{disentangled}), sémanticky významných a statisticky nezávislých kauzálních faktorů variací dat je obecně známo pod pojmem učení se reprezentací bez učitele (\emph{unsupervised representation learning}).
+A \textbf{variační autoenkodéry} jsou pro tento účel hojně uplatňovány.
+
+Na tuto úlohu lze alternativně hledět i jako na implicitní formu regularizace. Nutíme-li vzniklé reprezentace být významnými pro proces generování dat, představujeme bias vůči opačnému procesu (který vstupní data mapuje na neužitečné reprezentace).
+Doprovodnou činnost predikce bezprostřední budoucnosti tak lze využít k lepšímu porozumění světa v abstraktní úrovni a tím pádem činit přesnější predikce v pozdější fázi.
+
+Variační autoenkodér lze popsat jako dva provázané, byť \textbf{nezávisle parametrizované} modely: \textbf{enkodér} (resp. rozpoznávací) model a \textbf{dekodér} (resp. generativní) model.
+Tyto dva modely se vzájemně \emph{podporují}. Enkodér model generativnímu modelu doručuje aproximaci jeho posteriorních náhodných latentních proměnných,
+které jsou potřebné pro úpravu jeho parametrů uvnitř iterace \emph{expectation maximalization} učení.
+A opačně, generativní model slouží jako \emph{opora} pro naučení významných reprezentací vstupních dat enkodér modelem.
+Tedy, dle Bayesova pravidla, enkodér je \emph{approximate inverse} generativního modelu.
+
+Jednou z výhod VAE oproti \emph{běžné} variační inferenci (VI) je, že enkodér model (také nazývaný infereční model) je nyní stochastickou funkcí vstupních proměnných.
+Narozdíl od VI, kde má každý data-case vlastní variační rozdělení pravděpodobnosti, což je při větším množství dat neefektivní.
+Enkodér použivá jednu množinu parametrů pro model vztahů mezi vstupními daty a latentními proměnnými. Tento proces nazýváme amortizovanou inferencí.
+Takový enkodér model může být libovolně komplexní, ale stále zůstává přiměřeně rychlým, jelikož již z principu může být realizován jedním dopředným průchodem z vstupu skrze latentní proměnné.
+Nevýhodou ale je, že při vzorkování vzniká v gradientech potřebných pro učení tzv. vzorkovací šum. Možná největším přínosem VAE je řešení tohoto šumu použitím tzv. \emph{reparametrizačního triku} – jednoduchou procedurou pro přeorganizování výpočtu gradientů, který snižuje variaci gradientu.
+
+Variační autoenkodér je inspirován Helmholtz Machine \cite{Dayan1995}, což byl první model který využíval enkodér modelu.
+Nicméně wake-sleep algoritmus, který byl v návrhu využitý, byl silně neefektivní a neoptimalizoval jednoznačné kritérium.
+U VAE tedy pravidla pro učení následují jednoznačnou aproximaci \emph{maximum likelihood} cíle.
+
+Variační autoenkodéry jsou spojením pravděpodobnostních grafických modelů a hlubokého učení.
+Generativní model je tvořen bayesovskou sítí ve tvaru $p(\mathbf{x}\mid\mathbf{z})p(\mathbf{z})$. Případně, má-li generativní model víc stochastických latentní vrstev, má síť následující hiearchii: $p(\mathbf{x}\mid\mathbf{z}_L) p(\mathbf{z}_L\mid\mathbf{z_{L-1}}) \dots p(\mathbf{z}_1\mid\mathbf{z}_0)$.
+Podobně, enkodér model je také tvořen podmíněnou bayesovskou sítí ve tvaru $q(\mathbf{z}\mid\mathbf{x})$ nebo jako hiearchie, např.: $q(\mathbf{z}_0\mid\mathbf{z}_1) \dots q(\mathbf{z}_L \mid X)$.
+Ale každá podmíněná vrstva může být tvořena komplexní (hlubokou) umělou neuronovou sítí, například: $\mathbf{z}\mid\mathbf{x} \sim f(\mathbf{x}, \mathbf{\epsilon})$, kde $f$ je mapování umělé neuronové sítě a $\mathbf{\epsilon}$ je \emph{šum} (náhodná proměnná).
+Učící algoritmus VAE je mix klasického (amortizovaného variačního) \emph{expectation maximization}. Ten ale skrze reparametrizační trik provede zpětný průchod skrze všechny vrstvy hluboké umělé neuronové sítě.
+
+
+\subsubsection{Vztah k generativní adversariální síti}
