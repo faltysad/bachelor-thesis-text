@@ -1,8 +1,12 @@
-Variační autoenkodér \cite{Kingma2014}, \cite{Rezende2014}
-poskytuje rámec pro učení hlubokých pravděpodobnostních modelů
-a jejich příslušných modelů pro odvozování s použitím stochastického gradientního sestupu (\emph{stochastic gradient descent}).
+Generativní modely (\autoref{sec:generative_model}), učení se reprezentací \cite{Bengio2014} a úlohy učení bez učitele (\autoref{sec:unsupervised_learning}) jsou \textbf{klíčové oblastí pro vytvoření inteligentních systémů} \cite{Kingma2019}, \cite{LeCun2022}.
+Variační autoenkodér z těchto principů vychází a propojuje je. Ve snaze o konstrukci takového stroje tak variační autoenkodér hraje důležitou roli.
 
-Tento rámec nabízí širokou škálu aplikací, od generativního modelování, semi-supervizované učení až po učení se reprezentací.
+\textbf{Variační autoenkodér} \cite{Kingma2014}, \cite{Rezende2014} (dále jen \emph{VAE})
+je rámec poskytující metodu pro učení víceúčelových hlubokých modelů využívajících latentních proměnných (\autoref{sec:latent_variable_models})
+a příslušných odvozovacích modelů
+za použití stochastického gradientního sestupu. \cite{Kingma2019}
+
+VAE nalézá širokou škálu aplikací v generativním modelování, učení se reprezentací a úlohách učení se bez učitele (resp. semi-supervizovaných úlohách).
 
 \subsubsection{Variační autoenkodér jako generativní model a motivace vzniku}
 Jednou z hlavních divizí v odvětví strojového učení je generativní versus diskriminativní modelování.
