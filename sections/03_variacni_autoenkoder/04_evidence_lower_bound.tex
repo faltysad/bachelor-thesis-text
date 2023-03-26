@@ -2,7 +2,7 @@
 Účelovou funkcí VAE je \emph{evidence lower bound}, dále jen ELBO (alternativně se lze setkat s pojmenováním \emph{variační dolní mez}).
 Typicky je ELBO odvozena pomocí Jensenovi nerovnosti \cite[Sekce 4.2]{Wasserman2013}.
 Autoři VAE \cite{Kingma2014} však využívají alternativního postup, jenž se chytře vyhýbá použití Jensenovi nerovnosti a nabízí větší míru \emph{tightness}
-\footnote{Koncept z matematické teorie míry, který lze intuitivně popsat jako \emph{"sadu měr které příliš rychle nestoupají do nekonečna"}. \cite{Topsoee1974}}. 
+\footnote{Koncept z matematické teorie míry, který lze intuitivně popsat jako \emph{"sadu měr které příliš rychle nerostou do nekonečna"}. \cite{Topsoee1974}}. 
 Pro libovolnou konfiguraci inferenčního modelu $q_\phi(\textbf{z}\mid\textbf{x})$, včetně volby variačních parametrů $\phi$, dostáváme (úpravy rovnic převzaty z \cite{Kingma2019}):
 
 \begin{align}
@@ -25,10 +25,10 @@ První prvek \autoref{eq:elbo_kl} je variační dolní mez (ELBO):
 \end{equation}
 
 S ohledem na nenulovost KL divergence je tedy ELBO \textbf{dolní mezí}\footnote{Od tud \emph{evidence \textbf{lower bound}}} log-likelihood původních dat. \cite{Kingma2014}, \cite{Goodfellow2016}
-Tedy s ohledem na \autoref{eq:elbo} platí:
+Dle \autoref{eq:elbo} platí:
 
 \begin{align}
-    \mathcal{L}_{\theta,\phi}(\textbf{x}) &= \log p_\theta(\textbf{x}) - D_{KL}(q_\phi(\textbf{z}\mid\textbf{x})\parallel p_\theta(\textbf{z}\mid\textbf{x})) \\
+    \mathcal{L}_{\theta,\phi}(\textbf{x}) &= \log p_\theta(\textbf{x}) - D_{KL}(q_\phi(\textbf{z}\mid\textbf{x})\parallel p_\theta(\textbf{z}\mid\textbf{x})) \\ \label{eq:vae_optimization_objective}
                                           &\leq \log p_\theta(\textbf{x})
 \end{align}
 
@@ -38,3 +38,11 @@ V tomto případě tedy pozoruhodně tato KL divergence určuje hned dvě \emph{
     \item \emph{Mezeru} mezi ELBO $\mathcal{L}_{\theta,\phi}(\textbf{x})$ a \emph{marginal likelihood} $\log p_\theta(\textbf{x})$. Tuto \emph{mezeru} také nazýváme mírou \emph{tightness} této meze ($\implies$ vyhnutí se Jensenově nerovnosti). Čím lépe $q_\phi(\textbf{z}\mid\textbf{x})$ aproximuje $p_\theta(\textbf{z}\mid\textbf{x})$, s ohledem na KL divergenci, tím menší tato \emph{mezera} je.
 \end{enumerate}
 
+\subsubsection{Optimalizační cíle}
+Při detailnější pohledu z \autoref{eq:vae_optimization_objective} plynou důsledky maximalizace ELBO $\mathcal{L_{\theta,\phi}}$ s ohledem na parametry $\boldsymbol{\theta}$ a $\boldsymbol{\phi}$.
+A to sice současná optimalizace dvou kritérií, která jsou pro výkonnost VAE stěžejní \cite{Kingma2019}:
+
+\begin{enumerate}
+    \item \emph{Přibližná} maximalizace \emph{marginal likelihood} $p_\theta(\textbf{x})$. Což implikuje \emph{zlepšení} generativního modelu \footnote{Tedy \emph{věrohodnosti} rekonstrukce původních dat}.
+    \item Minimalizace KL divergence aproximace mezi $q_\phi(\textbf{z}\mid\textbf{x})$ a původní posteriorní distribucí $p_\theta(\textbf{z}\mid\textbf{x})$. Tedy $q_\phi(\textbf{z}\mid\textbf{x})$ (enkodér) se \emph{zlepší}.
+\end{enumerate}
