@@ -64,7 +64,7 @@ Gradienty ELBO bez biasu s ohledem na parametry generativního modelu $\boldsymb
 Spočítat gradienty ELBO bez biasu s ohledem na variační parametry $\boldsymbol{\phi}$ je již složitější, jelikož tato ELBO je uvažována s ohledem na rozdělení pravděpodobnosti $q_\phi(\textbf{z}\mid\textbf{x})$, tedy je funkcí $\phi$. Nerovnost gradientů ELBO viz rovnice 2.18 - 2.19 z \cite{Kingma2019}.
 
 V případě \textbf{spojitých} latentních proměnných lze využít tzv. \textbf{reparametrizačního triku} pro výpočet odhadů bez biasu $\nabla_{\theta,\phi}\mathcal{L}_{\theta,\phi}(\textbf{x})$.
-Tento stochastický odhad umožňuje optimalizovat ELBO za použití stochastického gradientního sestupu (viz \autoref{alg:elbo_sgd})
+Tento stochastický odhad umožňuje optimalizovat ELBO za použití stochastického gradientního sestupu (viz \autoref{alg:reparam_trick})
 \footnote{Existují i metody pro případ \textbf{diskrétních} latentních proměnných, které však pro předmět práce nejsou stěžejní. Pro jejich představení odkazuji na \cite[Sekce 2.9.1.]{Kingma2019}.}.
 
 Následuje představení reparametrizačního triku a jeho roli při trénování VAE.
