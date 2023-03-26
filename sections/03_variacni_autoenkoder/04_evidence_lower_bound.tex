@@ -1,0 +1,40 @@
+\section{Evidence Lower Bound}
+Účelovou funkcí VAE je \emph{evidence lower bound}, dále jen ELBO (alternativně se lze setkat s pojmenováním \emph{variační dolní mez}).
+Typicky je ELBO odvozena pomocí Jensenovi nerovnosti \cite[Sekce 4.2]{Wasserman2013}.
+Autoři VAE \cite{Kingma2014} však využívají alternativního postup, jenž se chytře vyhýbá použití Jensenovi nerovnosti a nabízí větší míru \emph{tightness}
+\footnote{Koncept z matematické teorie míry, který lze intuitivně popsat jako \emph{"sadu měr které příliš rychle nestoupají do nekonečna"}. \cite{Topsoee1974}}. 
+Pro libovolnou konfiguraci inferenčního modelu $q_\phi(\textbf{z}\mid\textbf{x})$, včetně volby variačních parametrů $\phi$, dostáváme:
+
+\begin{align}
+    \log p_\theta(\textbf{x}) &= \mathds{E}_{q\phi(\textbf{z}\mid\textbf{x})}[\log p_\theta(\textbf{x})] \\
+                              &= \mathds{E}_{q\phi(\textbf{z}\mid\textbf{x})} \left[ \log \left[ \frac{p_\theta(\textbf{x}, \textbf{z})}{p_\theta(\textbf{z}\mid\textbf{x})} \right] \right] \\
+                              &= \mathds{E}_{q\phi(\textbf{z}\mid\textbf{x})} \left[ \log \left[ \frac{p_\theta(\textbf{x}, \textbf{z})}{q_\phi(\textbf{z}\mid\textbf{x})} \frac{q_\phi(\textbf{z}\mid\textbf{x})}{p_\theta(\textbf{z}\mid\textbf{x})} \right] \right] \\
+                              &= \underbrace{ \mathds{E}_{q\phi(\textbf{z}\mid\textbf{x})} \left[ \log \left[ \frac{p_\theta(\textbf{x}, \textbf{z})}{q_\phi(\textbf{z}\mid\textbf{x})} \right] \right] }_\text{$ \iff \mathcal{L}_{\theta,\phi}(\textbf{x}) (ELBO)$} 
+                              +  \underbrace{ \mathds{E}_{q\phi(\textbf{z}\mid\textbf{x})} \left[ \log \left[ \frac{q_\phi(\textbf{z}\mid\textbf{x})}{p_\theta(\textbf{z}\mid\textbf{x})} \right] \right] }_\text{$\iff D_{KL}(q_\phi(\textbf{z}\mid\textbf{x})\parallel p_\theta(\textbf{z}\mid\textbf{x}))$} \\ \label{eq:elbo_kl}
+\end{align}
+
+Druhý prvek \autoref{eq:elbo_kl} je Kullback-Lieblerova divergence (\autoref{sec:kl_divergence}) mezi $q_\phi(\textbf{z}\mid\textbf{x})$ (enkodérem) a $p_\theta(\textbf{z}\mid\textbf{x})$ (dekodérem), jejíž hodnota je \textbf{nenulová}
+\footnote{$D_{KL}(q_\phi(\textbf{z}\mid\textbf{x})\parallel p_\theta(\textbf{z}\mid\textbf{x})) \geq 0$}.
+Je-li hodnota této KL divergence nulová $\iff$ $q_\phi(\textbf{z}\mid\textbf{x})$ je rovno posteriorní distribuci původních dat (\emph{perfektně je rekonstruuje}).
+
+
+První prvek \autoref{eq:elbo_kl} je variační dolní mez (ELBO):
+
+\begin{equation} \label{eq:elbo}
+    \mathcal{L}_{\theta,\phi}(\textbf{x}) = \mathds{E}_{q\phi(\textbf{z}\mid\textbf{x})}[\log p_\theta(\textbf{x},\textbf{z}) - \log q_\phi(\textbf{z}\mid\textbf{x})]
+\end{equation}
+
+S ohledem na nenulovost KL divergence je tedy ELBO \textbf{dolní mezí}\footnote{Od tud \emph{evidence \textbf{lower bound}}} log-likelihood původních dat.
+Tedy platí s ohledem na \autoref{eq:elbo} platí:
+
+\begin{align}
+    \mathcal{L}_{\theta,\phi}(\textbf{x}) &= \log p_\theta(\textbf{x}) - D_{KL}(q_\phi(\textbf{z}\mid\textbf{x})\parallel p_\theta(\textbf{z}\mid\textbf{x})) \\
+                                          &\leq \log p_\theta(\textbf{x})
+\end{align}
+
+V tomto případě tedy pozoruhodně tato KL divergence určuje hned dvě \emph{vzdálenosti}:
+\begin{enumerate}
+    \item KL divergenci aproximace posteriorního rozdělení od původního posteriorního rozdělení (z definice KL divergence)
+    \item \emph{Mezeru} mezi ELBO $\mathcal{L}_{\theta,\phi}(\textbf{x})$ a \emph{marginal likelihood} $\log p_\theta(\textbf{x})$. Tuto \emph{mezeru} také nazýváme mírou \emph{tightness} této meze ($\implies$ vyhnutí se Jensenově nerovnosti). Čím lépe $q_\phi(\textbf{z}\mid\textbf{x})$ aproximuje $p_\theta(\textbf{z}\mid\textbf{x})$, s ohledem na KL divergenci, tím menší tato \emph{mezera} je.
+\end{enumerate}
+
