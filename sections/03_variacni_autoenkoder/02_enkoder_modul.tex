@@ -1,0 +1,39 @@
+\section{Enkodér modul}
+V \autoref{sec:latent_variable_models} byly představeny hluboké modely využívající latentních proměnných (DLVM).
+U těchto modelů je problém provést odhad log-likelihood a rozdělení posteriorní pravděpodobnosti.
+
+Rámec VAE poskytuje výpočetně efektivní způsob, kterým lze DLVM společně optimalizovat s jejich korespondujícími inferenčními modely pomocí stochastického gradientního sestupu
+\footnote{Společně optimalziovat (\emph{joint optimization}) zde znamená, že generativní model (který mapuje latentní proměnná na data) a inferenční model (který mapuje data na latentní proměnné) jsou optimalizovány zároveň (raději než optimalizovány nezávisle). Ztrátová funkce, která je při trénování optimalizována, zahrnuje oba modely. Touto společnou optimalizací se VAE mohou učit generovat nové vzorky dat, které mají podobné vlastnosti jako data v trénovací množině a odvozovat skryté latentní vztahy proměnných, která generovala pozorovaná data}.
+
+Posteriorní inference a úlohy učení DLVM jsou efektivně neřešitelný problémy.
+VAE \textbf{představuje parametrický inferenční model} \emph{parametric inference model} $q_\phi(\textbf{z}\mid\textbf{x})$ pro přetavení těchto problémů na efektivně řešitelné.
+Tento model také nazýváme \textbf{enkodér} či \textbf{rozpoznávací model}.
+$\phi$ označuje parametry tohoto inferenčního modelu, tyto parametry nazýváme \textbf{variační parametry}. \cite{Kingma2019}
+
+
+Variační parametry $\phi$ optimalizujeme tak, aby platila aproximace \cite{Kingma2014}:
+\begin{equation}
+    q_\phi(\textbf{z}\mid\textbf{x}) \approx p_\theta(\textbf{z}\mid\textbf{x})
+\end{equation}
+
+Tato aproximace posteriorního rozdělení pomáhá k optimalizaci \emph{marginal likelihood}.
+
+Stejně jako u DLVM, inferenční model (enkodér) může být (téměř) libovolný orientovaný pravděpodobnostní grafický model \cite{Kingma2019}:
+\begin{equation}
+    q_\phi(\textbf{z}\mid\textbf{x}) = q_\phi(\textbf{z}_1,\dots,\textbf{z}_M\mid\textbf{x}) = \prod_{j=1}^{M} q_\phi(\textbf{z}_j\mid Pa(\textbf{z}_j), \textbf{x})
+\end{equation}
+
+kde $Pa(\textbf{z}_j)$ je množina rodičovských proměnných k proměnné $\textbf{z}_j$ v orientovaném grafu.
+Podobně jako u DLVM, rozdělení pravděpodobnosti $q_\phi(\textbf{z}\mid\textbf{x})$ může být parametrizováno použitím umělé neuronové sítě.
+V takovém případě variační parametry $\phi$ zahrnují váhy a biasy této umělé neuronové sítě \cite{Kingma2014}:
+
+
+\begin{align}
+    (\boldsymbol{\mu}, \log \boldsymbol{\sigma}) &= EnkodérSíť_\phi(\textbf{x}) \\
+    q_\phi(\textbf{z}\mid\textbf{x}) &= \mathcal{N}(\textbf{z}; \boldsymbol{\mu}, diag(\boldsymbol{\sigma}))
+\end{align}
+
+Pro posteriorní inferenci skrze všechna vstupní data je použita vždy jedna stejná enkodér neuronová síť, tedy \textbf{variační parametry jsou sdíleny}
+\footnote{V kontrastu s tradičními metodami pro variační inferenci, kde jsou parametry iterativně optimalizovány pro každý datový vstup}.
+Tato strategie, kterou VAE využívá pro \textbf{sdílení variačních parametrů skrze všechny datové vstupy} se nazývá \textbf{amortizovaná variační inference} \cite{Gershman2014}.
+Amortizovanou inferencí se VAE vyhýbají optimalizační smyčce pro každý datový bod, a mohou tak plně využít možnosti efektivity stochastického gradientního sestupu. \cite{Kingma2019}
