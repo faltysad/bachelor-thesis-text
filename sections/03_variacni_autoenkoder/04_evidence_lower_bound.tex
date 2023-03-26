@@ -2,7 +2,7 @@
 Účelovou funkcí VAE je \emph{evidence lower bound}, dále jen ELBO (alternativně se lze setkat s pojmenováním \emph{variační dolní mez}).
 Typicky je ELBO odvozena pomocí Jensenovi nerovnosti \cite[Sekce 4.2]{Wasserman2013}.
 Autoři VAE \cite{Kingma2014} však využívají alternativního postup, jenž se chytře vyhýbá použití Jensenovi nerovnosti a nabízí větší míru \emph{tightness}
-\footnote{Koncept z matematické teorie míry, který lze intuitivně popsat jako \emph{"sadu měr které příliš rychle nerostou do nekonečna"}. \cite{Topsoee1974}}. 
+\footnote{Koncept z matematické teorie míry, který lze intuitivně popsat jako \emph{"sadu měr které příliš rychle  do nekonečna"}. \cite{Topsoee1974}}. 
 Pro libovolnou konfiguraci inferenčního modelu $q_\phi(\textbf{z}\mid\textbf{x})$, včetně volby variačních parametrů $\phi$, dostáváme (úpravy rovnic převzaty z \cite{Kingma2019}):
 
 \begin{align}
@@ -35,7 +35,7 @@ Dle \autoref{eq:elbo} platí:
 V tomto případě tedy pozoruhodně tato KL divergence určuje hned dvě \emph{vzdálenosti} \cite{Kingma2019}:
 \begin{enumerate}
     \item KL divergenci aproximace posteriorního rozdělení od původního posteriorního rozdělení (z definice KL divergence)
-    \item \emph{Mezeru} mezi ELBO $\mathcal{L}_{\theta,\phi}(\textbf{x})$ a \emph{marginal likelihood} $\log p_\theta(\textbf{x})$. Tuto \emph{mezeru} také nazýváme mírou \emph{tightness} této meze ($\implies$ vyhnutí se Jensenově nerovnosti). Čím lépe $q_\phi(\textbf{z}\mid\textbf{x})$ aproximuje $p_\theta(\textbf{z}\mid\textbf{x})$, s ohledem na KL divergenci, tím menší tato \emph{mezera} je.
+    \item \emph{Mezeru} mezi ELBO $\mathcal{L}_{\theta,\phi}(\textbf{x})$ a \emph{marginal likelihood} $\log p_\theta(\textbf{x})$. Tuto \emph{mezeru} také nazýváme mírou \emph{tightness} této meze ($\implies$ vyhnutí se použití Jensenově nerovnosti). Čím lépe $q_\phi(\textbf{z}\mid\textbf{x})$ aproximuje $p_\theta(\textbf{z}\mid\textbf{x})$, s ohledem na KL divergenci, tím menší tato \emph{mezera} je.
 \end{enumerate}
 
 \subsubsection{Optimalizační cíle}
@@ -46,3 +46,25 @@ A to sice současná optimalizace dvou kritérií, která jsou pro výkonnost VA
     \item \emph{Přibližná} maximalizace \emph{marginal likelihood} $p_\theta(\textbf{x})$. Což implikuje \emph{zlepšení} generativního modelu \footnote{Tedy \emph{věrohodnosti} rekonstrukce původních dat}.
     \item Minimalizace KL divergence aproximace mezi $q_\phi(\textbf{z}\mid\textbf{x})$ a původní posteriorní distribucí $p_\theta(\textbf{z}\mid\textbf{x})$. Tedy $q_\phi(\textbf{z}\mid\textbf{x})$ (enkodér) se \emph{zlepší}.
 \end{enumerate}
+
+\subsection{Metoda stochastická gradientní optimalizace ELBO}
+Důležitou vlastností ELBO je možnost \emph{joint} optimalizace s ohledem na veškeré její parametry – $\boldsymbol{\phi}$ a $\boldsymbol{\theta}$ – za použití stochastického gradientního sestupu (\emph{stochastic gradient descent, SGD}).
+Proces lze zahájit náhodnými počátečními hodnotami $\boldsymbol{\phi}$ a $\boldsymbol{\theta}$ a stochasticky optimalizovat jejich hodnoty než dojde ke konvergenci.
+
+Mějme nezávisle a rovnoměrně rozdělená vstupní data, účelovou funkcí ELBO je součet ELBO jednotlivých datových bodů:
+\begin{equation}
+    \mathcal{L}_{\theta,\phi}(\mathcal{D}) = \sum_{x\in\mathcal{D}}^{} \mathcal{L}_{\theta,\phi}(\textbf{x})
+\end{equation}
+
+ELBO jednotlivých datových bodů a jejich gradienty jsou \emph{obecně} efektivně řešitelné.
+Dokonce existují estimátory bez biasu, za pomocí kterých lze provést dávkový stochastický gradientní sestup (minibatch).
+
+Gradienty ELBO bez biasu s ohledem na parametry generativního modelu $\boldsymbol{\theta}$ lze jednoduše získat (viz rovnice 2.14 - 2.17 z \cite{Kingma2019}).
+
+Spočítat gradienty ELBO bez biasu s ohledem na variační parametry $\boldsymbol{\phi}$ je již složitější, jelikož tato ELBO je uvažována s ohledem na rozdělení pravděpodobnosti $q_\phi(\textbf{z}\mid\textbf{x})$, tedy je funkcí $\phi$. Nerovnost gradientů ELBO viz rovnice 2.18 - 2.19 z \cite{Kingma2019}.
+
+V případě \textbf{spojitých} latentních proměnných lze využít tzv. \textbf{reparametrizačního triku} pro výpočet odhadů bez biasu $\nabla_{\theta,\phi}\mathcal{L}_{\theta,\phi}(\textbf{x})$.
+Tento stochastický odhad umožňuje optimalizovat ELBO za použití stochastického gradientního sestupu (viz \autoref{alg:elbo_sgd})
+\footnote{Existují i metody pro případ \textbf{diskrétních} latentních proměnných, které však pro předmět práce nejsou stěžejní. Pro jejich představení odkazuji na \cite[Sekce 2.9.1.]{Kingma2019}.}.
+
+Následuje představení reparametrizačního triku a jeho roli při trénování VAE.
