@@ -1,0 +1,49 @@
+\section{Objective}
+
+Ve vztahu k \autoref{eq:maximum_likelihood}.
+
+V reálném světe, pro většinu $z$, $P(X\mid z)$ bude téměř nulová (a tedy takové $z$ nepřispěje téměř nic k zpřesnění odhadu $P(X)$). \cite{Doersch2021}
+
+Klíčovou myšlenkou VAE je, pokusit se vzorkovat pouze takové hodnoty $z$, u kterých je velká pravděpodobnost že vyprodukují $X$, a \textbf{vypočítat $P(X)$ pouze z nich}.
+To znamená, že potřebujeme zavést novou funkci $Q(z\mid X)$, která na vstupu bere hodnotu $X$ a vrací rozdělení pravděpodobnosti skrze hodnoty $z$ které mají vysokou pravděpodobnost na vyprodukování $X$ \footnote{Zde platí očekávání, že prostor hodnot $z$, které nastanou při rozdělení $Q(z)$ je výrazně menší, než prostor hodnot apriorního rozdělení $P(z)$}. \cite{Doersch2021}
+
+Tedy, relativně jednoduše lze spočítat $E_{z \sim Q}P(X \mid z)$. Ale co když je $z$ vzorkováno z jiného (náhodně zvoleného) rozdělení s hustotou pravděpodobnosti $Q(z)$, které není $\mathcal{N(0, I)}$? Jak toto napomáhá k optimalizaci $P(X)$? První je nutné vyjádřit vztah mezi $E_{z \sim Q}P(X\mid z)$ a $P(X)$. \cite{Doersch2021}
+
+Vztah mezi $E_{z \sim Q}P(X \mid z)$ a $P(X)$ je jedním ze stavebních kamenů metod variační inference metod obecně. \cite{Doersch2021}
+
+Nejprve definujme KL divergenci mezi $P(z\mid X)$ a $Q$ pro libovolné $Q$ (které může, ale nemusí, záviset na $X$) \cite{Doersch2021}:
+
+\begin{equation}
+    \mathcal{D}_{KL}(Q(z) \parallel P(z\mid X)) = E_{z \sim Q}P(X \mid z)(\log Q(z) - \log P(z\mid X)).
+\end{equation}
+
+Aplikací Bayesova pravidla na $P(z \mid X)$ do rovnice začleníme $P(X)$ a $P(X \mid z)$ \cite{Doersch2021}:
+
+\begin{equation}
+    \mathcal{D}_{KL}(Q(z)\parallel P(z\mid X)) = E_{z \sim Q}(\log Q(z) - \log P(X \mid z) - \log P(z)) + \log P(X).
+\end{equation}
+
+Převodem $E_{z \sim Q}$ na prvky KL divergence, negací obou stran a přeskupením prvků získáme \cite{Doersch2021}:
+
+\begin{equation}
+    \log P(X) - \mathcal{D}_{KL}(Q(z)\parallel P(z\mid X)) = E_{z \sim Q}(\log P(X\mid z)) - \mathcal{D}_{KL}(Q(z)\parallel P(z)).
+\end{equation}
+
+Zde je $X$ neměnné, $Q$ může být \emph{libovolné} rozdělení (\textbf{ne} pouze rozdělení, kde jsou $X$ mapována na $z$ která tyto $X$ s vysokou pravděpodobností produkují).
+
+Za účelem odvození $P(X)$ je smysluplné zavést $Q$ které \emph{závisí} na $X$ a minimalizuje $\mathcal{D}_{KL}(Q(z)\parallel P(z))$ \cite{Doersch2021}:
+
+\begin{equation} \label{eq:vae_objective}
+    \log P(X) - \mathcal{D}_{KL}(Q(z \mid X)\parallel P(z\mid X)) = E_{z \sim Q}(\log P(X\mid z)) - \mathcal{D}_{KL}(Q(z\mid X)\parallel P(z)). 
+\end{equation}
+
+\autoref{eq:vae_objective} je pro \textbf{variační autoenkodéry naprosto stěžejní} a slouží jako jejich jádro \footnote{TODO: Historically, this math (particularly Equation 5) was known long before VAEs}. \cite{Doersch2021}
+
+
+\subsubsection{Interpretace rovnice}
+\textbf{Levá strana rovnice} vyjadřuje hodnotu, kterou chceme \textbf{maximalizovat}: $\log P(X)$ (plus prvek chyby, která nutí $Q$ produkovat $z$ taková, že jsou schopna rekonstruovat libovolné $X$). \cite{Doersch2021}
+
+\textbf{Pravá strana rovnice} zaujímá roli jakéhosi \textbf{autoenkodéru}. Kde $Q$ kóduje $X$ do $z$. $P$ jej následně dekóduje aby rekonstruovalo $X$.
+Za předpokladu správně zvoleného $Q$, si přejeme pravou stranu rovnice optimalizovat pomocí stochastického gradientního sestupu (zatím není zřejmé jak). \cite{Doersch2021}
+
+Z efektivně neřešitelného $P(z\mid X)$ se nyní stává efektivně řešitelný problém – stačí použít $Q(z\mid X)$ pro jeho výpočet. \cite{Doersch2021}

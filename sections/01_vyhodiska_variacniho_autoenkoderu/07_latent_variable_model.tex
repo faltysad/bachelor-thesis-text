@@ -1,0 +1,33 @@
+\section{Model využívající latentní proměnné}
+
+Čím komplexnější jsou závislosti mezi dimenzemi generativního modelu, tím složitější je jeho trénování.
+
+Mějme například jednoduchou úlohu generování obrázků ručně psaných číslic 0-9.
+Snažíme-li se generovat obrázek číslice 5, tak víme, že pravá strana obrázku nemůže obsahovat pravou stranu obrázku číslice 0 (v opačném případě se zřejmě nemůže jednat o obrázek číslice 5).
+
+Intuitivně je tak vhodnou strategií, aby model nejprve učinil rozhodnutí o tom, jakou číslici se chystá generovat, než začne konkrétním pixelům přidělovat hodnoty.
+Takové rozhodnutí nazýváme \emph{latentní proměnnou}. Tedy, před tím, než model začne generovat obrázek, náhodně vybere vzorek $\emph{z}$ z množiny $[0, \dots, 9]$ a při generovaní obrázku se ujistí, že všechny vygenerované pixely souhlasí s charakteristikami této číslice.
+V tomto kontextu \emph{latentní} znamená, že pro danou číslici, kterou model vygeneroval, nemusí být nutně známo jaké nastavení této latentní proměnné bylo modelem použito (to bychom museli odvodit například počítačovým viděním). \cite{Doersch2021}
+
+Před tím, než lze prohlásit že model je \emph{reprezentací} vstupního datasetu, musíme se ujistit, že pro každý datový bod $\emph{X}$ v tomto datasetu existuje alespoň jedna konfigurace latentních proměnných modelu, která zajistí že model vygeneruje obrázek \emph{velice podobný} $\emph{X}$.
+
+Formálně řekneme, že ve vysokodimenzionálním prostoru $\mathcal{Z}$ existuje vektor latentních proměnných $z$, ze kterého lze podle \emph{nějaké} hustoty pravděpodobnosti (\emph{probability densiti function, PDF}) $P(z)$, definované skrze $\mathcal{Z}$, jednoduše vzorkovat $\emph{X}$.
+Dále, máme-li množinu deterministických funkcí $f(z;\theta)$, parametrizovaných vektorem $\theta$ v nějakém prostoru $\Theta$, kde $f: \mathcal{Z} \times \Theta \rightarrow \mathcal{X}$. Byť je $f$ deterministická, je-li $z$ náhodné a $\theta$ neměnné, pak $f(z;\theta)$ je náhodná proměnná z prostoru $\mathcal{X}$. Cílem je optimalizovat $\theta$ tak, aby bylo možné vzorkovat $z$ z $P(z)$ a aby, s vysokou pravděpodobnostní, každý výstup $f(z; \theta)$ byl podobný příslušným $X$ ze vstupního datasetu. \cite{Doersch2021}
+
+Tedy, chceme maximalizovat pravděpodobnost každého $X$ z trénovací množiny skrze celý generativní proces dle:
+\begin{equation}\label{eq:maximum_likelihood}
+    P(X) = \int_{}^{} P(X\mid z;\theta)P(z)dz.
+\end{equation}
+
+Kde $f(z;\theta)$ bylo nahrazeno distribucí $P(X\mid z;\theta)$, která umožňuje explicitně vyjádřit závislost $X$ na $z$ (ze zákonu celkové pravděpodobnosti). \cite{Doersch2021}
+
+\subsection{Maximum likelihood}
+Intuitivní myšlenka za tímto principem, nazývaným \emph{marginal likelihood}, je, že pokud model s vysokou pravděpodobností vyprodukuje množinu vzorků z trénovací množiny, tak je také \textbf{pravděpodobné}, že vyprodukuje \textbf{podobné vzorky} které nebyly součástí trénovací množiny (a naopak, je  \textbf{nepravděpodobné} že vyprodukuje \textbf{odlišné vzorky vůči vzorkům v trénovací množině}). \cite{Doersch2021}
+
+U variačních autoenkodérů je toto výstupní rozdělení pravděpodobnosti často voleno jako Gaussovo, tedy například $P(X\mid z\theta) = \mathcal{N}(X\mid f(z;\theta), \sigma^2 * I)$
+Tedy, má střední hodnotu $f(z;\theta)$ a kovarianci rovnu jednotkové matici $I$ krát \emph{nějaká} skalární hodnota $\sigma$. \cite{Doersch2021}
+
+Obecně (a zejména v rané fázi trénování) model nebude generovat výstupy které jsou \emph{identické} k libovolnému $X$.
+V důsledku toho, že u variačního autoenkodéru volíme toto výstupní rozdělení jako Gaussovo, lze provést algoritmus gradientního sestupu (případně jinou optimalizační techniku) za účelem zvýšení $P(x)$ tím, že donutíme $f(z;\theta)$ blížit se k $X$ pro nějaké $z$ (a tím pádem iterativně zvyšovat pravděpodobnost, že model vygeneruje vzorek podobný vzorku z trénovací množiny). \cite{Doersch2021}
+
+Důležitou vlastností pro možnost provést tuto optimalizaci tedy je, aby $P(X \mid z)$ bylo \textbf{spočitatelné a spojité v $\theta$} \footnote{Výstupní rozdělení nemusí byt Gaussovo (ale např. lze využít Alternativní rozdělení)}. \cite{Doersch2021}

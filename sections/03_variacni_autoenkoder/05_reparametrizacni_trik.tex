@@ -9,12 +9,12 @@
         \KwResult{}
         \hspace{6mm}$\boldsymbol{\theta}, \boldsymbol{\phi}$: Naučené parametry\\
 
-        $\boldsymbol{\theta}, \boldsymbol{\phi} \gets \text{inicializace parametrů}$
+        $\boldsymbol{\theta}, \boldsymbol{\phi} \gets \text{Inicializace parametrů}$
 
         \While{SGD not converged}{
             $\mathcal{M} \sim \mathcal{D}$ (Random minibatch of data)\\
             $\boldsymbol{\epsilon} \sim p(\boldsymbol{\epsilon})$ (Random noise for every datapoint in $\mathcal{M}$)\\
             Compute $\tilde{\mathcal{L}}$ and its gradients $\nabla_{\theta,\phi}(\mathcal{M}, \boldsymbol{\epsilon})$\\
-            Update $\boldsymbol{\theta}$ and $boldsymbol{phi}$ using SGD optimizer
+            Update $\boldsymbol{\theta}$ and $\boldsymbol{\phi}$ using SGD optimizer
             }
 \end{algorithm}
