@@ -34,7 +34,7 @@ Zde je $X$ neměnné, $Q$ může být \emph{libovolné} rozdělení (\textbf{ne}
 Za účelem odvození $P(X)$ je smysluplné zavést $Q$ které \emph{závisí} na $X$ a minimalizuje $\mathcal{D}_{KL}(Q(z)\parallel P(z))$ \cite{Doersch2021}:
 
 \begin{equation} \label{eq:vae_objective}
-    \log P(X) - \mathcal{D}_{KL}(Q(z \mid X)\parallel P(z\mid X)) = E_{z \sim Q}(\log P(X\mid z)) - \mathcal{D}_{KL}(Q(z\mid X)\parallel P(z)). 
+    \log P(X) - \mathcal{D}_{KL}\left[ Q(z \mid X)\parallel P(z\mid X) \right] = E_{z \sim Q}\left[ \log P(X\mid z)) - \mathcal{D}_{KL}(Q(z\mid X)\parallel P(z) \right]. 
 \end{equation}
 
 \autoref{eq:vae_objective} je pro \textbf{variační autoenkodéry naprosto stěžejní} a slouží jako jejich jádro \footnote{TODO: Historically, this math (particularly Equation 5) was known long before VAEs}. \cite{Doersch2021}
