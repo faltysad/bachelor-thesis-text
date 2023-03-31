@@ -1,0 +1,72 @@
+\section{Optimalizace pomocí stochastického gradientního sestupu}
+
+Za účelem optimalizace pravé strany \autoref{eq:vae_objective} je nutné specifikovat tvar, kterého bude $Q(z\mid X)$ nabývat.
+
+Zvolíme $Q(z\mid X) = \mathcal{N}(z\mid \mu(X;\theta),\Sigma(X;\theta))$, kde $\mu$ a $\Sigma$ jsou libovolné \textbf{deterministické} funkce s parametry $\theta$, které se lze učit z dat.
+Funkce $\mu$ a $\Sigma$ jsou (typicky) implementovány umělou neuronovou sítí, s tím že $\Sigma$ musí být diagonální maticí.
+Takto zvolené $Q(z\mid X)$ má zejména \textbf{výpočetní výhodu} – pravá strana rovnice lze nyní jednoznačně vypočítat.
+
+Nyní je tedy poslední prvek pravé strany, $\mathcal{D}_{KL}\left[ Q(z \mid X)\parallel P(z\mid X) \right]$, KL divergence mezi dvěma vícerozměrnými Gaussovými rozděleními.
+Takovou KL divergenci lze spočítat v uzavřeném tvaru jako:
+
+\begin{equation}\label{eq:vae_objective_long_form}
+    \mathcal{D}_{KL} \left[ \mathcal{N}(\mu(X), \Sigma(X)\parallel \mathcal{N}(0, I)) \right] = 
+    \frac{1}{2}\left[ \tr (\Sigma_1^{-1}\Sigma_0) + (\mu_1 - \mu_0)^\top \Sigma_1^{-1}(\mu_1 - \mu_0) - k + \log \left(\frac{\det \Sigma_1}{\det \Sigma_0} \right) \right]
+\end{equation}
+
+kde $k$ je dimenzionlita výsledného rozdělení pravděpodobnosti. \autoref{eq:vae_objective_long_form} lze zjednodušit následovně:
+
+\begin{equation}
+    \mathcal{D}_{KL} \left[ \mathcal{N}(\mu(X), \Sigma(X)) \parallel \mathcal{N}(0, I) \right] = 
+    \frac{1}{2} \left[ \tr (\Sigma(X)) + (\mu(X))^\top (\mu(X)) - k - \log \det (\Sigma(X)) \right].
+\end{equation}
+
+První prvek na pravé straně \autoref{eq:vae_objective} je o něco komplikovanější.
+
+Bylo by možné pomocí vzorků odhadnout $E_{Z\sim Q}[\log P(X\mid z)]$, ale pro získání \emph{věrohodného} odhadu je nutné skrze $z$ poslat velké množství vzorků, což je výpočetně náročné.
+Tedy, jak je u stochastického gradientního sestupu běžné, použijeme pouze jeden vzorek $z$ a použijeme $P(X\mid z)$ pro toto $z$ jako aproximaci $E_{Z\sim Q}[\log P(X\mid z)]$
+\footnote{Zde je výhodou, že provést stochastický gradientní sestup skrze všechny různé hodnoty $X$ vzorkované z datové sady $D$ již stochastický gradientní sestup provádíme při trénování.}.
+
+\textbf{Tedy konečná rovnice kterou chceme optimalizovat má následující podobu}:
+
+\begin{equation}\label{eq:vae_final_objective}
+    E_{X\sim D} \left[ \log P(X) - \mathcal{D}_{KL}\left[ Q(z\mid X)\parallel P(z\mid X) \right] \right] =
+    E_{X\sim D} \left[ E_{z\sim Q} \left[ \log P(X \mid z) \right] - \mathcal{D}_{KL} \left[ Q(z\mid X) \parallel P(z) \right] \right] 
+\end{equation}
+
+Vezmeme-li gradient této rovnice, symbol gradientu může být přesunut do očekávané hodnoty.
+Tedy, můžeme vzorkovat jednu hodnotu z $X$ a jednu hodnotu ze $z$ z rozdělení pravděpodobnosti $Q(z\mid X)$ a následně vypočítat gradient:
+
+\begin{equation} \label{eq:sample_gradient}
+    \log P(X \mid z) - \mathcal{D}_{KL}\left[ Q(z\mid X) \parallel P(z) \right].
+\end{equation}
+
+Následně zprůměrujeme gradient této funkce skrze \emph{libovolně velké} množství vzorků z $X$ a $z$ – výsledná hodnota tohoto gradientu konverguje ke gradientu \autoref{eq:vae_final_objective}.
+
+\autoref{eq:vae_final_objective} má jeden zásadní problém. $E_{z \sim Q} \left[ \log P(X \mid z) \right]$ závisí na parametrech $P$ a na parametrech $Q$.
+Tato vazba však v \autoref{eq:sample_gradient} zmizela.
+
+Aby VAE fungovaly dle očekávání, je nutné nutit $Q$ produkovat takové kódy pro $X$, které bude $P$ schopno \textbf{spolehlivě} dekódovat.
+Na tento problém lze alternativně pohlížet interpretací \autoref{eq:vae_final_objective} jako sítě vyobrazené TODO FIGURE NO-BACKPROP.
+Dopředný průchod této sítě funguje bez problémů – a je-li její výstup zprůměrován skrze mnoho vzorků $X$ a $z$, produkuje správnou a očekávanou hodnotu.
+Nicméně, je nutné mít schopnost zpětně propagovat chybu skrze vrstvu, která vzorkuje $z$ z $Q(z\mid X)$, což je \textbf{nespojitá operace} a tedy nemá žádný gradient.
+Stochastický gradientní sestup se zpětnou propagací zvládne stochastické vstupy, ale \textbf{neumí pracovat se stochastickými jednotkami (neurony) sítě}.
+
+Řešení tohoto problému nazýváme \textbf{reparametrizační trik}
+\footnote{Reparametrizační trik \emph{funguje} pouze pakliže lze vzorkovat z $Q(z\mid X)$ vyhodnocením funkce $h(\eta, X)$, kde $\eta$ je šum (z distribuce jejíž parametry nejsou učeny z dat). $h$ také musí být spojitá na $X$, abychom skrze něj mohli provádět zpětnou propagaci.
+To, mimo jiné, znamená, že $Q(z\mid X)$ a tím padem i $P(z)$ \textbf{nemohou být diskrétní rozdělení}. V opačném případě by došlo k nespojitosti prostoru vzorků $Q$ – a tedy neschopnosti generativního modelu generovat vzorky v celém rozsahu, včetně vzorků které nebyl součástí dat (běžný problém autoenkodérů, které uvedla \autoref{chap:autoencoder}.)}.
+Reparametrizační trik spočívá v přesunutí procesu vzorkování do vstupní vrstvy.
+Mějme $\mu(X)$ a $\Sigma(X)$ – \textbf{střední hodnotu} a \textbf{kovarianci} $Q(z\mid X)$.
+Pak je možné vzorkovat z $\mathcal{N}(\mu(X), \Sigma{X})$ – nejprve provedeme vzorkování z $\epsilon \sim \mathcal{N}(0, I)$ a následně spočteme $z = \mu(X) + \Sigma^{\frac{1}{2}}(X) * \epsilon$.
+
+Tedy finální rovnice, jejíž gradient chceme spočítat má následující tvar:
+
+\begin{equation} \label{eq:vae_reparam_trick}
+    E_{X \sim D} \left[ E_{\epsilon \sim \mathcal{N}(0, 1)} \left[ \log P(X\mid z = \mu(X) + \Sigma^{\frac{1}{2}} (X) * \epsilon) \right] - \mathcal{D}_KL \left[ Q (z \mid X) \parallel P(z) \right] \right].
+\end{equation}
+
+Kýžená vlastnost \autoref{eq:vae_reparam_trick} je, že v modelu její \textbf{umělé neuronové sítě lze provést zpětnou propagaci}. 
+Toto je znázorněno v umělé neuronové síti TODO FIGURE NO-BACKPROP 
+
+\footnote{Žádné očekávané hodnoty ($E$) \autoref{eq:vae_reparam_trick} \textbf{nezávisí} na parametrech modelu. Tedy do těchto očekávaných hodnot můžeme bezpečně převést symbol gradientu a zároveň dodržet jejich rovnost. 
+Tedy, mějme neměnné $X$ a $\epsilon$, pak je tato funkce \textbf{spojitá a deterministická} v parametrech $P$ a $Q$, což v důsledku znamená možnost zpětné propagace vypočíst gradient algoritmem stochastického gradientního sestupu. }. 
