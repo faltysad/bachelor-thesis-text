@@ -1,0 +1,12 @@
+\section{Interpretace}
+Jak bylo ukázáno, proces učení variačních autoenkodérů je efektivně řešitelný problém (\emph{tractable}).
+
+Při učení je optimalizován $\log P(X)$ skrze celou množinu dat $D$. Nicméně, neoptimalizuje se \emph{přesně} $\log P(X)$, ale pouze jeho odhad.
+
+Tato sekce slouží pro odkrytí mechanismů, které se skutečně na pozadí účelové funkce variačního autoenkodéru dějí.
+Poskytuje odpověď na tři otázky spojené s procesem trénování variačního autonekodéru:
+\begin{enumerate}
+    \item Jak moc velkou chybu způsobuje současná optimalizace $\mathcal{D}_{KL}\left[ Q(z\mid X) \parallel P(z\mid X) \right]$ dodatečně vedle optimalizace $\log P(X)$.
+    \item Interpretace \autoref{eq:vae_objective} v kontextu informační teorie a propojení s jinými přístupy založenými na MInimal Description Length
+    \item Zda-li u variačních autoenkodérů existují regularizační prvky obdobné k autoenkodérům které uvedla \autoref{chap:autoencoder}.
+\end{enumerate}
