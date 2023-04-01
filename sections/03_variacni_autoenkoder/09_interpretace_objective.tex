@@ -1,17 +1,17 @@
-\section{Interpretace}
+\section{Interpretace naučeného modelu}
 Jak bylo ukázáno, proces učení variačních autoenkodérů je efektivně řešitelný problém (\emph{tractable}).
 
 Při učení je optimalizován $\log P(X)$ skrze celou množinu vstupních dat $D$. Nicméně, není optimalizován \emph{přesně} $\log P(X)$, ale pouze jeho odhad.
 
 Tato sekce slouží pro odkrytí mechanismů, které se skutečně na pozadí účelové funkce variačního autoenkodéru dějí.
-Je zaměřena na tři otázky spojené s procesem trénování variačního autoenkodéru:
+Nabízí tři různé pohledy, kterými může být \autoref{eq:vae_objective} interpretována:
 \begin{enumerate}
-    \item Jak moc velkou chybu způsobuje současná optimalizace $\mathcal{D}_{KL}\left[ Q(z\mid X) \parallel P(z\mid X) \right]$ dodatečně vedle optimalizace $\log P(X)$.
-    \item Interpretace \autoref{eq:vae_objective} v kontextu informační teorie a propojení s dalšími přístupy založenými na Minimal Description Length
-    \item Zda-li u variačních autoenkodérů existují regularizační prvky obdobné k autoenkodérům které uvedla \autoref{chap:autoencoder}.
+    \item Velikost chyby, kterou způsobuje současná optimalizace $\mathcal{D}_{KL}\left[ Q(z\mid X) \parallel P(z\mid X) \right]$ dodatečně vedle optimalizace $\log P(X)$.
+    \item Interpretace v kontextu informační teorie a propojení s dalšími přístupy založenými na Minimal Description Length.
+    \item VAE a regularizační prvek. Existuje u variačních autoenkodérů regularizační prvek, obdobně jako u  autoenkodérů které uvedla \autoref{chap:autoencoder}?
 \end{enumerate}
 
-\subsection{Chyba z $\mathcal{D}_{KL}\left[ Q(z\mid X) \parallel P(z\mid X) \right]$}
+\subsection{Chyba $\mathcal{D}_{KL}\left[ Q(z\mid X) \parallel P(z\mid X) \right]$}
 \textbf{Efektivní řešitelnost} modelu variačního autoenkodéru závisí na předpokladu,
 že $Q(z\mid X)$ \textbf{lze modelovat jako Gaussovu funkci se střední hodnotou $\mu(X)$ a rozptylem $\Sigma(X)$}.
 
@@ -29,3 +29,40 @@ Pokud toto platí, $\mathcal{D}_{KL}\left[ Q(z\mid X) \parallel P(z\mid X) \righ
 Zbývá zodpovědět, zda-li taková funkce existuje pro všechny libovolné distribuce, které bychom mohli chtít aproximovat.
 Tento problém (v kontextu variačních autoenkodérů) zatím zůstává nezodpovězen. Nicméně existuje alespoň formální důkaz \textbf{nulové chyby aproximace} VAE alespoň v triviálním teoretickém scénáři na 1D problému \cite[Příloha A]{Doersch2021}.
 Autoři rámce VAE se domnívají, že budoucí teoretický výzkum by měl být schopný na tomto důkazu stavět a rozšířit jej na více (složitějších) scénářů s praktickým využitím. 
+
+\subsection{Interpretace z pohledu informační teorie}
+Dalším možným (a velmi důležitým) pohledem na pravou stranu \autoref{eq:vae_objective} je v kontextu informační teorie.
+Konkrétně pomocí principu tzv. \emph{minimum description length}, který stojí za mnoha předchůdci variačního autoenkodéru, jako například Helmholtz Machines, Wake-Sleep Algoritmus, Deep Belief Nets a Boltzmann Machines.
+
+Na $- \log P(X)$ lze pohlížet jako na celkový počet bitů, které naučený model potřebuje k sestavení daného $X$ za použití \textbf{ideálního} kódování.
+Pravá strana \autoref{eq:vae_objective} na toto pohlíží jako na dvoufázový proces pro sestavení $X$.
+
+V první fázi použijeme \emph{nějaký počet} bitů pro sestavení $z$ \footnote{Pro připomenut KL divergenci lze uvádět v jednotkách bitů (viz \autoref{sec:kl_divergence}).}.
+Konkrétně $\mathcal{D}_{KL}\left[ Q(z\mid X) \parallel P(z\mid X) \right]$ je očekávaná informace potřebná pro převedení vzorku z $P(z)$ (bez informace) na vzorek z $Q(z\mid X)$ (tzv. interpretace KL divergence jako informačního zisku).
+Tedy měří množství nadbytečné informace které obdržíme o $X$ když obdržíme $z$ ze $Q(z\mid X)$ namísto z $P(z)$
+\footnote{Pro detailněji popsanou interpretaci odkazuji na "bits back" argument z TODO CITACE }.
+
+V druhé fázi $P(X\mid z)$ měří množství informace potřebné pro rekonstrukci $X$ ze $z$ za použití ideálního kódování.
+
+Tedy celkový počet bitů ($- \log P(X)$) je součtem těchto dvou fází mínus trestu, který platíme za to, že $Q$ suboptimální kódováním $\mathcal{D}_{KL}\left[ Q(z\mid X) \parallel P(z\mid X) \right]$. 
+
+\subsection{VAE a regularizační prvek}
+\autoref{eq:vae_objective} nabízí další pohled na  $\mathcal{D}_{KL}\left[ Q(z\mid X) \parallel P(z) \right]$ jakožto na jakýsi regularizační prvek.
+Stejně jako u řídkého autoenkodéru (viz \autoref{sec:sparse_autoencoder}), kde regularizační prvek $\Omega$ penalizuje aktivaci neuronů.
+Z tohoto pohledu je zajímavé zamyslet se, zda-li u variačních autoenkodérů vůbec existuje \emph{něco jako regularizační prvek}.
+
+U variačního autoenkodéru \textbf{regularizační prvek} obecně vůbec \textbf{neexistuje}.
+Což je výhodou – jelikož to znamená o jeden prvek, který je nutné optimalizovat, méně.
+
+Nicméně, určité modely variačního autoenkodéru se jeví, že regularizační prvek \emph{existuje}
+\footnote{Nabízí se zaměnit $z \sim \mathcal{N}(0, I)$ za $z^\prime \sim \mathcal{N}(0, \Sigma * I)$, ale ukázalo se že toto naučený model nijak nezmění a ve skutečnosti vyprodukuje identickou ztrátovou funkci a model pro vzorkování $X$. \cite{Doersch2021}}.
+Dobrou volbou výstupního rozdělení pravděpodobnosti pro spojitá data je $P(X\mid z) \sim \mathcal{N}(f(z), \sigma^2 * I)$ pro libovolné $\sigma$ které předem dodáme.
+Tím pádem dostáváme $\log P(X\mid z) = C - \frac{1}{2} \| X - f(z) \|^2 / \sigma^2$, kde $C$ je konstanta, která nezávisí na $f$ a tak ji lze při optimalizaci zanedbat.
+
+Pokud toto rozdělení pravděpodobnosti použijeme, ve výsledné účelové funkci se $\sigma$ objeví jako druhý (nikoliv první) prvek na pravé straně \autoref{eq:vae_objective}.
+Tedy v tomto smyslu lze zvolené $\sigma$ svou rolí považovat za jakési $\Omega$ které kontroluje váhy obou prvků pravé strany.
+Nutno podotknout, že samotná existence tohoto parametru je závislá na zvoleném rozdělení pravděpodobnosti $X$ pro dané $z$.
+Tedy pokud je $X$ binární, a jako výstupní model je použito Alternativní rozdělení, tento \emph{regularizační} prvek zmizí 
+\footnote{I přes to existují způsoby, jakým jej lze dostat zpět do rovnice, jako například replikace dimenzí $X$. \cite{Doersch2021}}.
+Což z pohledu informační teorie dává logiku: je-li $X$ binární, lze spočítat počet bitů, které jsou potřebné pro kódování $X$, a tím pádem oba prvky pravé strany \autoref{eq:vae_objective} používají stejné jednotky.
+Nicméně, pokud je $X$ spojité, každý vzorek obsahuje nekonečnou míru informace. Volba $\sigma$ pak určuje očekávanou míry přesnosti, s jakou je naučený model schopen rekonstruovat $X$ (tento kompromis je nutný, aby se míra informace vzorku stala konečná).
