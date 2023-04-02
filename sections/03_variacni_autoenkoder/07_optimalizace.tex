@@ -3,11 +3,11 @@
 Za účelem optimalizace pravé strany \autoref{eq:vae_objective} je nutné specifikovat tvar, kterého bude $Q(z\mid X)$ nabývat.
 
 Zvolíme $Q(z\mid X) = \mathcal{N}(z\mid \mu(X;\theta),\Sigma(X;\theta))$, kde $\mu$ a $\Sigma$ jsou libovolné \textbf{deterministické} funkce s parametry $\theta$, které se lze učit z dat.
-Funkce $\mu$ a $\Sigma$ jsou (typicky) implementovány umělou neuronovou sítí, s tím že $\Sigma$ musí být diagonální maticí.
-Takto zvolené $Q(z\mid X)$ má zejména \textbf{výpočetní výhodu} – pravá strana rovnice lze nyní jednoznačně vypočítat.
+Funkce $\mu$ a $\Sigma$ jsou (typicky) implementovány umělou neuronovou sítí, s tím že $\Sigma$ musí být reprezentována diagonální maticí.
+Takto zvolené $Q(z\mid X)$ má zejména \textbf{výpočetní výhodu} – pravá strana rovnice je nyní jednoznačně spočitatelná.
 
 Nyní je tedy poslední prvek pravé strany, $\mathcal{D}_{KL}\left[ Q(z \mid X)\parallel P(z\mid X) \right]$, KL divergence mezi dvěma vícerozměrnými Gaussovými rozděleními.
-Takovou KL divergenci lze spočítat v uzavřeném tvaru jako:
+Takovou KL divergenci lze spočítat v uzavřeném tvaru následovně:
 
 \begin{equation}\label{eq:vae_objective_long_form}
     \mathcal{D}_{KL} \left[ \mathcal{N}(\mu(X), \Sigma(X)\parallel \mathcal{N}(0, I)) \right] = 
@@ -27,7 +27,7 @@ Bylo by možné pomocí vzorků odhadnout $E_{Z\sim Q}[\log P(X\mid z)]$, ale pr
 Tedy, jak je u stochastického gradientního sestupu běžné, použijeme pouze jeden vzorek $z$ a použijeme $P(X\mid z)$ pro toto $z$ jako aproximaci $E_{Z\sim Q}[\log P(X\mid z)]$
 \footnote{Zde je výhodou, že provést stochastický gradientní sestup skrze všechny různé hodnoty $X$ vzorkované z datové sady $D$ již stochastický gradientní sestup provádíme při trénování.}.
 
-\textbf{Tedy konečná rovnice kterou chceme optimalizovat má následující podobu}:
+Tedy konečná \textbf{rovnice kterou chceme optimalizovat} má následující podobu:
 
 \begin{equation}\label{eq:vae_final_objective}
     E_{X\sim D} \left[ \log P(X) - \mathcal{D}_{KL}\left[ Q(z\mid X)\parallel P(z\mid X) \right] \right] =
@@ -57,12 +57,12 @@ Stochastický gradientní sestup se zpětnou propagací zvládne stochastické v
 To, mimo jiné, znamená, že $Q(z\mid X)$ a tím padem i $P(z)$ \textbf{nemohou být diskrétní rozdělení}. V opačném případě by došlo k nespojitosti prostoru vzorků $Q$ – a tedy neschopnosti generativního modelu generovat vzorky v celém rozsahu, včetně vzorků které nebyl součástí dat (běžný problém autoenkodérů, které uvedla \autoref{chap:autoencoder}.)}.
 Reparametrizační trik spočívá v přesunutí procesu vzorkování do vstupní vrstvy.
 Mějme $\mu(X)$ a $\Sigma(X)$ – \textbf{střední hodnotu} a \textbf{kovarianci} $Q(z\mid X)$.
-Pak je možné vzorkovat z $\mathcal{N}(\mu(X), \Sigma{X})$ – nejprve provedeme vzorkování z $\epsilon \sim \mathcal{N}(0, I)$ a následně spočteme $z = \mu(X) + \Sigma^{\frac{1}{2}}(X) * \epsilon$.
+Pak je možné vzorkovat z $\mathcal{N}(\mu(X), \Sigma(X))$ – nejprve provedeme vzorkování z $\epsilon \sim \mathcal{N}(0, I)$ a následně spočteme $z = \mu(X) + \Sigma^{\frac{1}{2}}(X) * \epsilon$.
 
 Tedy finální rovnice, jejíž gradient chceme spočítat má následující tvar:
 
 \begin{equation} \label{eq:vae_reparam_trick}
-    E_{X \sim D} \left[ E_{\epsilon \sim \mathcal{N}(0, 1)} \left[ \log P(X\mid z = \mu(X) + \Sigma^{\frac{1}{2}} (X) * \epsilon) \right] - \mathcal{D}_KL \left[ Q (z \mid X) \parallel P(z) \right] \right].
+    E_{X \sim D} \left[ E_{\epsilon \sim \mathcal{N}(0, 1)} \left[ \log P(X\mid z = \mu(X) + \Sigma^{\frac{1}{2}} (X) * \epsilon) \right] - \mathcal{D}_{KL} \left[ Q (z \mid X) \parallel P(z) \right] \right].
 \end{equation}
 
 Kýžená vlastnost \autoref{eq:vae_reparam_trick} je, že v modelu její \textbf{umělé neuronové sítě lze provést zpětnou propagaci}. 
