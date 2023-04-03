@@ -10,7 +10,7 @@ za použití stochastického gradientního sestupu. \cite{Kingma2019}
 
 VAE nalézá širokou škálu aplikací v generativním modelování, učení se reprezentací a úlohách učení se bez učitele (resp. semi-supervizovaných úlohách).
 
-\subsubsection{Variační autoenkodér jako generativní model a motivace vzniku}
+\section{Variační autoenkodér jako generativní model a motivace vzniku}
 Velmi aktuálním tématem v odvětví strojového učení je generativní versus diskriminativní modelování.
 V diskriminativním modelování je cílem naučit se prediktor na základě pozorování.
 V generativním modelování je cíl poněkud obecnější – naučit se spojité rozdělení pravděpodobnosti skrze všechny proměnné.
@@ -49,6 +49,7 @@ A \textbf{variační autoenkodéry} jsou pro tento účel hojně uplatňovány.
 Na tuto úlohu lze alternativně hledět i jako na implicitní formu regularizace. Nutíme-li vzniklé reprezentace být významnými pro proces generování dat, představujeme bias vůči opačnému procesu (který vstupní data mapuje na neužitečné reprezentace).
 Doprovodnou činnost predikce bezprostřední budoucnosti tak lze využít k lepšímu porozumění světa v abstraktní úrovni a tím pádem činit přesnější predikce v pozdější fázi.
 
+\section{Princip variačního autoenkodéru}
 Variační autoenkodér lze popsat jako dva provázané, byť \textbf{nezávisle parametrizované} modely: \textbf{enkodér} (resp. rozpoznávací) model a \textbf{dekodér} (resp. generativní) model.
 Tyto dva modely se vzájemně \emph{podporují}. Enkodér model generativnímu modelu doručuje aproximaci jeho posteriorních náhodných latentních proměnných,
 které jsou potřebné pro úpravu jeho parametrů uvnitř iterace \emph{expectation maximalization} učení.
