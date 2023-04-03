@@ -10,7 +10,7 @@ za použití stochastického gradientního sestupu. \cite{Kingma2019}
 
 VAE nalézá širokou škálu aplikací v generativním modelování, učení se reprezentací a úlohách učení se bez učitele (resp. semi-supervizovaných úlohách).
 
-\section{Variační autoenkodér jako generativní model a motivace vzniku}
+\section{Motivace vzniku: variační autoenkodér jako generativní model}
 Velmi aktuálním tématem v odvětví strojového učení je generativní versus diskriminativní modelování.
 V diskriminativním modelování je cílem naučit se prediktor na základě pozorování.
 V generativním modelování je cíl poněkud obecnější – naučit se spojité rozdělení pravděpodobnosti skrze všechny proměnné.
@@ -50,15 +50,15 @@ Na tuto úlohu lze alternativně hledět i jako na implicitní formu regularizac
 Doprovodnou činnost predikce bezprostřední budoucnosti tak lze využít k lepšímu porozumění světa v abstraktní úrovni a tím pádem činit přesnější predikce v pozdější fázi.
 
 \section{Princip variačního autoenkodéru}
-Variační autoenkodér lze popsat jako dva provázané, byť \textbf{nezávisle parametrizované} modely: \textbf{enkodér} (resp. rozpoznávací) model a \textbf{dekodér} (resp. generativní) model.
-Tyto dva modely se vzájemně \emph{podporují}. Enkodér model generativnímu modelu doručuje aproximaci jeho posteriorních náhodných latentních proměnných,
+Variační autoenkodér lze popsat jako dva provázané, byť \textbf{nezávisle parametrizované} modely: \textbf{enkodér} (resp. rozpoznávací) model – \autoref{sec:vae_encoder} a \textbf{dekodér} (resp. generativní) model – \autoref{sec:vae_decoder}.
+Tyto dva modely se vzájemně podporují. Enkodér model generativnímu modelu doručuje aproximaci jeho posteriorních náhodných latentních proměnných,
 které jsou potřebné pro úpravu jeho parametrů uvnitř iterace \emph{expectation maximalization} učení.
-A opačně, generativní model slouží jako \emph{opora} pro naučení významných reprezentací vstupních dat enkodér modelem.
+A opačně, generativní model slouží jako opora pro naučení významných reprezentací vstupních dat enkodér modelem.
 Tedy, dle Bayesova pravidla, enkodér je \emph{approximate inverse} generativního modelu.
 
-Jednou z výhod VAE oproti \emph{běžné} variační inferenci (VI) je, že enkodér model (také nazývaný inferenční model) je nyní stochastickou funkcí vstupních proměnných.
-Na rozdíl od VI, kde má každý data-case vlastní variační rozdělení pravděpodobnosti, což je při větším množství dat neefektivní.
-Enkodér používá jednu množinu parametrů pro model vztahů mezi vstupními daty a latentními proměnnými. Tento proces nazýváme amortizovanou inferencí.
+Jednou z výhod VAE oproti běžné variační inferenci (viz \autoref{sec:probabilistic_models_variational_inference}, dále jen \emph{VI}) je, že enkodér model (také nazývaný inferenční model) je nyní stochastickou funkcí vstupních proměnných.
+Na rozdíl od VI, kde má každý datový bod vlastní variační rozdělení pravděpodobnosti, což je při větším množství dat neefektivní,
+enkodér používá jednu množinu parametrů pro model vztahů mezi vstupními daty a latentními proměnnými. Tento proces nazýváme amortizovanou inferencí.
 Takový enkodér model může být libovolně komplexní, ale stále zůstává přiměřeně rychlým, jelikož již z principu může být realizován jedním dopředným průchodem z vstupu skrze latentní proměnné.
 Nevýhodou ale je, že při vzorkování vzniká v gradientech potřebných pro učení tzv. vzorkovací šum. Možná největším přínosem VAE je řešení tohoto šumu použitím tzv. \emph{reparametrizačního triku} – jednoduchou procedurou pro přeorganizování výpočtu gradientů, který snižuje variaci gradientu.
 
@@ -67,7 +67,9 @@ Nicméně wake-sleep algoritmus, který byl v návrhu využitý, byl silně neef
 U VAE tedy pravidla pro učení následují jednoznačnou aproximaci cíle.
 
 Variační autoenkodéry jsou spojením pravděpodobnostních grafických modelů a hlubokého učení.
-Generativní model je tvořen bayesovskou sítí ve tvaru $p(\mathbf{x}\mid\mathbf{z})p(\mathbf{z})$. Případně, má-li generativní model víc stochastických latentní vrstev, má síť následující hiearchii: $p(\mathbf{x}\mid\mathbf{z}_L) p(\mathbf{z}_L\mid\mathbf{z_{L-1}}) \dots p(\mathbf{z}_1\mid\mathbf{z}_0)$.
-Podobně, enkodér model je také tvořen podmíněnou bayesovskou sítí ve tvaru $q(\mathbf{z}\mid\mathbf{x})$ nebo jako hiearchie, např.: $q(\mathbf{z}_0\mid\mathbf{z}_1) \dots q(\mathbf{z}_L \mid X)$.
-Ale každá podmíněná vrstva může být tvořena komplexní (hlubokou) umělou neuronovou sítí, například: $\mathbf{z}\mid\mathbf{x} \sim f(\mathbf{x}, \mathbf{\epsilon})$, kde $f$ je mapování umělé neuronové sítě a $\mathbf{\epsilon}$ je \emph{šum} (náhodná proměnná).
-Učící algoritmus VAE je variace klasického \emph{expectation maximization algoritmu}. Ten ale skrze reparametrizační trik provede zpětnou propagaci skrze všechny vrstvy hluboké umělé neuronové sítě.
+Generativní model je tvořen bayesovskou sítí ve tvaru $p(\mathbf{x}\mid\mathbf{z})p(\mathbf{z})$
+\footnote{Případně, má-li generativní model víc stochastických latentní vrstev, má síť následující hiearchii: $p(\mathbf{x}\mid\mathbf{z}_L) p(\mathbf{z}_L\mid\mathbf{z_{L-1}}) \dots p(\mathbf{z}_1\mid\mathbf{z}_0)$.}.
+Podobně, enkodér model je tvořen podmíněnou bayesovskou sítí ve tvaru $q(\mathbf{z}\mid\mathbf{x})$
+\footnote{Nebo jako hiearchie, např.: $q(\mathbf{z}_0\mid\mathbf{z}_1) \dots q(\mathbf{z}_L \mid X)$.}.
+Každá podmíněná vrstva může být tvořena komplexní (hlubokou) umělou neuronovou sítí, například: $\mathbf{z}\mid\mathbf{x} \sim f(\mathbf{x}, \mathbf{\epsilon})$, kde $f$ je mapování umělé neuronové sítě a $\mathbf{\epsilon}$ je \emph{šum} (náhodná proměnná).
+Učící algoritmus VAE je variace klasického \emph{expectation maximization algoritmu}. Ten ale skrze reparametrizační trik provádí zpětnou propagaci skrze všechny vrstvy hluboké umělé neuronové sítě (viz \autoref{sec:reparametrization_trick}).

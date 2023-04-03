@@ -1,4 +1,5 @@
 \section{Reparametrizační trik}
+\label{sec:reparametrization_trick}
 Reparametrizační trik
 \footnote{Reparametrizační trik \emph{funguje} pouze pakliže lze vzorkovat z $Q(z\mid X)$ vyhodnocením funkce $h(\eta, X)$, kde $\eta$ je šum (z distribuce jejíž parametry nejsou učeny z dat). $h$ také musí být spojitá na $X$, abychom skrze něj mohli provádět zpětnou propagaci.
 To, mimo jiné, znamená, že $Q(z\mid X)$ a tím padem i $P(z)$ \textbf{nemohou být diskrétní rozdělení}. V opačném případě by došlo k nespojitosti prostoru vzorků $Q$ – a tedy neschopnosti generativního modelu generovat vzorky v celém rozsahu, včetně vzorků které nebyl součástí dat (běžný problém autoenkodérů, které uvedla \autoref{chap:autoencoder}.)}
@@ -19,7 +20,7 @@ Toto je znázorněno v umělé neuronové síti TODO FIGURE NO-BACKPROP
 \footnote{Žádné střední hodnoty ($E$) \autoref{eq:vae_reparam_trick} \textbf{nezávisí} na parametrech modelu. Tedy do těchto středních hodnot můžeme bezpečně převést symbol gradientu a zároveň dodržet jejich rovnost. 
 Tedy, mějme neměnné $X$ a $\epsilon$, pak je tato funkce \textbf{spojitá a deterministická} v parametrech $P$ a $Q$, což v důsledku znamená možnost zpětné propagace vypočíst gradient algoritmem stochastického gradientního sestupu. }. 
 
-\begin{algorithm}[hbt!]
+\begin{algorithm}[H]
     \caption{Stochastic optimization of the ELBO.}\label{alg:reparam_trick}
         \KwData{}
                 \hspace{6mm}$\mathcal{D}$: Dataset\\
