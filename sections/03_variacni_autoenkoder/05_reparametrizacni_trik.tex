@@ -11,7 +11,7 @@ Pak je možné vzorkovat z $\mathcal{N}(\mu(X), \Sigma(X))$ – nejprve provedem
 Tedy finální rovnice, jejíž gradient chceme spočítat má následující tvar:
 
 \begin{equation} \label{eq:vae_reparam_trick}
-    E_{X \sim D} \left[ E_{\epsilon \sim \mathcal{N}(0, 1)} \left[ \log P(X\mid z = \mu(X) + \Sigma^{\frac{1}{2}} (X) * \epsilon) \right] - \mathcal{D}_{KL} \left[ Q (z \mid X) \parallel P(z) \right] \right].
+    \mathds{E}_{X \sim D} \left[ \mathds{E}_{\epsilon \sim \mathcal{N}(0, 1)} \left[ \log P(X\mid z = \mu(X) + \Sigma^{\frac{1}{2}} (X) * \epsilon) \right] - \mathcal{D}_{KL} \left[ Q (z \mid X) \parallel P(z) \right] \right].
 \end{equation}
 
 Kýžená vlastnost \autoref{eq:vae_reparam_trick} je, že v modelu její \textbf{umělé neuronové sítě lze provést zpětnou propagaci}. 

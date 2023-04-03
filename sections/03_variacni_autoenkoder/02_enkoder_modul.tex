@@ -33,7 +33,7 @@ V takovém případě variační parametry $\phi$ zahrnují váhy a biasy této 
 
 \begin{align}
     (\boldsymbol{\mu}, \log \boldsymbol{\sigma}) &= \text{EnkodérSíť}_\phi(\textbf{x}) \\
-    q_\phi(\textbf{z}\mid\textbf{x}) &= \mathcal{N}(\textbf{z}; \boldsymbol{\mu}, \text{diag}(\boldsymbol{\sigma}))
+    q_\phi(\textbf{z}\mid\textbf{x}) &= \mathcal{N}(\textbf{z}; \boldsymbol{\mu}, \text{diag}(\boldsymbol{\sigma})) \label{eq:enkoder_diag}
 \end{align}
 
 Pro posteriorní inferenci skrze všechna vstupní data je použita vždy jedna stejná enkodér neuronová síť, tedy \textbf{variační parametry jsou sdíleny}
