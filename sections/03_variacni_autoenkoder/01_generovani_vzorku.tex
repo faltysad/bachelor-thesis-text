@@ -1,5 +1,5 @@
 \section{Generování nových vzorků}
-
+\label{sec:vae_generating_new_data}
 Pro vygenerování nového vzorku $\textbf{\emph{x}}$ z modelu VAE je nejprve nutné získat vzorek $\textbf{\emph{z}}$ z rozdělení pravděpodobnosti kódu $p_{model}(\textbf{\emph{z}})$.
 Poté je tento vzorek vstupem pro síť generátoru $g(\textbf{\emph{z}})$. Na konec je $\textbf{\emph{x}}$ vzorkováno z rozdělení pravděpodobnosti $p_{model}(\textbf{\emph{x}};g(\textbf{\emph{z}})) = p_{model}(\textbf{\emph{x}}\mid\textbf{\emph{z}})$. \cite{Kingma2014}
 

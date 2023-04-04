@@ -22,6 +22,7 @@ Tedy, chceme maximalizovat pravděpodobnost každého $X$ z trénovací množiny
 Kde $f(z;\theta)$ bylo nahrazeno distribucí $P(X\mid z;\theta)$, která umožňuje explicitně vyjádřit závislost $X$ na $z$ (ze zákonu celkové pravděpodobnosti). \cite{Doersch2021}
 
 \subsection{Maximum likelihood}
+\label{sec:maximum_likelihood}
 Intuitivní myšlenka za tímto principem, nazývaným \emph{marginal likelihood}, je, že pokud model s vysokou pravděpodobností vyprodukuje množinu vzorků z trénovací množiny, tak je také \textbf{pravděpodobné}, že vyprodukuje \textbf{podobné vzorky} které nebyly součástí trénovací množiny (a naopak, je  \textbf{nepravděpodobné} že vyprodukuje \textbf{odlišné vzorky vůči vzorkům v trénovací množině}). \cite{Doersch2021}
 
 U variačních autoenkodérů je toto výstupní rozdělení pravděpodobnosti často voleno jako Gaussovo, tedy například $P(X\mid z\theta) = \mathcal{N}(X\mid f(z;\theta), \sigma^2 * I)$

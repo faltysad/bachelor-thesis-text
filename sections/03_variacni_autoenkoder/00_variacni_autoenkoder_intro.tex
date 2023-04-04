@@ -73,3 +73,58 @@ Podobně, enkodér model je tvořen podmíněnou bayesovskou sítí ve tvaru $q(
 \footnote{Nebo jako hiearchie, např.: $q(\mathbf{z}_0\mid\mathbf{z}_1) \dots q(\mathbf{z}_L \mid X)$.}.
 Každá podmíněná vrstva může být tvořena komplexní (hlubokou) umělou neuronovou sítí, například: $\mathbf{z}\mid\mathbf{x} \sim f(\mathbf{x}, \mathbf{\epsilon})$, kde $f$ je mapování umělé neuronové sítě a $\mathbf{\epsilon}$ je \emph{šum} (náhodná proměnná).
 Učící algoritmus VAE je variace klasického \emph{expectation maximization algoritmu}. Ten ale skrze reparametrizační trik provádí zpětnou propagaci skrze všechny vrstvy hluboké umělé neuronové sítě (viz \autoref{sec:reparametrization_trick}).
+
+\section{Výzvy}
+Při řešení \autoref{eq:maximum_likelihood} nastávají dva problémy:
+\begin{enumerate}
+    \item Jakým způsobem definovat latentní proměnné $z$. Tedy určit jakou informaci budou reprezentovat.
+    \item Jak vyřešit integrál skrze $z$.
+\end{enumerate}
+
+Na první problém reaguje \autoref{sec:vae_latent_variable}.
+Na druhý problém reagují \autoref{sec:vae_optimization} a \autoref{sec:reparametrization_trick}.
+VAE tedy nabízí definitivní řešení obou problémů \autoref{eq:maximum_likelihood}. 
+
+\subsection{Volba latentních proměnných dle typu reprezentace informace}
+\label{sec:vae_latent_variable}
+Jak zvolit latentní proměnné $z$ které správně zachytí latentní informace obsažené v datech?
+
+Před tím, než model vůbec začne generovat nový vzorek dat (například obrázek ručně psané číslice 0-9) musí provést řadu komplexních rozhodnutí.
+Volbu samotné číslice, úhel jejího sklonu, tloušťku tahu a celou řadu dalších stylistických vlastností.
+Mezi těmito vlastnosti pochopitelně existují korelace, které model musí rovněž zohlednit
+\footnote{Např. číslice napsané v rychlosti budou mít typicky vyšší úhel sklonu, ale menší tloušťku tahu.}.
+Je tedy zřejmé, že se chceme vyhnout jakémukoliv explicitnímu zahrnutí těchto vlastností do naučeného modelu.
+To znamená, že nečiníme explicitní rozhodnutí o tom, jaké dimenze $z$ kódují jakou vlastnost dat
+\footnote{Byť určité rozšířené architektury využívají explicitní volby \emph{určitých} dimenzí $z$ – např. \cite{Kulkarni2015}.}.
+Stejně tak se chceme vyhnout jakémukoliv explicitnímu popisu závislostí mezi daty (tzv. popisu jejich latentní struktury) mezi dimenzemi $z$. \cite{Doersch2021}
+
+VAE volí unikátní přístup k řešení výše zmíněných omezení. \textbf{VAE předpokládá, že neexistuje žádná triviální interpretace dimenzí $z$, ale raději usuzuje, že $z$ lze vzorkovat z jednoduchého rozdělení pravděpodobnosti $\mathcal{N}(0, I)$}, kde $I$ je jednotková matice. \cite{Doersch2021}
+
+Jak vzorkovat $z$ z rozdělení pravděpodobnosti $\mathcal{N}(0, I)$?
+
+Libovolné rozdělení pravděpodobnosti s $d$ dimenzemi lze generovat množinou o velikosti $d$ proměnných které mají normální rozdělení a jejich následném mapování skrze dostatečně komplexní funkci
+\footnote{Pro detailní popis generování rozdělení o $d$ dimenzích odkazuji na \emph{inversion method} popsanou v \cite{Devroye1986}.}.
+
+Řekněme, že chceme sestavit 2D náhodnou proměnou, jejíž hodnoty leží na kruhu.
+Tedy $z$ je 2D a má normální rozdělení. Pak funkce $g(z) = \frac{z}{10} + \frac{z}{\| z \|}$ téměř tvoří kruh.
+\autoref{fig:latent_variable_ring_structure} ukazuje $z$ a graf funkce $g$.
+Deterministická funkce $g$ naučená ze vstupních dat je naprosto stejná \textbf{strategie, kterou VAE požívá pro vytvoření distribuce generující nové vzorky dat}.  \cite{Doersch2021}
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{img/latent_variable_ring_structure.png}
+    \caption{Máme-li náhodnou proměnnou $z$ s nějakým rozdělením pravděpodobnosti, můžeme z ní vytvořit zcela novou náhodnou proměnnou $X = g(z)$ s kompletně jiným rozdělením.}
+    Levý obrázek zachycuje vzorky z Gaussova rozdělení. Pravý obrázek zachycuje ty stejné vzorky mapované skrze funkci $g(z) = \frac{z}{10} + \frac{z}{\| z \|}$.
+    Obrázek včetně interpretace převzaty z \cite{Doersch2021}.
+    \label{fig:latent_variable_ring_structure}
+\end{figure}
+
+Tedy, má-li VAE k dispozici dostatečně silnou aproximační funkci, může se ze vstupních dat jednoduše naučit funkci, která mapuje nezávislé hodnoty $z$ s normálním rozdělením na libovolné latentní proměnné, které jsou pro model potřebné.
+VAE pak takové latentní proměnné mapuje na $X$.   \cite{Doersch2021}
+
+Připomeňme, že (z \autoref{sec:maximum_likelihood}) $P(X|z;\theta) = \mathcal{N}(X|f(z;\theta), \sigma^2 * I)$.
+Pokud je $f(z;\theta)$ Vícevrstvý Perceptron (viz \autoref{sec:multilayer_perceptron}), pak si lze intuitivně představit, že jeho umělá neuronová síť využívá svých prvních pár vrstev k mapování normálně rozdělených $z$ na latentní hodnoty (jako např. identita číslice, tloušťka tahu, sklon číslice apod.).
+Pozdější vrstvy této sítě mohou být využity k mapování těchto latentních proměnných na obrázek ručně psané číslice (a to sice zcela nově vygenerovaných z pravděpodobnostního rozdělení, viz \autoref{sec:vae_generating_new_data}).
+Důležité je, že (obecně) nemusíme řešit zda-li taková latentní struktura ve vstupních datech vůbec existuje.
+Pokud nějaká latentní struktura pomáhá modelu s vysokou mírou přesnosti rekonstruovat (tedy optimalizovat ztrátovou funkci, viz \autoref{sec:vae_optimization}) data z trénovací množiny, pak se umělá neuronová síť tuto strukture v \emph{nějaké}\footnote{Za předpokladu dostatečně vysoko-kapacitní umělé neuronové sítě.} vrstvě naučí. \cite{Doersch2021}
+
+

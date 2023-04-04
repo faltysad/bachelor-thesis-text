@@ -31,6 +31,7 @@ Tento problém (v kontextu variačních autoenkodérů) zatím zůstává nezodp
 Autoři rámce VAE se domnívají, že budoucí teoretický výzkum by měl být schopný na tomto důkazu stavět a rozšířit jej na více (složitějších) scénářů s praktickým využitím. 
 
 \subsection{Interpretace z pohledu informační teorie}
+\label{sec:vae_information_theory_interpretation}
 Dalším možným (a velmi důležitým) pohledem na pravou stranu \autoref{eq:vae_objective} je v kontextu informační teorie.
 Konkrétně pomocí principu tzv. \emph{minimum description length}, který stojí za mnoha předchůdci variačního autoenkodéru, jako například Helmholtz Machines, Wake-Sleep Algoritmus, Deep Belief Nets a Boltzmann Machines.
 
@@ -45,6 +46,7 @@ Tedy měří množství nadbytečné informace které obdržíme o $X$ když obd
 V druhé fázi $P(X\mid z)$ měří množství informace potřebné pro rekonstrukci $X$ ze $z$ za použití ideálního kódování.
 
 Tedy celkový počet bitů ($- \log P(X)$) je součtem těchto dvou fází mínus trestu, který platíme za to, že $Q$ suboptimální kódováním $\mathcal{D}_{KL}\left[ Q(z\mid X) \parallel P(z\mid X) \right]$. 
+
 
 \subsection{VAE a regularizační prvek}
 \autoref{eq:vae_objective} nabízí další pohled na  $\mathcal{D}_{KL}\left[ Q(z\mid X) \parallel P(z) \right]$ jakožto na jakýsi regularizační prvek.
