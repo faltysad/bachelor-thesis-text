@@ -79,11 +79,12 @@ Učící algoritmus VAE je variace klasického \emph{expectation maximization al
     \item $X = {x^{(i)}}$: Dataset sestavený z $N$ i. i. d. \footnote{Independent and identically distributed, nezávisle a rovnoměrně rozdělené náhodné veličiny.} vzorků nějaké spojité či diskrétní proměnné $x$. 
     Předpokládáme, že tato data byla vygenerována nějakým náhodným procesem, jenž zahrnuje pozorování spojité náhodné proměnné $z$
     \item $z$: Latentní proměnná (latentní reprezentace), kód.
-    \item $p_\theta(z):$ Apriorní rozdělení s parametry $\theta$. Jeho hustota pravděpodobnosti je diferenciovatelná s ohledem na $\theta$ a $z$.
-    \item $p_\theta(x|z):$ Podmíněné rozdělení s parametry $\theta$. Jeho hustota pravděpodobnosti je diferenciovatelná s ohledem na $\theta$ a $z$.
+    \item $p_\theta(z)$: Apriorní rozdělení s parametry $\theta$. Jeho hustota pravděpodobnosti je diferenciovatelná s ohledem na $\theta$ a $z$.
+    \item $p_\theta(x|z)$: Podmíněné rozdělení s parametry $\theta$. Jeho hustota pravděpodobnosti je diferenciovatelná s ohledem na $\theta$ a $z$.
     \item Proces náhodného generování dat: Zahrnuje pozorování $z$. Skládá se ze dvou kroků: (1) hodnota $z^{(i)}$ je vygenerována z $p_\theta(z)$; (2) hodnota $x^{(i)}$ je generována z $P_\theta(x|z)$.
-    \item $q_\phi(z|x):$ \emph{Recognition model} (viz \autoref{sec:vae_encoder}). Probabilistický enkodér. Na základě datového bodu $x$ produkuje rozdělení pravděpodobnosti skrze možné hodnoty kódu $z$, které jej mohly generovat. Aproximace původního \emph{intractable} podmíněného posteriorního rozdělení $p_\theta(z|x)$.
+    \item $q_\phi(z|x)$: \emph{Recognition model} (viz \autoref{sec:vae_encoder}). Probabilistický enkodér. Na základě datového bodu $x$ produkuje rozdělení pravděpodobnosti skrze možné hodnoty kódu $z$, které jej mohly generovat. Aproximace původního \emph{intractable} podmíněného posteriorního rozdělení $p_\theta(z|x)$.
     \item $p_\theta(x|z)$: Probabilistický dekodér (\autoref{sec:vae_decoder}). Na základě kódu $z$ produkuje rozdělení pravděpodobnosti skrze možné hodnoty korespondující s $x$. Jeho využití je generování nových vzorků dat (viz \autoref{sec:vae_generating_new_data}).
+    \item $p_\theta(x, z) = p_\theta(z) p_\theta(x|z)$: generativní model, ze kterého provádíme vzorkování a snažíme se o odhad jeho marginální věrohodnosti.
 \end{itemize}
 
 \section{Vymezení problémové oblasti}
