@@ -5,7 +5,7 @@ Reparametrizační trik
 To, mimo jiné, znamená, že $Q(z\mid X)$ a tím padem i $P(z)$ \textbf{nemohou být diskrétní rozdělení}. V opačném případě by došlo k nespojitosti prostoru vzorků $Q$ – a tedy neschopnosti generativního modelu generovat vzorky v celém rozsahu, včetně vzorků které nebyl součástí dat (běžný problém autoenkodérů, které uvedla \autoref{chap:autoencoder}.)}
 spočívá v přesunutí procesu vzorkování do vstupní vrstvy.
 
-Mějme $\mu(X)$ a $\Sigma(X)$ – \textbf{střední hodnotu} a \textbf{kovarianci} $Q(z\mid X)$.
+Mějme $\mu(X)$ a $\Sigma(X)$ – \textbf{průměr} a \textbf{kovarianci} $Q(z\mid X)$.
 Pak je možné vzorkovat z $\mathcal{N}(\mu(X), \Sigma(X))$ – nejprve provedeme vzorkování z $\epsilon \sim \mathcal{N}(0, I)$ a následně spočteme $z = \mu(X) + \Sigma^{\frac{1}{2}}(X) * \epsilon$.
 
 Tedy finální rovnice, jejíž gradient chceme spočítat má následující tvar:
@@ -29,7 +29,7 @@ Tedy, mějme neměnné $X$ a $\epsilon$, pak je tato funkce \textbf{spojitá a d
         \KwResult{}
         \hspace{6mm}$\boldsymbol{\theta}, \boldsymbol{\phi}$: Naučené parametry\\
 
-        $\boldsymbol{\theta}, \boldsymbol{\phi} \gets \text{Inicializace parametrů}$
+        $\boldsymbol{\theta}, \boldsymbol{\phi} \gets \text{Náhodná inicializace parametrů}$
 
         \While{SGD not converged}{
             $\mathcal{M} \sim \mathcal{D}$ (Random minibatch of data)\\
