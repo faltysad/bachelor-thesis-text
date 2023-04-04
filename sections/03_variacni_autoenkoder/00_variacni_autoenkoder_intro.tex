@@ -74,16 +74,29 @@ Podobně, enkodér model je tvořen podmíněnou bayesovskou sítí ve tvaru $q(
 Každá podmíněná vrstva může být tvořena komplexní (hlubokou) umělou neuronovou sítí, například: $\mathbf{z}\mid\mathbf{x} \sim f(\mathbf{x}, \mathbf{\epsilon})$, kde $f$ je mapování umělé neuronové sítě a $\mathbf{\epsilon}$ je \emph{šum} (náhodná proměnná).
 Učící algoritmus VAE je variace klasického \emph{expectation maximization algoritmu}. Ten ale skrze reparametrizační trik provádí zpětnou propagaci skrze všechny vrstvy hluboké umělé neuronové sítě (viz \autoref{sec:reparametrization_trick}).
 
-\section{Výzvy}
+\subsection{Notace}
+\begin{itemize}
+    \item $X = {x^{(i)}}$: Dataset sestavený z $N$ i. i. d. \footnote{Independent and identically distributed, nezávisle a rovnoměrně rozdělené náhodné veličiny.} vzorků nějaké spojité či diskrétní proměnné $x$. 
+    Předpokládáme, že tato data byla vygenerována nějakým náhodným procesem, jenž zahrnuje pozorování spojité náhodné proměnné $z$
+    \item $z$: Latentní proměnná (latentní reprezentace), kód.
+    \item $p_\theta(z):$ Apriorní rozdělení s parametry $\theta$. Jeho hustota pravděpodobnosti je diferenciovatelná s ohledem na $\theta$ a $z$.
+    \item $p_\theta(x|z):$ Podmíněné rozdělení s parametry $\theta$. Jeho hustota pravděpodobnosti je diferenciovatelná s ohledem na $\theta$ a $z$.
+    \item Proces náhodného generování dat: Zahrnuje pozorování $z$. Skládá se ze dvou kroků: (1) hodnota $z^{(i)}$ je vygenerována z $p_\theta(z)$; (2) hodnota $x^{(i)}$ je generována z $P_\theta(x|z)$.
+    \item $q_\phi(z|x):$ \emph{Recognition model} (viz \autoref{sec:vae_encoder}). Probabilistický enkodér. Na základě datového bodu $x$ produkuje rozdělení pravděpodobnosti skrze možné hodnoty kódu $z$, které jej mohly generovat. Aproximace původního \emph{intractable} podmíněného posteriorního rozdělení $p_\theta(z|x)$.
+    \item $p_\theta(x|z)$: Probabilistický dekodér (\autoref{sec:vae_decoder}). Na základě kódu $z$ produkuje rozdělení pravděpodobnosti skrze možné hodnoty korespondující s $x$. Jeho využití je generování nových vzorků dat (viz \autoref{sec:vae_generating_new_data}).
+\end{itemize}
+
+\section{Vymezení problémové oblasti}
 Při řešení \autoref{eq:maximum_likelihood} nastávají dva problémy:
 \begin{enumerate}
     \item Jakým způsobem definovat latentní proměnné $z$. Tedy určit jakou informaci budou reprezentovat.
-    \item Jak vyřešit integrál skrze $z$.
+    \item \emph{Intractability}, aneb jak vyřešit integrál skrze $z$. \cite[Sekce 2.1.]{Kingma2014}
+    \item Velikost datasetu. Provádět dávkovou optimalizaci skrze všechny datové body je příliš drahá operace. Jak dosáhnout parametrických úprav jednotlivých datových bodů \footnote{Případně \emph{minibatch} dávek.} pomocí metod vzorkování.
 \end{enumerate}
 
 Na první problém reaguje \autoref{sec:vae_latent_variable}.
-Na druhý problém reagují \autoref{sec:vae_optimization} a \autoref{sec:reparametrization_trick}.
-VAE tedy nabízí definitivní řešení obou problémů \autoref{eq:maximum_likelihood}. 
+Na druhý problém reaguje \autoref{sec:vae_optimization}. A nákladnost dávkových operací řeší \autoref{sec:reparametrization_trick}.
+VAE tedy nabízí definitivní všech představených problémů \autoref{eq:maximum_likelihood}. 
 
 \subsection{Volba latentních proměnných dle typu reprezentace informace}
 \label{sec:vae_latent_variable}
@@ -126,5 +139,6 @@ Pokud je $f(z;\theta)$ Vícevrstvý Perceptron (viz \autoref{sec:multilayer_perc
 Pozdější vrstvy této sítě mohou být využity k mapování těchto latentních proměnných na obrázek ručně psané číslice (a to sice zcela nově vygenerovaných z pravděpodobnostního rozdělení, viz \autoref{sec:vae_generating_new_data}).
 Důležité je, že (obecně) nemusíme řešit zda-li taková latentní struktura ve vstupních datech vůbec existuje.
 Pokud nějaká latentní struktura pomáhá modelu s vysokou mírou přesnosti rekonstruovat (tedy optimalizovat ztrátovou funkci, viz \autoref{sec:vae_optimization}) data z trénovací množiny, pak se umělá neuronová síť tuto strukture v \emph{nějaké}\footnote{Za předpokladu dostatečně vysoko-kapacitní umělé neuronové sítě.} vrstvě naučí. \cite{Doersch2021}
+
 
 

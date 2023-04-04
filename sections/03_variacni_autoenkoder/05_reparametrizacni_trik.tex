@@ -23,7 +23,7 @@ Tedy, mějme neměnné $X$ a $\epsilon$, pak je tato funkce \textbf{spojitá a d
 \begin{algorithm}[H]
     \caption{Stochastic optimization of the ELBO.}\label{alg:reparam_trick}
         \KwData{}
-                \hspace{6mm}$\mathcal{D}$: Dataset\\
+                \hspace{6mm}$\mathcal{D}$: Dataset (i. i. d.)\\
                 \hspace{6mm}$q_\phi(\textbf{z}\mid\textbf{x})$: Inferenční model (enkodér)\\
                 \hspace{6mm}$p_\theta(\textbf{x}, \textbf{z})$: Generativní model (dekodér)\\
         \KwResult{}
