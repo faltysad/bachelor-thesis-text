@@ -1,0 +1,35 @@
+\section{Aktuální stav poznání a rozšíření variačního autoenkodéru}
+
+\subsection{Wake-sleep algoritmus}
+Wake-sleep algoritmus \cite{Hinton1995} je další on-line metodou pro učení, která je aplikovatelná na stejnou třídu modelů využívajících latentních proměnných, jako VAE.
+Obdobně jako VAE (\autoref{sec:vae_encoder}), wake-sleep algoritmus využívá recognition model který aproximuje posteriorní rozdělení původních dat.
+Značnou nevýhodou wake-sleep algoritmu oproti VAE však je nutnost současné optimalizace dvou účelových funkcí, které dohromady nekorespondují s optimalizací dolní meze marginální věrohodnosti.
+Výhodou wake-sleep algoritmu oproti VAE je, že je také aplikovatelný na modely s diskrétními latentními proměnnými.
+Wake-sleep algoritmus rovněž nabízí stejnou výpočetní složitost skrz jeden datový bod jako ELBO. \cite{Kingma2019}
+
+\subsection{Regularizované autoenkodéry}
+Rozšířením \autoref{sec:denoising_autoencoder} a \autoref{sec:stacked_autoencoder} jsou Stacked Denoising Autoenkodéry \cite{Vincent2010}. Jejich princip spočívá v maximalizaci (s ohledem na parametry) vzájemné informace  a je ekvivalentní s maximalizací podmíněné entropie. Což je dolní mezí očekávané log-věrohodnosti dat, které jsou výstupem autoenkodér modelu – tedy tzv. \emph{negative reconstruction} chyba.
+Nicméně, jak bylo ukázáno \cite{Bengio2014}, toto kritérium pro rekonstrukci dat \textbf{není dostatečné} pro naučení modelu \textbf{užitečným} reprezentací vstupních dat.
+
+Přirozeně tedy bylo přistoupeno k regularizačním technikám, které zajistí naučení užitečných reprezentací. Tyto návrhy představují \autoref{sec:sparse_autoencoder}, \autoref{sec:denoising_autoencoder}, \autoref{sec:contractive_autoencoder} a \autoref{sec:stochastic_autoencoder}.
+Možnost regularizačního prvku jako součást účelové funkce variačního autoenkodéru popisuje \autoref{sec:vae_regulariazion_term}.
+
+\subsection{Generativní stochastické sítě}
+\cite{Bengio2014a} představuje generativní stochastickou síť, kde se noisy autoenkodér učí přechodovou funkci a operátory Markovova řetězce, který vzorkuje z rozdělení pravděpodobnosti vstupních dat.  Toto vzorkování je potom využito pro sestavení generativního procesu, což je ve vztahu k variačním autoenkodérům přidružená technika. \cite{Kingma2019}
+
+\subsection{Efektivní učení reprezentací pomocí hlubokých Boltzmann machines}
+V \cite{Salakhutdinov2010} byl využit recognition model (podobně jako \autoref{sec:vae_encoder}) pro efektivní učení reprezentací pomocí hlubokých Boltzmann machines. 
+Tato metoda je zaměřena pouze na nenormalizované modely (např.: Boltzmann machines) nebo řídké kódovací modely. V kontrastu s variačním autoenkodér, který je schopen učit se problémům v obecné třídě orientovaných pravděpodobnostních modelů. \cite{Kingma2019}
+
+\subsection{Hluboké autoregresivní sítě}
+Obdobně jako variační autoenkodér, \cite{Gregor2014} představuje metodu pro učení se pravděpodobnostního modelu za využití autoenkodér struktury. Nicméně navrhovaná metoda je aplikovatelná pouze při uvažování binárních latentních proměnné (v kontrastu s VAE, kde toto omezení neexistuje). \cite{Kingma2019}
+
+\subsection{Stochastic Backpropagation and Approximate Inference in Deep Generative Models}
+Práce publikována souběžně a nezávisle na autorech rámce VAE (z jejichž publikací \autoref{chap:vae} převážně čerpá). Práce \cite{Rezende2014} rovněž představuje propojení autoenkodérů, orientovaných pravděpodobnostních modelů a stochastické variační inference pomocí regularizačního triku, tedy stejných principů, které popisuje \autoref{chap:vae}.
+Představuje alternativní interpretaci a vhled do vnitřní architektury variačního autoenkodéru.
+
+\subsection{Conditional variační autoenkodér}
+Conditional variační autoenkodér (CVAE) \cite{Sohn2015} modifikuje matematický aparát variačního autoenkodéru, který popisuje \autoref{chap:vae}, \textbf{podmíněním celého generativního procesu na vstupu}. Tedy vytváří vazbu generativního procesu na konkrétní vstup (resp. konkrétní podobu výstupu).
+CVAE nabízí řešení problému, kde má input-output mapovací funkce kardinalitu 1:n
+\footnote{V textech strojového učení se můžeme setkat s pojmenováním \emph{strukturovaná predikce}.},\textbf{bez nutnosti explicitní specifikace} struktury výstupního rozdělení pravděpodobnosti.
+Tedy, použijeme-li opět úlohu generování ručně psané číslice, CVAE nabízí možnost jak generovat například pouze vzorky s třídou "9", tedy pouze číslice 9 (oproti VAE, kde je toto bez dalších rozšíření nemožné). \cite{Doersch2021}
