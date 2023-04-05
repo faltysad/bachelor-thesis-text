@@ -67,4 +67,4 @@ Nutno podotknout, že samotná existence tohoto parametru je závislá na zvolen
 Tedy pokud je $x^{(i)}$ binární, a jako výstupní model je použito Alternativní rozdělení, tento \emph{regularizační} prvek zmizí 
 \footnote{I přes to existují způsoby, jakým jej lze dostat zpět do rovnice, jako například replikace dimenzí $x^{(i)}$. \cite{Doersch2021}}.
 Což z pohledu informační teorie dává logiku: je-li $x^{(i)}$ binární, lze spočítat počet bitů, které jsou potřebné pro kódování $x^{(i)}$, a tím pádem oba prvky pravé strany \autoref{eq:vae_elbo} používají stejné jednotky.
-Nicméně, pokud je $x^{(i)}$ spojité, každý vzorek obsahuje nekonečnou míru informace. Volba $\sigma$ pak určuje očekávanou míry přesnosti, s jakou je naučený model schopen rekonstruovat $x^{(i)}$ (tento kompromis je nutný, aby se míra informace vzorku stala konečná).
+Nicméně, pokud je $x^{(i)}$ spojité, každý vzorek obsahuje nekonečnou míru informace. Volba $\sigma$ pak určuje očekávanou míry přesnosti, s jakou je naučený model schopen rekonstruovat $x^{(i)}$, resp. celé $X$. (tento kompromis je nutný, aby se míra informace vzorku stala konečná).
