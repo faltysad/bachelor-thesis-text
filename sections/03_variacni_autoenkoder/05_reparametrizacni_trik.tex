@@ -11,30 +11,12 @@ Pak je možné vzorkovat z $\mathcal{N}(\mu(X), \Sigma(X))$ – nejprve provedem
 Tedy finální rovnice, jejíž gradient chceme spočítat má následující tvar:
 
 \begin{equation} \label{eq:vae_reparam_trick}
-    \mathds{E}_{X \sim D} \left[ \mathds{E}_{\epsilon \sim \mathcal{N}(0, 1)} \left[ \log P(X\mid z = \mu(X) + \Sigma^{\frac{1}{2}} (X) * \epsilon) \right] - \mathcal{D}_{KL} \left[ Q (z \mid X) \parallel P(z) \right] \right].
+    \mathds{E}_{X \sim D} \left[ \mathds{E}_{\mathcal{N}(\epsilon; 0, 1)} \left[ \log P(X\mid z = \mu(X) + \Sigma^{\frac{1}{2}} (X) * \epsilon) \right] -  D_{KL}(q_\phi(\textbf{z}\mid\textbf{x})\parallel p_\theta(\textbf{z})) \right].
 \end{equation}
+
 
 Kýžená vlastnost \autoref{eq:vae_reparam_trick} je, že v modelu její \textbf{umělé neuronové sítě lze provést zpětnou propagaci}. 
 Toto je znázorněno v umělé neuronové síti TODO FIGURE NO-BACKPROP 
 
-\footnote{Žádné střední hodnoty ($E$) \autoref{eq:vae_reparam_trick} \textbf{nezávisí} na parametrech modelu. Tedy do těchto středních hodnot můžeme bezpečně převést symbol gradientu a zároveň dodržet jejich rovnost. 
+\footnote{Žádné střední hodnoty ($\mathds{E}$) \autoref{eq:vae_reparam_trick} \textbf{nezávisí} na parametrech modelu. Tedy do těchto středních hodnot můžeme bezpečně převést symbol gradientu a zároveň dodržet jejich rovnost. 
 Tedy, mějme neměnné $X$ a $\epsilon$, pak je tato funkce \textbf{spojitá a deterministická} v parametrech $P$ a $Q$, což v důsledku znamená možnost zpětné propagace vypočíst gradient algoritmem stochastického gradientního sestupu. }. 
-
-\begin{algorithm}[H]
-    \caption{Stochastic optimization of the ELBO.}\label{alg:reparam_trick}
-        \KwData{}
-                \hspace{6mm}$\mathcal{D}$: Dataset (i. i. d.)\\
-                \hspace{6mm}$q_\phi(\textbf{z}\mid\textbf{x})$: Inferenční model (enkodér)\\
-                \hspace{6mm}$p_\theta(\textbf{x}, \textbf{z})$: Generativní model (dekodér)\\
-        \KwResult{}
-        \hspace{6mm}$\boldsymbol{\theta}, \boldsymbol{\phi}$: Naučené parametry\\
-
-        $\boldsymbol{\theta}, \boldsymbol{\phi} \gets \text{Náhodná inicializace parametrů}$
-
-        \While{SGD not converged}{
-            $\mathcal{M} \sim \mathcal{D}$ (Random minibatch of data)\\
-            $\boldsymbol{\epsilon} \sim p(\boldsymbol{\epsilon})$ (Random noise for every datapoint in $\mathcal{M}$)\\
-            Compute $\tilde{\mathcal{L}}$ and its gradients $\nabla_{\theta,\phi}(\mathcal{M}, \boldsymbol{\epsilon})$\\
-            Update $\boldsymbol{\theta}$ and $\boldsymbol{\phi}$ using SGD optimizer
-            }
-\end{algorithm}

@@ -1,9 +1,9 @@
 \section{Optimalizace pomocí stochastického gradientního sestupu}
 \label{sec:vae_optimization}
 
-Za účelem optimalizace pravé strany \autoref{eq:vae_objective} je nutné specifikovat tvar, kterého bude $Q(z\mid X)$ nabývat.
+Za účelem optimalizace pravé strany \autoref{eq:vae_elbo} je nutné specifikovat tvar, kterého bude $q_\phi(z\mid x)$ nabývat.
 
-Zvolíme $Q(z\mid X) = \mathcal{N}(z\mid \mu(X;\theta),\Sigma(X;\theta))$, kde $\mu$ a $\Sigma$ jsou libovolné \textbf{deterministické} funkce s parametry $\theta$, které se lze učit z dat.
+Zvolíme $q_\phi(z\mid x) = \mathcal{N}(z\mid \mu(X;\theta),\Sigma(X;\theta))$, kde $\mu$ a $\Sigma$ jsou libovolné \textbf{deterministické} funkce s parametry $\theta$, které se lze učit z dat.
 Funkce $\mu$ a $\Sigma$ jsou (typicky) implementovány umělou neuronovou sítí, s tím že $\Sigma$ musí být reprezentována diagonální maticí (viz \autoref{eq:enkoder_diag}).
 Takto zvolené $Q(z\mid X)$ má zejména \textbf{výpočetní výhodu} – pravá strana rovnice je nyní jednoznačně spočitatelná.
 
@@ -22,35 +22,72 @@ kde $k$ je dimenzionlita výsledného rozdělení pravděpodobnosti. \autoref{eq
     \frac{1}{2} \left[ \tr (\Sigma(X)) + (\mu(X))^\top (\mu(X)) - k - \log \det (\Sigma(X)) \right].
 \end{equation}
 
-První prvek na pravé straně \autoref{eq:vae_objective} je o něco komplikovanější.
+První prvek pravé strany \autoref{eq:vae_elbo} je o něco komplikovanější.
 
-Bylo by možné pomocí vzorků odhadnout $\mathds{E}_{Z\sim Q}[\log P(X\mid z)]$, ale pro získání \emph{věrohodného} odhadu je nutné skrze $z$ poslat velké množství vzorků, což je výpočetně náročné.
-Tedy, jak je u stochastického gradientního sestupu běžné, použijeme pouze jeden vzorek $z$ a použijeme $P(X\mid z)$ pro toto $z$ jako aproximaci $\mathds{E}_{Z\sim Q}[\log P(X\mid z)]$
+Bylo by možné pomocí vzorků odhadnout $\mathds{E}_{q_\phi(z\mid x^{(i)})} \left[ \log p_\theta(x^{(i)}\mid z) \right]$, ale pro získání \emph{věrohodného} odhadu je nutné skrze $z$ poslat velké množství vzorků, což je výpočetně náročné.
+Tedy, jak je u stochastického gradientního sestupu běžné, využijeme pouze jeden vzorek $z$ a použijeme $P(X\mid z)$ pro toto $z$ jako aproximaci této střední hodnoty
 \footnote{Zde je výhodou, že provést stochastický gradientní sestup skrze všechny různé hodnoty $X$ vzorkované z datové sady $D$ již stochastický gradientní sestup provádíme při trénování.}.
 
-Tedy konečná \textbf{rovnice kterou chceme optimalizovat} má následující podobu:
 
-\begin{equation}\label{eq:vae_final_objective}
-    \mathds{E}_{X\sim D} \left[ \log P(X) - \mathcal{D}_{KL}\left[ Q(z\mid X)\parallel P(z\mid X) \right] \right] =
-    \mathds{E}_{X\sim D} \left[ \mathds{E}_{z\sim Q} \left[ \log P(X \mid z) \right] - \mathcal{D}_{KL} \left[ Q(z\mid X) \parallel P(z) \right] \right] 
-\end{equation}
+Tedy \textbf{rovnice kterou chceme optimalizovat} má následující podobu:
 
-Vezmeme-li gradient této rovnice, symbol gradientu může být přesunut do střední hodnoty.
-Tedy, můžeme vzorkovat jednu hodnotu z $X$ a jednu hodnotu ze $z$ z rozdělení pravděpodobnosti $Q(z\mid X)$ a následně vypočítat gradient:
+\begin{align}
+   \nabla_\phi \mathcal{L}_{\theta,\phi}(x) &= \nabla_\phi \mathds{E}_{q_\phi(z\mid x)} \left[ \log p_\theta (x, z) - \log q_\phi (z\mid x) \right] \label{eq:vae_final_objective} \\
+                                            &\neq \mathds{E}_{q_\phi(z\mid x)} \left[ \nabla_\phi (\log p_\theta (x, z) - \log q_\phi (z\mid x) ) \right] \label{eq:vae_final_objective_dependent_gradient}
+\end{align}
+
+Symbol gradientu této může být bezpečně přesunut do střední hodnoty.
+Tedy, můžeme vzorkovat jednu hodnotu z $X$ a jednu hodnotu ze $z$ z a následně vypočítat gradient:
 
 \begin{equation} \label{eq:sample_gradient}
-    \log P(X \mid z) - \mathcal{D}_{KL}\left[ Q(z\mid X) \parallel P(z) \right].
+    \log p_\theta(x \mid z) - D_{KL}(q_\phi(\textbf{z}\mid\textbf{x})\parallel p_\theta(\textbf{z})). 
 \end{equation}
 
-Následně zprůměrujeme gradient této funkce skrze \emph{libovolně velké} množství vzorků z $X$ a $z$ – výsledná hodnota tohoto gradientu konverguje ke gradientu \autoref{eq:vae_final_objective}.
+Průměr gradientu této funkce skrze \emph{libovolně velké} množství vzorků z $x$ a $z$. Výsledná hodnota tohoto gradientu konverguje ke gradientu \autoref{eq:vae_final_objective}.
 
-\autoref{eq:vae_final_objective} má jeden zásadní problém. $\mathds{E}_{z \sim Q} \left[ \log P(X \mid z) \right]$ závisí na parametrech $P$ a na parametrech $Q$.
-\autoref{eq:sample_gradient} již však tuto vazbu nemá.
+\subsubsection{Metoda stochastická gradientní optimalizace ELBO}
+Důležitou vlastností ELBO je možnost \emph{joint} optimalizace s ohledem na veškeré její parametry – $\boldsymbol{\phi}$ a $\boldsymbol{\theta}$ – za použití stochastického gradientního sestupu (\emph{stochastic gradient descent, SGD}).
+Proces lze zahájit náhodnými počátečními hodnotami $\boldsymbol{\phi}$ a $\boldsymbol{\theta}$ a stochasticky optimalizovat jejich hodnoty než dojde ke konvergenci.
 
-Aby VAE fungovaly dle očekávání, $Q$ musí být nuceno produkovat takové kódy pro $X$, které bude $P$ schopno \textbf{spolehlivě} dekódovat.
+Mějme nezávisle a rovnoměrně rozdělená vstupní data, účelovou funkcí ELBO je součet ELBO jednotlivých datových bodů:
+\begin{equation}
+    \mathcal{L}_{\theta,\phi}(\mathcal{D}) = \sum_{x\in\mathcal{D}}^{} \mathcal{L}_{\theta,\phi}(\textbf{x})
+\end{equation}
+
+ELBO jednotlivých datových bodů a jejich gradienty jsou \emph{obecně} efektivně řešitelné.
+Dokonce existují estimátory bez biasu, za pomocí kterých lze provést minibatch SGD.
+
+Gradienty ELBO bez biasu s ohledem na parametry generativního modelu $\boldsymbol{\theta}$ lze jednoduše získat (viz rovnice 2.14 - 2.17 z \cite{Kingma2019}).
+
+Spočítat gradienty ELBO bez biasu s ohledem na variační parametry $\boldsymbol{\phi}$ je již složitější, jelikož tato ELBO je uvažována s ohledem na rozdělení pravděpodobnosti $q_\phi(\textbf{z}\mid\textbf{x})$, tedy je funkcí $\phi$. Nerovnost gradientů ELBO viz rovnice 2.18 - 2.19 z \cite{Kingma2019}.
+
+V případě \textbf{spojitých} latentních proměnných lze využít tzv. \textbf{reparametrizačního triku} pro výpočet odhadů bez biasu $\nabla_{\theta,\phi}\mathcal{L}_{\theta,\phi}(\textbf{x})$.
+Tento stochastický odhad umožňuje optimalizovat ELBO za SGD (viz \autoref{alg:reparam_trick})
+\footnote{Existují i metody pro případ \textbf{diskrétních} latentních proměnných, které však pro předmět práce nejsou stěžejní. Pro jejich představení odkazuji na \cite[Sekce 2.9.1.]{Kingma2019}.}.
+
+\begin{algorithm}[H]
+    \caption{Stochastická optimalizace variační dolní meze (ELBO).}\label{alg:reparam_trick}
+        \KwData{}
+                \hspace{6mm}$\mathcal{D}$: Dataset (i. i. d.)\\
+                \hspace{6mm}$q_\phi(\textbf{z}\mid\textbf{x})$: Inferenční model (enkodér)\\
+                \hspace{6mm}$p_\theta(\textbf{x}, \textbf{z})$: Generativní model (dekodér)\\
+        \KwResult{}
+        \hspace{6mm}$\boldsymbol{\theta}, \boldsymbol{\phi}$: Naučené parametry\\
+
+        $\boldsymbol{\theta}, \boldsymbol{\phi} \gets \text{Náhodná inicializace parametrů}$
+
+        \While{SGD not converged}{
+            $\mathcal{M} \sim \mathcal{D}$ (Random minibatch of data)\\
+            $\boldsymbol{\epsilon} \sim p(\boldsymbol{\epsilon})$ (Random noise for every datapoint in $\mathcal{M}$)\\
+            Compute $\tilde{\mathcal{L}}$ and its gradients $\nabla_{\theta,\phi}(\mathcal{M}, \boldsymbol{\epsilon})$\\
+            Update $\boldsymbol{\theta}$ and $\boldsymbol{\phi}$ using SGD optimizer
+            }
+\end{algorithm}
+
+Aby VAE fungovaly dle očekávání, $q_\phi(z\mid x)$ musí být nuceno produkovat takové kódy pro $x$, které bude $p_\theta(x, z)$ schopno \textbf{spolehlivě} dekódovat.
 Na tento problém lze alternativně pohlížet interpretací \autoref{eq:vae_final_objective} jako sítě vyobrazené TODO FIGURE NO-BACKPROP.
-Dopředný průchod této sítě funguje bez problémů – a je-li její výstup zprůměrován skrze mnoho vzorků $X$ a $z$, produkuje správnou střední hodnotu.
-Nicméně, je nutné mít schopnost zpětně propagovat chybu skrze vrstvu, která vzorkuje $z$ z $Q(z\mid X)$, což je \textbf{nespojitá operace} a tedy nemá žádný gradient.
+Dopředný průchod této sítě funguje bez problémů – a je-li její výstup zprůměrován skrze mnoho vzorků $x$ a $z$, produkuje správnou střední hodnotu.
+Nicméně, je nutné mít schopnost zpětně propagovat chybu skrze vrstvu, která vzorkuje $z$ z $q_\phi(z \mid Xx$, což je \textbf{nespojitá operace} a tedy nemá žádný gradient.
 Stochastický gradientní sestup se zpětnou propagací zvládne stochastické vstupy, ale \textbf{neumí pracovat se stochastickými jednotkami (neurony) sítě}.
 
 Řešení tohoto problému nazýváme \textbf{reparametrizační trik}.

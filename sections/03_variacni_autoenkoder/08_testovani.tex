@@ -5,12 +5,3 @@ Jedná se tedy vlastně o odstranění enkodéru (včetně operací násobení a
 Schéma této jednoduché sítě je vyobrazeno v TODO FIGURE TEST-TIME NETWORK.
 
 Chceme-li vyhodnotit pravděpodobnost vygenerování konkrétního vzorku z naučeného modelu, jedná se o efektivně neřešitelný problém (tento problém je adresován pomocí tzv. Podmíněných variačních autoenkodérů).
-
-\subsubsection{Lower bound}
-Evidence lower bound však poskytuje alespoň hrubý odhad toho, jak naučený model zachycuje konkrétní datový bod $X$.
-
-$\mathcal{D}_{KL}\left[ Q(z\mid X) \parallel P(z\mid X) \right]$ má nezápornou hodnotu (viz \autoref{sec:evidence_lower_bound}).
-Tedy pravá strana rovnice \autoref{eq:vae_objective} je dolní mezí $P(X)$.
-
-Ale i tato dolní mez stále nelze vypočítat v uzavřeném tvaru (z důvodu závislosti střední hodnoty na $z$, což opět znamená nutnost vzorkování).
-Nicméně, vzorkování $z$ z $Q$ dává estimátor pro střední hodnotu, což alespoň konverguje mnohem rychleji, než vzorkování z $\mathcal{N}(0, I)$ (viz \autoref{chap:vae}).
