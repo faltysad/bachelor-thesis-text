@@ -1,4 +1,5 @@
 \section{Aktuální stav poznání a rozšíření variačního autoenkodéru}
+\label{sec:vae_extensions}
 Tato sekce nabízí přehled technik, které se svým principem podobají variačním autoenkoderům a prezentuje jejich odlišnosti.
 \subsection{Wake-sleep algoritmus}
 Wake-sleep algoritmus \cite{Hinton1995} je další on-line metodou pro učení, která je aplikovatelná na stejnou třídu modelů využívajících latentních proměnných, jako VAE.
@@ -29,10 +30,16 @@ Práce publikována souběžně a nezávisle na autorech rámce VAE (z jejichž 
 Představuje alternativní interpretaci a vhled do vnitřní architektury variačního autoenkodéru.
 
 \subsection{Conditional variační autoenkodér}
+\label{sec:cvae}
 Conditional variační autoenkodér (CVAE) \cite{Sohn2015} modifikuje matematický aparát variačního autoenkodéru, který popisuje \autoref{chap:vae}, \textbf{podmíněním celého generativního procesu na vstupu}. Tedy vytváří vazbu generativního procesu na konkrétní vstup (resp. konkrétní podobu výstupu).
 CVAE nabízí řešení problému, kde má input-output mapovací funkce kardinalitu 1:n
 \footnote{V textech strojového učení se můžeme setkat s pojmenováním \emph{strukturovaná predikce}.},\textbf{bez nutnosti explicitní specifikace} struktury výstupního rozdělení pravděpodobnosti.
 Tedy, použijeme-li opět úlohu generování ručně psané číslice: CVAE nabízí možnost pro generování variací vstupu – tedy pokud na vstupu příjde ručně psaná číslice 9, model CVAE je schopen generovat variace ručně psané číslice 9 \textbf{které nebyly součástí trénovací množiny}.
 
-CVAE rovněž řeší problém rozmazaných výstupů generativního modelu (viz \autoref{sec:vae_bluriness}). Regresor VAE minimalizuje vzdálenost k množině mnoha různých výstupů, které potenciálně mohly generovat vstup. Naopak CVAE obecně vybere specifický výstup (např. jednu konkrétní číslici, kterou obdrží na vstupu), a tu generuje – tedy výsledkem je více \emph{realistický} vzorek této konkrétní číslice.  
+CVAE rovněž řeší problém rozostřených výstupů generativního modelu (viz \autoref{sec:vae_bluriness}). Regresor VAE minimalizuje vzdálenost k množině mnoha různých výstupů, které potenciálně mohly generovat vstup. Naopak CVAE obecně vybere specifický výstup (např. jednu konkrétní číslici, kterou obdrží na vstupu), a tu generuje – tedy výsledkem je více \emph{realistický} vzorek této konkrétní číslice.  
 \cite{Doersch2021}
+
+\subsection{Deep Recurrent Attention Writer}
+Deep Recurrent Attention Writer (DRAW) \cite{Gregor2015} využívá rekurentní enkodér a rekurentní dekodér v kombinací s \emph{attention} mechanismem (jedná se o pokračování práce \cite{Gregor2014}).
+Generativní proces DRAW modelu se snaží napodobit mechanismus foveace lidského oka za účelem konstrukce (a generování) komplexních obrázků.
+Evaluace tohoto modelu dosahuje state-of-the art výkonnosti na řadě datasetů a výstupy jsou na první pohled prakticky nerozeznatelné od reálných dat. \cite{Gregor2015}

@@ -6,10 +6,10 @@ U těchto modelů je problém provést odhad log-likelihood a rozdělení poster
 Rámec VAE poskytuje výpočetně efektivní způsob, kterým lze DLVM společně optimalizovat s jejich korespondujícími inferenčními modely pomocí stochastického gradientního sestupu
 \footnote{Společně optimalziovat (\emph{joint optimization}) zde znamená, že generativní model (který mapuje latentní proměnná na data) a inferenční model (který mapuje data na latentní proměnné) jsou optimalizovány zároveň (raději než optimalizovány nezávisle). Ztrátová funkce, která je při trénování optimalizována, zahrnuje oba modely. Touto společnou optimalizací se VAE mohou učit generovat nové vzorky dat, které mají podobné vlastnosti jako data v trénovací množině a odvozovat skryté latentní vztahy proměnných, která generovala pozorovaná data}.
 
-Enkodér modul VAE je pravděpodobnostní enkodér $q_\phi(\textbf{z}\mid\textbf{x})$, který na základě datového bodu $\textbf{x}$ produkuje rozdělení pravděpodobnosti (typický Gaussovo) skrze vŠechny možné hodnoty kódu $\mathbf{z}$ z kterého tento datový bod teoreticky mohl být vygenerován.
+Enkodér modul VAE je pravděpodobnostní enkodér $q_\phi(\textbf{z}\mid\textbf{x})$, který na základě datového bodu $\textbf{x}$ produkuje rozdělení pravděpodobnosti (typicky Gaussovo) skrze všechny možné hodnoty kódu $\mathbf{z}$, z něhož tento datový bod teoreticky mohl být vygenerován.
 
 Posteriorní inference a úlohy učení DLVM jsou efektivně neřešitelné problémy.
-VAE \textbf{představuje parametrický inferenční model} \emph{parametric inference model} $q_\phi(\textbf{z}\mid\textbf{x})$ pro přetavení těchto problémů na efektivně řešitelné.
+VAE \textbf{představuje parametrický inferenční model} (\emph{parametric inference model}) $q_\phi(\textbf{z}\mid\textbf{x})$ pro přetavení těchto problémů na efektivně řešitelné.
 Tento model také nazýváme \textbf{enkodér} či \textbf{rozpoznávací model}.
 $\phi$ označuje parametry tohoto inferenčního modelu, tyto parametry nazýváme \textbf{variační parametry}. \cite{Kingma2019}
 

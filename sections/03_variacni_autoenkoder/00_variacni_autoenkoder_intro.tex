@@ -16,14 +16,7 @@ V diskriminativním modelování je cílem naučit se prediktor na základě poz
 V generativním modelování je cíl poněkud obecnější – naučit se spojité rozdělení pravděpodobnosti skrze všechny proměnné.
 
 Generativní model simuluje způsob, kterým jsou data generována v reálném světě.
-\emph{Modelováním} se ve vědních disciplínách rozumí odhalování generujícího procesu stanovením hypotéz a následném testování těchto hypotéz pozorováním
-\footnote{For instance, when meteorologists
-model the weather they use highly complex partial differential equations
-to express the underlying physics of the weather. Or when an astronomer
-models the formation of galaxies s/he encodes in his/her equations of
-motion the physical laws under which stellar bodies interact. The same
-is true for biologists, chemists, economists and so on. Modeling in the
-sciences is in fact almost always generative modeling.}. 
+\emph{Modelováním} se ve vědních disciplínách rozumí odhalování generujícího procesu stanovením hypotéz a následném testování těchto hypotéz pozorováním. 
 S charakterem generativního modelování je spojena řada užitečných výhod.
 
 První z nich je možnost zabudování známých fyzikálních zákonů a omezení do samotného generativního procesu – 
@@ -34,8 +27,8 @@ Dalším důvodem pro snahu o pochopení generativního procesu dat je, že při
 Pozorování a využití těchto kauzálních vztahů nabízí schopnost generalizovat v dosud nepozorovaných situacích
 \footnote{Například, rozumíme-li generativnímu procesu zemětřesení, můžeme tuto znalost využít v Kalifornii i Čile}.
 
-Zatímco generativní modely se zvládnou učit efektivní reprezentace vstupních dat, mají oproti diskriminativním modelům tendenci činit \textbf{silnější předpoklady}, což vede k \textbf{vyššímu asymptotickému biasu} pakliže se model \textbf{plete}. \cite{Banerjee2007}
-Pokud nás zajímá pouze naučení se rozlišovat třídy, a náš model se plete (a každý model se \emph{témeř vždy} do určité míry plete), pak diskriminativní modely v takové úloze (za předpokladu dostatečného množství dat) často vedou k menší chybovosti.
+Zatímco generativní modely se zvládnou učit efektivní reprezentace vstupních dat, mají oproti diskriminativním modelům tendenci činit \textbf{silnější předpoklady}, což vede k \textbf{vyššímu asymptotickému biasu} pakliže model \textbf{chybuje}. \cite{Banerjee2007}
+Pokud nás zajímá pouze naučení se rozlišovat třídy, a náš model chybuje (a každý model \emph{témeř vždy} do určité míry chybuje), pak diskriminativní modely v takové úloze (za předpokladu dostatečného množství dat) často vedou k menší chybovosti.
 
 I přesto se vyplatí studovat proces generování dat jako způsob, kterým lze trénovací proces diskriminátoru (např. klasifikátoru) zušlechťovat.
 Typickým scénářem je úloha, kdy máme k dispozici množinu vzorků se štítky a řádově větší množinu vzorků bez štítků.
@@ -116,7 +109,7 @@ VAE volí unikátní přístup k řešení výše zmíněných omezení. \textbf
 
 Jak vzorkovat $z$ z rozdělení pravděpodobnosti $\mathcal{N}(0, I)$?
 
-Libovolné rozdělení pravděpodobnosti s $d$ dimenzemi lze generovat množinou o velikosti $d$ proměnných které mají normální rozdělení a jejich následném mapování skrze dostatečně komplexní funkci
+Libovolné rozdělení pravděpodobnosti s $d$ dimenzemi lze generovat množinou o velikosti $d$ proměnných, které mají normální rozdělení a jejich následném mapování skrze dostatečně komplexní funkci
 \footnote{Pro detailní popis generování rozdělení o $d$ dimenzích odkazuji na \emph{inversion method} popsanou v \cite{Devroye1986}.}.
 
 Řekněme, že chceme sestavit 2D náhodnou proměnou, jejíž hodnoty leží na kruhu.
@@ -139,7 +132,7 @@ Připomeňme, že (z \autoref{sec:maximum_likelihood}) $P(X|z;\theta) = \mathcal
 Pokud je $f(z;\theta)$ Vícevrstvý Perceptron (viz \autoref{sec:multilayer_perceptron}), pak si lze intuitivně představit, že jeho umělá neuronová síť využívá svých prvních pár vrstev k mapování normálně rozdělených $z$ na latentní hodnoty (jako např. identita číslice, tloušťka tahu, sklon číslice apod.).
 Pozdější vrstvy této sítě mohou být využity k mapování těchto latentních proměnných na obrázek ručně psané číslice (a to sice zcela nově vygenerovaných z pravděpodobnostního rozdělení, viz \autoref{sec:vae_generating_new_data}).
 Důležité je, že (obecně) nemusíme řešit zda-li taková latentní struktura ve vstupních datech vůbec existuje.
-Pokud nějaká latentní struktura pomáhá modelu s vysokou mírou přesnosti rekonstruovat (tedy optimalizovat ztrátovou funkci, viz \autoref{sec:vae_optimization}) data z trénovací množiny, pak se umělá neuronová síť tuto strukture v \emph{nějaké}\footnote{Za předpokladu dostatečně vysoko-kapacitní umělé neuronové sítě.} vrstvě naučí. \cite{Doersch2021}
+Pokud nějaká latentní struktura pomáhá modelu s vysokou mírou přesnosti rekonstruovat (tedy optimalizovat ztrátovou funkci, viz \autoref{sec:vae_optimization}) data z trénovací množiny, pak se umělá neuronová síť tuto strukturu v \emph{nějaké}\footnote{Za předpokladu dostatečně vysoko-kapacitní umělé neuronové sítě.} vrstvě naučí. \cite{Doersch2021}
 
 
 

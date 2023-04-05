@@ -52,6 +52,6 @@ Z \autoref{eq:vae_elbo} plynou důsledky maximalizace ELBO $\mathcal{L_{\theta,\
 A to sice současná optimalizace dvou kritérií, která jsou pro výkonnost VAE stěžejní \cite{Kingma2019}:
 
 \begin{enumerate}
-    \item \emph{Přibližná} maximalizace marginální věrohodnost $p_\theta(\textbf{x})$. Což implikuje \emph{zlepšení} generativního modelu \footnote{Tedy \emph{věrohodnosti} rekonstrukce původních dat}.
+    \item \emph{Přibližná} maximalizace marginální věrohodnosti $p_\theta(\textbf{x})$, což implikuje \emph{zlepšení} generativního modelu \footnote{Tedy \emph{věrohodnosti} rekonstrukce původních dat}.
     \item Minimalizace KL divergence aproximace mezi $q_\phi(\textbf{z}\mid\textbf{x})$ a původní posteriorní distribucí $p_\theta(\textbf{z}\mid\textbf{x})$. Tedy $q_\phi(\textbf{z}\mid\textbf{x})$ (enkodér) se \emph{zlepší}.
 \end{enumerate}
