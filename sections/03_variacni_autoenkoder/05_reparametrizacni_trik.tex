@@ -15,8 +15,7 @@ Tedy finální rovnice, jejíž gradient chceme spočítat má následující tv
 \end{equation}
 
 
-Kýžená vlastnost \autoref{eq:vae_reparam_trick} je, že v modelu její \textbf{umělé neuronové sítě lze provést zpětnou propagaci}. 
-Toto je znázorněno v umělé neuronové síti TODO FIGURE NO-BACKPROP 
-
+Kýžená vlastnost \autoref{eq:vae_reparam_trick} je, že v modelu její \textbf{umělé neuronové sítě lze provést zpětnou propagaci}
 \footnote{Žádné střední hodnoty ($\mathds{E}$) \autoref{eq:vae_reparam_trick} \textbf{nezávisí} na parametrech modelu. Tedy do těchto středních hodnot můžeme bezpečně převést symbol gradientu a zároveň dodržet jejich rovnost. 
-Tedy, mějme neměnné $X$ a $\epsilon$, pak je tato funkce \textbf{spojitá a deterministická} v parametrech $P$ a $Q$, což v důsledku znamená možnost zpětné propagace vypočíst gradient algoritmem stochastického gradientního sestupu. }. 
+Tedy, mějme neměnné $X$ a $\epsilon$, pak je tato funkce \textbf{spojitá a deterministická} v parametrech $P$ a $Q$, což v důsledku znamená možnost zpětné propagace vypočíst gradient algoritmem stochastického gradientního sestupu.}. 
+Toto je znázorňuje \autoref{fig:vae_backpropagation}(b).

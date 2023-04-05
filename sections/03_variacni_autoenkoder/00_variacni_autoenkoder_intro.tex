@@ -1,34 +1,38 @@
 Generativní modely (\autoref{sec:generative_model}), učení se reprezentací \cite{Bengio2014} a úlohy učení bez učitele (\autoref{sec:unsupervised_learning}) jsou \textbf{klíčové oblastí pro vytvoření inteligentních systémů} \cite{Kingma2019}, \cite{LeCun2022}.
 Variační autoenkodér z těchto principů vychází a propojuje je. Ve snaze o konstrukci takového stroje tak variační autoenkodér hraje důležitou roli.
 
-TODO Autoregresivní modely neperspektivní podle LeCun motivace.
-
 \textbf{Variační autoenkodér} \cite{Kingma2014}, \cite{Rezende2014} (dále jen \emph{VAE})
 je rámec poskytující metodu pro učení víceúčelových hlubokých modelů využívajících latentních proměnných (\autoref{sec:latent_variable_models})
 a příslušných odvozovacích modelů
 za použití stochastického gradientního sestupu. \cite{Kingma2019}
 
 VAE nalézá širokou škálu aplikací v generativním modelování, učení se reprezentací a úlohách učení se bez učitele (resp. semi-supervizovaných úlohách).
+Přehled aplikací VAE nabízí \autoref{chap:applications}.
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{figures/vae.pdf}
+    \caption{Umělá neuronová síť variačního autoenkodéru.}
+    \label{fig:vae_nn}
+\end{figure}
 
 \section{Motivace vzniku: variační autoenkodér jako generativní model}
 Velmi aktuálním tématem v odvětví strojového učení je generativní versus diskriminativní modelování.
 V diskriminativním modelování je cílem naučit se prediktor na základě pozorování.
-V generativním modelování je cíl poněkud obecnější – naučit se spojité rozdělení pravděpodobnosti skrze všechny proměnné.
+V generativním modelování je cíl poněkud obecnější – naučit se spojité rozdělení pravděpodobnosti skrze všechny proměnné. \cite{Goodfellow2016}
 
 Generativní model simuluje způsob, kterým jsou data generována v reálném světě.
 \emph{Modelováním} se ve vědních disciplínách rozumí odhalování generujícího procesu stanovením hypotéz a následném testování těchto hypotéz pozorováním. 
-S charakterem generativního modelování je spojena řada užitečných výhod.
+S charakterem generativního modelování je spojena řada užitečných výhod. \cite{Goodfellow2016}
 
 První z nich je možnost zabudování známých fyzikálních zákonů a omezení do samotného generativního procesu – 
 zatímco neznáme (či nepodstatné) \emph{detaily} můžeme zanedbat formou \emph{šumu}. 
-Výsledný model je pak často vysoce intuitivní a dobře interpretovatelný.
+Výsledný model je pak často vysoce intuitivní a dobře interpretovatelný. \cite{Goodfellow2016}
 
 Dalším důvodem pro snahu o pochopení generativního procesu dat je, že přirozeně zahrnují kauzální vztahy reálného světa.
-Pozorování a využití těchto kauzálních vztahů nabízí schopnost generalizovat v dosud nepozorovaných situacích
-\footnote{Například, rozumíme-li generativnímu procesu zemětřesení, můžeme tuto znalost využít v Kalifornii i Čile}.
+Pozorování a využití těchto kauzálních vztahů nabízí schopnost generalizovat v dosud nepozorovaných situacích  \cite{Goodfellow2016}
 
 Zatímco generativní modely se zvládnou učit efektivní reprezentace vstupních dat, mají oproti diskriminativním modelům tendenci činit \textbf{silnější předpoklady}, což vede k \textbf{vyššímu asymptotickému biasu} pakliže model \textbf{chybuje}. \cite{Banerjee2007}
-Pokud nás zajímá pouze naučení se rozlišovat třídy, a náš model chybuje (a každý model \emph{témeř vždy} do určité míry chybuje), pak diskriminativní modely v takové úloze (za předpokladu dostatečného množství dat) často vedou k menší chybovosti.
+Pokud nás zajímá pouze naučení se rozlišovat třídy, a náš model chybuje (a každý model \emph{témeř vždy} do určité míry chybuje), pak diskriminativní modely v takové úloze (za předpokladu dostatečného množství dat) často vedou k menší chybovosti.  \cite{Goodfellow2016}
 
 I přesto se vyplatí studovat proces generování dat jako způsob, kterým lze trénovací proces diskriminátoru (např. klasifikátoru) zušlechťovat.
 Typickým scénářem je úloha, kdy máme k dispozici množinu vzorků se štítky a řádově větší množinu vzorků bez štítků.
@@ -37,10 +41,10 @@ V takové úloze semi-supervizovaného učení lze využít generativního model
 Generativní modelování může být využito i více obecně. Nad generativním modelováním lze uvažovat jako nad jakousi doprovodnou činností.
 Například, predikce bezprostřední budoucnosti nám může pomoct při sestavování užitečných abstrakcí o chování světa, které mohou být následně použity pro řadu dalších úloh predikce.
 Hledání rozmotaných (\emph{disentangled}), sémanticky významných a statisticky nezávislých kauzálních faktorů variací dat je obecně známo pod pojmem učení se reprezentací bez učitele (\emph{unsupervised representation learning}).
-A \textbf{variační autoenkodéry} jsou pro tento účel hojně uplatňovány.
+A \textbf{variační autoenkodéry} jsou pro tento účel hojně uplatňovány. \cite{Goodfellow2016}
 
 Na tuto úlohu lze alternativně hledět i jako na implicitní formu regularizace. Nutíme-li vzniklé reprezentace být významnými pro proces generování dat, představujeme bias vůči opačnému procesu (který vstupní data mapuje na neužitečné reprezentace).
-Doprovodnou činnost predikce bezprostřední budoucnosti tak lze využít k lepšímu porozumění světa v abstraktní úrovni a tím pádem činit přesnější predikce v pozdější fázi.
+Doprovodnou činnost predikce bezprostřední budoucnosti tak lze využít k lepšímu porozumění světa v abstraktní úrovni a tím pádem činit přesnější predikce v pozdější fázi. \cite{Goodfellow2016}
 
 \section{Princip variačního autoenkodéru}
 Variační autoenkodér lze popsat jako dva provázané, byť \textbf{nezávisle parametrizované} modely: \textbf{enkodér} (resp. rozpoznávací) model – \autoref{sec:vae_encoder} a \textbf{dekodér} (resp. generativní) model – \autoref{sec:vae_decoder}.

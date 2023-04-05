@@ -45,6 +45,12 @@ Tedy, můžeme vzorkovat jednu hodnotu z $X$ a jednu hodnotu ze $z$ z a následn
 
 Průměr gradientu této funkce skrze \emph{libovolně velké} množství vzorků z $x$ a $z$. Výsledná hodnota tohoto gradientu konverguje ke gradientu \autoref{eq:vae_final_objective}.
 
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{figures/vae_backpropagation.pdf}
+    \caption{Trénovací fáze dopředné umělé neuronové sítě VAE. Levý obrázek je znázorněn bez reparametrizačního triku. Pravý obrázek zahrnuje reparametrizační trik. Červené bloky zobrazují vzorkovací operace, které jsou nediferenciovatelné. Modré bloky zobrazují ztrátové vrstvy neuronové sítě. Dopředné chování obou sítí je \textbf{identické}, ale pouze v síti na pravém obrázku lze provést zpětná propagace. Obrázek včetně interpretace převzat z \cite{Doersch2021}.}
+    \label{fig:vae_backpropagation}
+\end{figure}
+
 \subsection{Metoda stochastická gradientní optimalizace ELBO}
 Důležitou vlastností ELBO je možnost \emph{joint} optimalizace s ohledem na veškeré její parametry – $\boldsymbol{\phi}$ a $\boldsymbol{\theta}$ – za použití stochastického gradientního sestupu (\emph{stochastic gradient descent, SGD}).
 Proces lze zahájit náhodnými počátečními hodnotami $\boldsymbol{\phi}$ a $\boldsymbol{\theta}$ a stochasticky optimalizovat jejich hodnoty než dojde ke konvergenci.
@@ -85,7 +91,7 @@ Tento stochastický odhad umožňuje optimalizovat ELBO za SGD (viz \autoref{alg
 \end{algorithm}
 
 Aby VAE fungovaly dle očekávání, $q_\phi(z\mid x)$ musí být nuceno produkovat takové kódy pro $x$, které bude $p_\theta(x, z)$ schopno \textbf{spolehlivě} dekódovat.
-Na tento problém lze alternativně pohlížet interpretací \autoref{eq:vae_final_objective} jako sítě vyobrazené TODO FIGURE NO-BACKPROP.
+Na tento problém lze alternativně pohlížet interpretací \autoref{eq:vae_final_objective} jakožto sítě, kterou zobrazuje \autoref{fig:vae_backpropagation}(a).
 Dopředný průchod této sítě funguje bez problémů – a je-li její výstup zprůměrován skrze mnoho vzorků $x$ a $z$, produkuje správnou střední hodnotu.
 Nicméně, je nutné mít schopnost zpětně propagovat chybu skrze vrstvu, která vzorkuje $z$ z $q_\phi(z \mid Xx$, což je \textbf{nespojitá operace} a tedy nemá žádný gradient.
 Stochastický gradientní sestup se zpětnou propagací zvládne stochastické vstupy, ale \textbf{neumí pracovat se stochastickými jednotkami (neurony) sítě}.

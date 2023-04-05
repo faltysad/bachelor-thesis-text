@@ -41,7 +41,7 @@ Pravá strana \autoref{eq:vae_elbo} na toto pohlíží jako na dvoufázový proc
 V první fázi použijeme \emph{nějaký počet} bitů pro sestavení $z$ \footnote{Pro připomenut KL divergenci lze uvádět v jednotkách bitů (viz \autoref{sec:kl_divergence}).}.
 Konkrétně $\mathcal{D}_{KL}(q_\phi(z\mid x^{(i)})\parallel p_\theta(z))$ je očekávaná informace potřebná pro převedení vzorku z $P(z)$ (bez informace) na vzorek z $Q(z\mid X)$ (tzv. interpretace KL divergence jako informačního zisku).
 Tedy měří množství nadbytečné informace které obdržíme o $x^{(i)}$ když obdržíme $z$ ze $Q(z\mid X)$ namísto z $P(z)$
-\footnote{Pro detailněji popsanou interpretaci odkazuji na "bits back" argument z TODO CITACE }.
+\footnote{Pro detailněji popsanou interpretaci odkazuji na "bits back" argument z \cite[Sekce 5.2]{Hinton1993}.}.
 
 V druhé fázi $P(X\mid z)$ měří množství informace potřebné pro rekonstrukci $x^{(i)}$ ze $z$ za použití ideálního kódování.
 
