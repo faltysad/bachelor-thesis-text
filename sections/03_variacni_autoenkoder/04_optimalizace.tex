@@ -66,7 +66,7 @@ Tento stochastický odhad umožňuje optimalizovat ELBO za SGD (viz \autoref{alg
 \footnote{Existují i metody pro případ \textbf{diskrétních} latentních proměnných, které však pro předmět práce nejsou stěžejní. Pro jejich představení odkazuji na \cite[Sekce 2.9.1.]{Kingma2019}.}.
 
 \begin{algorithm}[H]
-    \caption{Stochastická optimalizace variační dolní meze (ELBO).}\label{alg:reparam_trick}
+    \caption{Metoda stochastická gradientní optimalizace ELBO}\label{alg:reparam_trick}
         \KwData{}
                 \hspace{6mm}$\mathcal{D}$: Dataset (i. i. d.)\\
                 \hspace{6mm}$q_\phi(\textbf{z}\mid\textbf{x})$: Inferenční model (enkodér)\\
