@@ -77,7 +77,7 @@ Učící algoritmus VAE je variace klasického \emph{expectation maximization al
 \subsection{Notace}
 \begin{itemize}
     \item $X = \{ x^{(i)} \}^N_{i=1}$: Dataset sestavený z $N$ i. i. d. \footnote{Independent and identically distributed, nezávisle a rovnoměrně rozdělené náhodné veličiny.} vzorků nějaké spojité či diskrétní proměnné $x$. 
-    Předpokládáme, že tato data byla vygenerována nějakým náhodným procesem, jenž zahrnuje pozorování spojité náhodné proměnné $z$
+    Předpokládáme, že tato data byla vygenerována nějakým náhodným procesem, jenž zahrnuje pozorování spojité náhodné proměnné $z$.
     \item $z$: Latentní proměnná (latentní reprezentace), kód.
     \item $p_\theta(z)$: Apriorní rozdělení s parametry $\theta$. Jeho hustota pravděpodobnosti je diferenciovatelná s ohledem na $\theta$ a $z$.
     \item $p_\theta(x|z)$: Podmíněné rozdělení s parametry $\theta$. Jeho hustota pravděpodobnosti je diferenciovatelná s ohledem na $\theta$ a $z$.
