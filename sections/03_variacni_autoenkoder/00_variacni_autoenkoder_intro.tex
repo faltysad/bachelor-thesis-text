@@ -71,6 +71,7 @@ Podobně, enkodér model je tvořen podmíněnou bayesovskou sítí ve tvaru $q(
 Každá podmíněná vrstva může být tvořena komplexní (hlubokou) umělou neuronovou sítí, například: $\mathbf{z}\mid\mathbf{x} \sim f(\mathbf{x}, \mathbf{\epsilon})$, kde $f$ je mapování umělé neuronové sítě a $\mathbf{\epsilon}$ je \emph{šum} (náhodná proměnná).
 Učící algoritmus VAE je variace klasického \emph{expectation maximization algoritmu}. Ten ale skrze reparametrizační trik provádí zpětnou propagaci skrze všechny vrstvy hluboké umělé neuronové sítě (viz \autoref{sec:reparametrization_trick}).
 
+\newpage
 \subsection{Notace}
 \begin{itemize}
     \item $X = \{ x^{(i)} \}^N_{i=1}$: Dataset sestavený z $N$ i. i. d. \footnote{Independent and identically distributed, nezávisle a rovnoměrně rozdělené náhodné veličiny.} vzorků nějaké spojité či diskrétní proměnné $x$. 
