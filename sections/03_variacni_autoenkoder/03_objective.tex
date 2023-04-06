@@ -13,6 +13,12 @@ Pro libovolnou konfiguraci inferenčního modelu $q_\phi(\textbf{z}\mid\textbf{x
 \autoref{eq:vae_elbo} je pro \textbf{variační autoenkodéry naprosto stěžejní} a slouží jako jádro pro jejich optimalizaci
 \footnote{Historicky, matematický aparát \autoref{eq:vae_elbo} byl známý dlouho před formalizací VAE. Například Helmholtz Machines \cite{Dayan1995} využívají defacto identickou rovnici, ale s jedním zásadním rozdílem. Integrál v středních hodnotách VAE je v \cite[Rovnice 5]{Dayan1995} nahrazen sumou, jelikož Helmholtz Machines usuzují diskrétní rozdělení pravděpodobnosti pro latentní proměnné. A přesně tato volba znemožňuje transformaci, kterou VAE využívají k tomu, aby byl gradientní sestup ELBO efektivně řešitelný (tractable). \cite{Doersch2021}}. \cite{Doersch2021}
 
+\begin{figure}[H]
+    \centering
+   \includegraphics{figures/vae_schema.pdf}
+   \caption{VAE se učí stochastické mapování mezi pozorovaným prostorem $x$, jehož empirické rozdělení pravděpodobnosti $q_\mathcal{D}(x)$ je typicky velmi komplikované, a latentním prostorem $z$, jehož rozdělení pravděpodobnosti je typicky relativně jednoduché (např. kulovité, jako na tomto obrázku). Generativní model se učí rozdělení pravděpodobnosti $p_\theta(x, z)$ (které lze faktorizovat jako $p_\theta(x, z) = p_\theta(z) p_\theta(x\mid z)$), s apriorním rozdělením skrze latentní prostor $p_\theta(z)$, a stochastický dekodér $p_\theta(x\mid z)$. Stochastický enkodér $q_\phi(z\mid x)$ aproximuje původní (ale efektivně neřešitelné) posteriorní rozdělení $p_\theta(z\mid x)$ generativního modelu. Obrázek včetně interpretace převzat z \cite{Kingma2019}.}
+\end{figure}
+
 \subsection{Odvození rovnice}
 \begin{align}
     \log p_\theta(\textbf{x}) &= \mathds{E}_{q\phi(\textbf{z}\mid\textbf{x})}[\log p_\theta(\textbf{x})] \\
