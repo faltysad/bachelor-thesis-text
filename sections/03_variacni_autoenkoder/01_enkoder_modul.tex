@@ -1,12 +1,12 @@
 \section{Enkodér modul}
 \label{sec:vae_encoder}
 V \autoref{sec:latent_variable_models} byly představeny hluboké modely využívající latentních proměnných (DLVM).
-U těchto modelů je problém provést odhad log-likelihood a rozdělení posteriorní pravděpodobnosti.
+U těchto modelů je problém provést odhad log-likelihood a rozdělení posteriorní pravděpodobnosti. \cite{Kingma2019}
 
 Rámec VAE poskytuje výpočetně efektivní způsob, kterým lze DLVM společně optimalizovat s jejich korespondujícími inferenčními modely pomocí stochastického gradientního sestupu
-\footnote{Společně optimalziovat (\emph{joint optimization}) zde znamená, že generativní model (který mapuje latentní proměnná na data) a inferenční model (který mapuje data na latentní proměnné) jsou optimalizovány zároveň (raději než optimalizovány nezávisle). Ztrátová funkce, která je při trénování optimalizována, zahrnuje oba modely. Touto společnou optimalizací se VAE mohou učit generovat nové vzorky dat, které mají podobné vlastnosti jako data v trénovací množině a odvozovat skryté latentní vztahy proměnných, která generovala pozorovaná data}.
+\footnote{Společně optimalziovat (\emph{joint optimization}) zde znamená, že generativní model (který mapuje latentní proměnná na data) a inferenční model (který mapuje data na latentní proměnné) jsou optimalizovány zároveň (raději než optimalizovány nezávisle). Ztrátová funkce, která je při trénování optimalizována, zahrnuje oba modely. Touto společnou optimalizací se VAE mohou učit generovat nové vzorky dat, které mají podobné vlastnosti jako data v trénovací množině a odvozovat skryté latentní vztahy proměnných, která generovala pozorovaná data}. \cite{Kingma2019}
 
-Enkodér modul VAE je pravděpodobnostní enkodér $q_\phi(\textbf{z}\mid\textbf{x})$, který na základě datového bodu $\textbf{x}$ produkuje rozdělení pravděpodobnosti (typicky Gaussovo) skrze všechny možné hodnoty kódu $\mathbf{z}$, z něhož tento datový bod teoreticky mohl být vygenerován.
+Enkodér modul VAE je pravděpodobnostní enkodér $q_\phi(\textbf{z}\mid\textbf{x})$, který na základě datového bodu $\textbf{x}$ produkuje rozdělení pravděpodobnosti (typicky Gaussovo) skrze všechny možné hodnoty kódu $\mathbf{z}$, z něhož tento datový bod teoreticky mohl být vygenerován.  \cite{Kingma2019}
 
 Posteriorní inference a úlohy učení DLVM jsou efektivně neřešitelné problémy.
 VAE \textbf{představuje parametrický inferenční model} (\emph{parametric inference model}) $q_\phi(\textbf{z}\mid\textbf{x})$ pro přetavení těchto problémů na efektivně řešitelné.

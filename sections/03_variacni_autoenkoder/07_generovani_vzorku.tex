@@ -13,18 +13,18 @@ Klíčovým principem VAE je, že může být trénován maximalizací variačn�
     &\leq \log p_{model}(\textbf{\emph{x}})
 \end{align}
 
-První člen \autoref{eq:sampling_vae_1} ukazuje \emph{joint log-likelihood} viditelných a skrytých proměnných pod \emph{approximate posterior} skrze latentní proměnné (stejně jako u EM, s rozdílem že používáme \emph{approximate} místo \emph{exact} posterior).
+První člen \autoref{eq:sampling_vae_1} ukazuje společnou log věrohodnost (\emph{log-likelihood)} viditelných a skrytých proměnných pod \emph{approximate posterior} skrze latentní proměnné (stejně jako u EM, s rozdílem že používáme \emph{approximate} místo \emph{exact} posterior). \cite{Goodfellow2016}
 
 Druhý člen \autoref{eq:sampling_vae_1} ukazuje entropii \emph{approximate posterior}.
 Je-li $q$ Gaussova distribuce, a je-li k predikované střední hodnotě přičten šum, maximalizace této entropie vede k zvyšující se směrodatné odchylce tohoto šumu.
-Obecně, prvek této entropie zajistí tendenci \emph{variational posterior} přidělit vysokou hodnotu funkce pravdepodobnostni hodnotám $\textbf{\emph{z}}$ které by mohly generovat $\textbf{\emph{x}}$ (raději než konvergovat pouze k odhadu jedné hodnoty s \emph{největší pravděpodobností}).
+Obecně, prvek této entropie zajistí tendenci \emph{variational posterior} přidělit vysokou hodnotu funkce pravdepodobnostni hodnotám $\textbf{\emph{z}}$ které by mohly generovat $\textbf{\emph{x}}$ (raději než konvergovat pouze k odhadu jedné hodnoty s \emph{největší pravděpodobností}). \cite{Goodfellow2016}
 
-První člen \autoref{eq:sampling_vae_2} ukazuje \emph{log-likelihood} rekonstrukce, který lze nalézt i v ostatních typech autoenkodérů (\autoref{chap:autoencoder}). 
+První člen \autoref{eq:sampling_vae_2} ukazuje log věrohodnost rekonstrukce, který lze nalézt i v ostatních typech autoenkodérů (\autoref{chap:autoencoder}). 
 
 Druhý člen \autoref{eq:sampling_vae_2} zajišťuje, aby se \emph{approximate posterior distribution} $q(\textbf{z}\mid\textbf{\emph{x}})$ a model prior $p_{model}(\textbf{\emph{z}})$ k sobě blížily. \cite{Goodfellow2016}
 
 Tradiční přístupy k variačnímu odvozování a učení odvozují $q$ pomocí optimalizačního algoritmu (typicky iterují skrze soustavy \emph{fixed-point} rovnic).
-Takové přístupy jsou pomalé a výpočetně neefektivní, jelikož často vyžadují schopnost vypočítat $\mathds{E}_{\textbf{\emph{z}} \sim q}$ v uzavřeném tvaru. 
+Takové přístupy jsou pomalé a výpočetně neefektivní, jelikož často vyžadují schopnost vypočítat $\mathds{E}_{\textbf{\emph{z}} \sim q}$ v uzavřeném tvaru. \cite{Goodfellow2016}
 
 \textbf{Hlavní myšlenkou variačních autoenkodérů je natrénování parametrického autoenkodéru} (také nazývaného jako \emph{odvozovací síť} či \emph{rozpoznávací model}) \textbf{který produkuje parametry $\textbf{q}$}.
 Je-li $\textbf{\emph{z}}$ spojitá proměnná, lze vždy provést algoritmus zpětné propagace skrze vzorky $\textbf{\emph{z}}$ získané z $q(\textbf{\emph{z}}\mid\textbf{\emph{x}}) = q(\textbf{\emph{z}};f(\textbf{\emph{x}}; \bm{\emph{$\theta$}}))$ za účelem spočtení gradientu s respektem k $\bm{\emph{$\theta$}}$. \cite{Goodfellow2016}

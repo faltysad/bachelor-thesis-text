@@ -3,10 +3,10 @@
 Reparametrizační trik
 \footnote{Reparametrizační trik \emph{funguje} pouze pakliže lze vzorkovat z $Q(z\mid X)$ vyhodnocením funkce $h(\eta, X)$, kde $\eta$ je šum (z distribuce jejíž parametry nejsou učeny z dat). $h$ také musí být spojitá na $X$, abychom skrze něj mohli provádět zpětnou propagaci.
 To, mimo jiné, znamená, že $Q(z\mid X)$ a tím padem i $P(z)$ \textbf{nemohou být diskrétní rozdělení}. V opačném případě by došlo k nespojitosti prostoru vzorků $Q$ – a tedy neschopnosti generativního modelu generovat vzorky v celém rozsahu, včetně vzorků které nebyl součástí dat (běžný problém autoenkodérů, které uvedla \autoref{chap:autoencoder}.)}
-spočívá v přesunutí procesu vzorkování do vstupní vrstvy.
+spočívá v přesunutí procesu vzorkování do vstupní vrstvy. \cite{Doersch2021}
 
 Mějme $\mu(X)$ a $\Sigma(X)$ – \textbf{průměr} a \textbf{kovarianci} $Q(z\mid X)$.
-Pak je možné vzorkovat z $\mathcal{N}(\mu(X), \Sigma(X))$ – nejprve provedeme vzorkování z $\epsilon \sim \mathcal{N}(0, I)$ a následně spočteme $z = \mu(X) + \Sigma^{\frac{1}{2}}(X) * \epsilon$.
+Pak je možné vzorkovat z $\mathcal{N}(\mu(X), \Sigma(X))$ – nejprve provedeme vzorkování z $\epsilon \sim \mathcal{N}(0, I)$ a následně spočteme $z = \mu(X) + \Sigma^{\frac{1}{2}}(X) * \epsilon$. \cite{Doersch2021}
 
 Tedy finální rovnice, jejíž gradient chceme spočítat má následující tvar:
 
@@ -18,4 +18,4 @@ Tedy finální rovnice, jejíž gradient chceme spočítat má následující tv
 Kýžená vlastnost \autoref{eq:vae_reparam_trick} je, že v modelu její \textbf{umělé neuronové sítě lze provést zpětnou propagaci}
 \footnote{Žádné střední hodnoty ($\mathds{E}$) \autoref{eq:vae_reparam_trick} \textbf{nezávisí} na parametrech modelu. Tedy do těchto středních hodnot můžeme bezpečně převést symbol gradientu a zároveň dodržet jejich rovnost. 
 Tedy, mějme neměnné $X$ a $\epsilon$, pak je tato funkce \textbf{spojitá a deterministická} v parametrech $P$ a $Q$, což v důsledku znamená možnost zpětné propagace vypočíst gradient algoritmem stochastického gradientního sestupu.}. 
-Toto je znázorňuje \autoref{fig:vae_backpropagation}(b).
+Toto je znázorňuje \autoref{fig:vae_backpropagation}(b). \cite{Kingma2014}
