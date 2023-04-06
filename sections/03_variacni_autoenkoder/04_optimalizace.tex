@@ -46,7 +46,8 @@ Tedy, můžeme vzorkovat jednu hodnotu z $X$ a jednu hodnotu ze $z$ z a následn
 Průměr gradientu této funkce skrze \emph{libovolně velké} množství vzorků z $x$ a $z$. Výsledná hodnota tohoto gradientu konverguje ke gradientu \autoref{eq:vae_final_objective}. \cite{Doersch2021}
 
 \begin{figure}[H]
-    \includegraphics[width=\textwidth]{figures/vae_backpropagation.pdf}
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/vae_backpropagation.pdf}
     \caption{Trénovací fáze dopředné umělé neuronové sítě VAE. Levý obrázek je znázorněn bez reparametrizačního triku. Pravý obrázek zahrnuje reparametrizační trik. Červené bloky zobrazují vzorkovací operace, které jsou nediferenciovatelné. Modré bloky zobrazují ztrátové vrstvy neuronové sítě. Dopředné chování obou sítí je \textbf{identické}, ale pouze v síti na pravém obrázku lze provést zpětná propagace. Obrázek včetně interpretace převzat z \cite{Doersch2021}.}
     \label{fig:vae_backpropagation}
 \end{figure}

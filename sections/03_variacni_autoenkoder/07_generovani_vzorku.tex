@@ -8,8 +8,8 @@ Při trénování je však pro získání $\textbf{\emph{z}}$ použit enkodér (
 Klíčovým principem VAE je, že může být trénován maximalizací variační dolní meze (\emph{variational lower bound}) $\mathcal{L}(q)$ asociovanou s datovým bodem $\textbf{\emph{x}}$ následovně \cite{Goodfellow2016}: 
 
 \begin{align}
-    \mathcal{L}(q) &= \overbrace{ \mathds{E}_{\textbf{\emph{z}} \sim q(\textbf{\emph{z}}\mid\textbf{\emph{x}})} \log p_{model}(\textbf{\emph{z}}, \textbf{\emph{x}}) }^\text{joint log-likelihood} + \overbrace{ \mathcal{H}(q(\textbf{z} \mid \textbf{\emph{x}})) }^\text{entropy} \label{eq:sampling_vae_1} \\
-    &= \mathds{E}_{\textbf{\emph{z}} \sim q(\textbf{\emph{z}}\mid\textbf{\emph{x}})} \log p_{model}(\textbf{\emph{x}}\mid\textbf{\emph{z}}) + D_{KL}(q(\textbf{z} \mid \textbf{\emph{x}})\parallel p_{model}(\textbf{z}))) \label{eq:sampling_vae_2} \\
+    \mathcal{L}(q) &= \overbrace{ \mathds{E}_{q_\phi(z\mid x^{(i)})} \left[ \log p_\theta(x^{(i)}\mid z) \right] }^\text{společná log věrohodnost} + \overbrace{ \mathcal{H}(q(\textbf{z} \mid \textbf{\emph{x}})) }^\text{entropie} \label{eq:sampling_vae_1} \\
+    &= \mathds{E}_{q_\phi(z\mid x^{(i)})} \left[ \log p_\theta(x^{(i)}\mid z) \right] + D_{KL}(q(\textbf{z} \mid \textbf{\emph{x}})\parallel p_{model}(\textbf{z}))) \label{eq:sampling_vae_2} \\
     &\leq \log p_{model}(\textbf{\emph{x}})
 \end{align}
 

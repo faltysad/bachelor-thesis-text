@@ -1,3 +1,4 @@
+\newpage
 \section{Evidence Lower Bound}
 Účelovou funkcí VAE je \emph{evidence lower bound}, dále jen ELBO (alternativně se lze setkat s pojmenováním \emph{variační dolní mez}).
 Typicky je ELBO odvozena pomocí Jensenovy nerovnosti \cite[Sekce 4.2]{Wasserman2013}.
@@ -16,7 +17,7 @@ Schématické zobrazení \autoref{eq:vae_elbo} nabízí \autoref{fig:vae_schema}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{figures/vae_schema.pdf}
+    \includegraphics[width=0.41\textwidth]{figures/vae_schema.pdf}
     \caption{VAE se učí stochastické mapování mezi pozorovaným prostorem $x$, jehož empirické rozdělení pravděpodobnosti $q_\mathcal{D}(x)$ je typicky velmi komplikované, a latentním prostorem $z$, jehož rozdělení pravděpodobnosti je typicky relativně jednoduché (např. kulovité, jako na tomto obrázku). Generativní model se učí rozdělení pravděpodobnosti $p_\theta(x, z)$ (které lze faktorizovat jako $p_\theta(x, z) = p_\theta(z) p_\theta(x\mid z)$), s apriorním rozdělením skrze latentní prostor $p_\theta(z)$, a stochastický dekodér $p_\theta(x\mid z)$. Stochastický enkodér $q_\phi(z\mid x)$ aproximuje původní (ale efektivně neřešitelné) posteriorní rozdělení $p_\theta(z\mid x)$ generativního modelu. Obrázek včetně interpretace převzat z \cite{Kingma2019}.}
     \label{fig:vae_schema}
 \end{figure}
