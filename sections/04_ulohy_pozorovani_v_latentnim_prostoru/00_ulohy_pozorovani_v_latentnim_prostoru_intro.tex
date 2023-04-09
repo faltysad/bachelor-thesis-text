@@ -22,7 +22,7 @@ Další rozšířenou architekturou je PixelVAE \cite{Gulrajani2016}, která opr
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.55\textwidth]{figures/applications/image_net_pixel_vae_gulrajani.png}
-    \caption{Výsledek vzorkování PixelVAE \cite{Gulrajani2016}.}
+    \caption{Výsledek vzorkování PixelVAE \cite{Gulrajani2016}, ImageNet dataset.}
     \label{fig:image_net_pixel_vae_gulrajani}
 \end{figure}
 
@@ -79,7 +79,27 @@ Takto naučený model tedy lze využít například k obarvení černobílých f
 \section{Rekonstrukce obrazových dat}
 
 \newpage
-\section{Komprese}
+\section{Konceptuální komprese}
+Další aplikací VAE je konceptuální komprese \cite{Gregor2016}. Tato problémová oblast úzce souvisí s informační teorií a interpretací VAE z pohledu informační teorie (viz \autoref{sec:vae_information_theory_interpretation}).
+
+Chceme-li provést komprimovat obrázky psů a koček na jeden bit, jak by měl tento bit vypadat?
+Dalo by se předpokládat, že by měl ukládat informaci, zda-li se na obrázku nachází pes, či kočka. 
+Na základě této jediné latentní proměnné pak generativní model vygeneruje kompletní obrázek.
+Uvažujme nyní, že místo jednoho bitu chceme provést kompresi na 10 bitů.
+Lze tedy uložit ty nejstěžejnější vlastnosti o vyobrazeném objektu  – například barvu, natočení objektu a podobně.
+Zbývající (detailnější) vlastnosti – jako například vzor srsti – opět \emph{doplní} generativní model (který na základě těchto informací podmíníme, viz \autoref{sec:cvae}).
+Čím větší počet proměnných v latentním prostoru (čím více bitů má cílová komprese), tím více informací je možné o původním objektu zachovat. \cite{Gregor2016}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{figures/applications/conceptual_compression_gregor.png}
+    \caption{Konceptuální komprese s použitím VAE aplikovaná na přirozené obrázky z ImageNet datasetu. Poslední řádek představuje originální obrázky. Zbylé řádky představují \textbf{kompresované} (čím menší řádek, tím méně latentních proměnných může model pro kompresi využít) rekonstrukce DRAW modelu. Převzato z \cite{Gregor2016}.}
+    \label{fig:conceptual_compression_gregor}
+\end{figure}
+
+Jelikož značný počet bitů každého obrázku slouží jako nositel těchto \emph{detailnějších} atributů, lze jejich zanedbání využít za účelem ztrátové komprese pomocí VAE. A na tomto principu tedy obecně funguje konceptuální (ztrátová) komprese pomocí VAE.
+
+Tento generativní model založený na rozšíření VAE (DRAW, viz \autoref{sec:draw}) nabízí \textbf{větší kvalitu než kompresní algoritmy JPEG a JPEG 2000} ve všech úrovních detekovatelné korupce výsledného obrázku (pro detailnější srovnání, viz \cite{Gregor2016}).
 
 \newpage
 \section{Syntéza přirozeného jazyka}
