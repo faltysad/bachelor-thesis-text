@@ -4,8 +4,30 @@ A tím pádem umožňují taková data lépe prozkoumat a porozumět jim. \cite{
 
 Přidruženým odvětvím aplikacím hlubokých generativních modelů je syntéza přijatelných pseudo-dat s určitou sadou chtěných vlastností, často také nazývána \emph{umělá kreativita} (artificial creativity).
 
+
 \newpage
 \section{Generativní modelování obrazových dat}
+Generativní modelování přirozených obrázků představuje jednu z nejaktuálnějších úloh učení bez učitele vůbec. \cite{Gulrajani2016}
+VAE (a jeho rozšíření) natrénované na datasetech obrazových dat v této oblasti dosahují excelentních výsledků.
+DRAW (rozšíření VAE, viz \autoref{sec:draw}) je jedna z vůbec prvních architektur VAE modifikovaná k generování \textbf{zcela nových a realistických obrázků}, jenž nebyly součástí trénovací množiny.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{figures/applications/mnist_double_digits_gregor.png}
+    \caption{Aplikace VAE na generování zcela nových obrázků dvou cifer, trénováno na MNIST datasetu. Převzato z \cite{Gregor2015}.}
+    \label{fig:mnist_double_digits_gregor}
+\end{figure}
+
+Další rozšířenou architekturou je PixelVAE \cite{Gulrajani2016}, která oproti DRAW nabízí větší kvalitu realistických obrázků vzorkovaných z generativního modelu.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{figures/applications/image_net_pixel_vae_gulrajani.png}
+    \caption{Výsledek vzorkování PixelVAE \cite{Gulrajani2016}.}
+    \label{fig:image_net_pixel_vae_gulrajani}
+\end{figure}
+
+\newpage
+\section{Opakovana syntéza obrazových dat}
 Populární aplikací VAE je (re)syntéza obrazových dat.
 Využití jednoduchého modelu VAE k opakované syntéze obrazových dat (konkrétně snímků lidských obličejů) představuje \cite{White2016}.
 
@@ -52,6 +74,12 @@ Tento pravděpodobnostní model lze poté vzorkovat a využít dekoder modul vzn
 
 \autoref{fig:predicting_pixel_colors_deshpande} prezentuje vzniklé variace obarvení původního obrázku na základě černobílého vstupu.
 Takto naučený model tedy lze využít například k obarvení černobílých fotografií.
+
+\newpage
+\section{Rekonstrukce obrazových dat}
+
+\newpage
+\section{Komprese}
 
 \newpage
 \section{Syntéza přirozeného jazyka}
