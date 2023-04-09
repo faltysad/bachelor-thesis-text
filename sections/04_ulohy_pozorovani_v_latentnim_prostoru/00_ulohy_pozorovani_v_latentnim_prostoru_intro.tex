@@ -34,24 +34,24 @@ V \cite{Deshpande2017} autoři představují architekturu VAE, která rozšiřuj
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{figures/applications/predicting_pixel_colors_deshpande_vae_schema.png}
-    \caption{Využití VAE. Převzato z \cite{Deshpande2017}.}
+    \caption{Schema trénovací a vzorkovací procedury rozšířeného CVAE pro predikci barvy pixelů původního obrázku. Převzato z \cite{Deshpande2017}.}
     \label{fig:predicting_pixel_colors_deshpande_schema}
 \end{figure}
 
 V trénovací fázi se jako první model naučí nízkodimenzionální reprezentaci $z$ pro barevné pole $C$.
-Poté je natrénován podmíněný pravděpodobnostní model $P(z \mid G)$ který generuje nízkodimenzionální reprezentaci na základě černobílého vstupu $G$. 
-Při vyhodnocení (a vzorkování) lze poté tento pravděpodobnostní model vzorkovat a použít dekoder modul vzniklého VAE pro vygenerování rozmanitých barevných polí pro původní obrázek na výstupu (tj. vygeneruje více kombinací \emph{obarvení} grayscale obrázku).
-\textbf{Při vzorkování generativní model jako vstup obdrží pouze grayscale obrázek}, na základě kterého generuje obarvený vzorek. Jako baseline byl pro vyhodnocení rozšířeného modelu byl použit CVAE. Schéma trénovací a generativní procedury tohoto modelu zachycuje \autoref{fig:predicting_pixel_colors_deshpande_schema}. \cite{Deshpande2017}
+Poté je natrénován podmíněný pravděpodobnostní model $P(z \mid G)$, který generuje nízkodimenzionální reprezentaci na základě černobílého vstupu $G$. 
+Tento pravděpodobnostní model lze poté vzorkovat a využít dekoder modul vzniklého VAE pro vygenerování rozmanitých barevných polí původního obrázku na výstupu (tj. vygenerování více kombinací \emph{obarvení} grayscale obrázku).
+\textbf{Při vzorkování generativní model jako vstup obdrží pouze grayscale obrázek}. Schéma procedur tohoto modelu zachycuje \autoref{fig:predicting_pixel_colors_deshpande_schema}. \cite{Deshpande2017}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{figures/applications/predicting_pixel_colors_deshpande.pdf}
-    \caption{Využití VAE. Převzato z \cite{Deshpande2017}.}
+    \caption{Vzorek vygenerovaných variací (vlevo) obarvení původního obrázku (vpravo). Vstupem pro generativní model byl pouze černobílý obrázek. Převzato z \cite{Deshpande2017}.}
     \label{fig:predicting_pixel_colors_deshpande}
 \end{figure}
 
-\autoref{fig:predicting_pixel_colors_deshpande} prezentuje vygenerovanou paletu různých obarvení původního obrázku na základě černobílého vstupu.
-Takto naučený model tedy lze prakticky využít například k obarvení starších, černobílých, fotografií.
+\autoref{fig:predicting_pixel_colors_deshpande} prezentuje vzniklé variace obarvení původního obrázku na základě černobílého vstupu.
+Takto naučený model tedy lze využít například k obarvení černobílých fotografií.
 
 \newpage
 \section{Syntéza přirozeného jazyka}
