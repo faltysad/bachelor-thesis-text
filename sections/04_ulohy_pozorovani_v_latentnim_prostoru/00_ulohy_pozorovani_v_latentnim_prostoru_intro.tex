@@ -2,11 +2,23 @@ Generativní modely využívající latentních proměnných umožňují transfo
 do \emph{jednodušších} a lépe interpretovatelných latentních prostorů.
 A tím pádem umožňují taková data lépe prozkoumat a porozumět jim. \cite{Kingma2019}
 
-Přidruženým odvětvím aplikacím hlubokých generativních modelů je syntéza přijatelných pseudo-dat s určitou sadou chtěných vlastností, často také nazývána \emph{umělá kreativita} (artificial creativity).
+Rámce VAE nabízí širokou škálu aplikací.
+Tato kapitola je zaměřena na ty nejprominentnější z nich, které lze rozčlenit do následujících kategorií:
 
+\begin{itemize}
+    \item Generativní modelování obrazových dat: \autoref{sec:applications_generative_modeling}, \autoref{sec:applications_image_resynthesis}, \autoref{sec:applications_image_coloring} a \autoref{sec:applications_image_reconstruction}.
+    \item Syntéza přirozeného jazyka: \autoref{sec:applications_language_synthesis}. 
+    \item Syntéza pseudo-dat: \autoref{sec:applications_chemical_pseudo_data_synthesis} a \autoref{sec:applications_astronomy_pseudo_data_synthesis}.
+\end{itemize}
+
+Jednotlivé sekce pouze ilustrují využití rámce VAE pro konkrétní úlohu problémové oblasti a prezentuje výsledky dosažené v dílčích studiích.
+Pro popis architektury modelu a jeho evaluaci v každé sekci odkazuji na původní publikace.
+
+Detailní návrh a vyhodnocení modelů z vybraných problémových oblastí pak nabízí \autoref{chap:experiments}. 
 
 \newpage
 \section{Generativní modelování obrazových dat}
+\label{sec:applications_generative_modeling}
 Generativní modelování přirozených obrázků představuje jednu z nejaktuálnějších úloh učení bez učitele vůbec. \cite{Gulrajani2016}
 VAE (a jeho rozšíření) natrénované na datasetech obrazových dat v této oblasti dosahují excelentních výsledků.
 DRAW (rozšíření VAE, viz \autoref{sec:draw}) je jedna z vůbec prvních architektur VAE modifikovaná k generování \textbf{zcela nových a realistických obrázků}, jenž nebyly součástí trénovací množiny.
@@ -28,6 +40,7 @@ Další rozšířenou architekturou je PixelVAE \cite{Gulrajani2016}, která opr
 
 \newpage
 \section{Opakovana syntéza obrazových dat}
+\label{sec:applications_image_resynthesis}
 Populární aplikací VAE je (re)syntéza obrazových dat.
 Využití jednoduchého modelu VAE k opakované syntéze obrazových dat (konkrétně snímků lidských obličejů) představuje \cite{White2016}.
 
@@ -36,7 +49,7 @@ Z takového generativního modelu pak lze vzorkovat zcela nové obrázky, které
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{figures/applications/vae_smile_vector_white.png}
+    \includegraphics[width=\textwidth]{figures/applications/vae_smile_vector_white.png}
     \caption{Využití VAE pro opakovanou syntézu vstupního obrázku. V tomto příkladě lze pozorovat posun původního obrázku (vlevo) v modifikovaném latentním prostoru ve směru \emph{vektoru úsměvu}, což má za výsledek progresivně více usmívající se obličej. Převzato z \cite{White2016}.}
     \label{fig:vae_smile_vector_white}
 \end{figure}
@@ -50,6 +63,7 @@ Aplikace jednoduchých transformací – například pouhé lineární transform
 
 \newpage
 \section{Predikce barvy pixelů černobílých obrázků}
+\label{sec:applications_image_coloring}
 Další slibnou aplikací VAE v oblasti generativního modelování obrazových dat je predikce původní barvy jednotlivých pixelů obrázku na základě černobílého (\emph{grayscale}) vstupu.
 
 V \cite{Deshpande2017} autoři představují architekturu VAE, která rozšiřuje CVAE a modifikuje jeho ztrátovou funkci (a to za účelem zpřesnění predikce barvy pixelů a vyhnutí se rozostřeným vygenerovaným vzorkům).
@@ -77,6 +91,23 @@ Takto naučený model tedy lze využít například k obarvení černobílých f
 
 \newpage
 \section{Rekonstrukce obrazových dat}
+\label{sec:applications_image_reconstruction}
+Mechanismus VAE je možné využít rovněž k \textbf{rekonstrukci} obrazových dat – tedy doplnění chybějící části obrázku generativním modelem (tzv. \emph{inpainting}).
+Autoři \textcite{Yan2016} představují aplikaci VAE (a jeho rozšíření) v kontextu generativního modelování podmíněného atributem (\emph{attribute-conditioned generative modeling}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{figures/applications/image_inpainting_yan.pdf}
+    \caption{Výstup modelů VAE pro rekonstrukci dat. Převzato z \cite{Yan2016}.}
+    \label{fig:image_inpainting_yan}
+\end{figure}
+
+Předložený model je naučen na nepoškozených datech. Jako \textbf{vstup} pro generativní proces slouží \textbf{neúplný obrázek}.
+Cílem generativního modelu je předpovědět kontext chybějícího regionu obrázku, a s ohledem na zbylou část správně doplnit jeho obsah. \cite{Yan2016}
+
+\autoref{fig:image_inpainting_yan} prezentuje výstupy modelů VAE aplikovaných na rekonstrukci chybějících regionů \textbf{přirozených} obrazových dat.
+První blok prezentuje výsledky generativního procesu podmíněného atributem obličeje (model je trénován na datasetu LFW \footnote{Labeled Faces in the Wild. \cite{Huang2012}}).
+Druhý blok pak výsledky které nejsou podmíněny žádným atributem – chybějící region obrázku (16x16 px) je vybrán náhodně (model je trénován na datasetu CUB \footnote{Caltech-UCSD Birds-200-2011. \cite{Wah2011}}).
 
 \newpage
 \section{Konceptuální komprese}
@@ -92,7 +123,7 @@ Zbývající (detailnější) vlastnosti – jako například vzor srsti – op�
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.65\textwidth]{figures/applications/conceptual_compression_gregor.png}
+    \includegraphics[width=0.70\textwidth]{figures/applications/conceptual_compression_gregor.png}
     \caption{Konceptuální komprese s použitím VAE aplikovaná na přirozené obrázky z ImageNet datasetu. Poslední řádek představuje originální obrázky. Zbylé řádky představují \textbf{kompresované} (čím menší řádek, tím méně latentních proměnných může model pro kompresi využít) rekonstrukce DRAW modelu. Převzato z \cite{Gregor2016}.}
     \label{fig:conceptual_compression_gregor}
 \end{figure}
@@ -100,10 +131,11 @@ Zbývající (detailnější) vlastnosti – jako například vzor srsti – op�
 Jelikož značný počet bitů každého obrázku slouží jako nositel těchto \emph{detailnějších} atributů, lze jejich zanedbání využít za účelem ztrátové komprese pomocí VAE.
 
 Model konceptuální komprese založený na rozšíření VAE nabízí \textbf{větší kvalitu než kompresní algoritmy JPEG a JPEG 2000}
-\footnote{Aktuálně je nejspolehlivějším arbitrem pro posouzení ztrátové komprese stále člověk. Jiné (dostatečně jednoduché) míry, jako například L2 vzdálenost mezi komprimovaným a originálním obrázkem, jsou nevhodné.} ve všech úrovních detekovatelné korupce výsledného obrázku (pro detailnější srovnání, viz \cite{Gregor2016}).
+\footnote{Aktuálně je nejspolehlivějším arbitrem pro posouzení ztrátové komprese stále člověk. Jiné (dostatečně jednoduché) míry, jako například L2 vzdálenost mezi komprimovaným a originálním obrázkem, jsou nevhodné. \cite{Gregor2016}} ve všech úrovních detekovatelné korupce výsledného obrázku (pro detailnější srovnání, viz \cite{Gregor2016}).
 
 \newpage
 \section{Syntéza přirozeného jazyka}
+\label{sec:applications_language_synthesis}
 Jednu možnou aplikací VAE na úlohu syntézy přirozené jazyka, konkrétně \textbf{interpolace vět} představuje \cite{Bowman2016}.
 
 Zde je jednoduchý VAE (se stejnou strukturou, jakou prezentuje \autoref{chap:vae}) trénován na korpusu přirozeného anglického jazyka.
@@ -120,6 +152,7 @@ Výsledkem je model, jenž je schopen úspěšně \textbf{interpolovat mezi vět
 
 \newpage
 \section{Návrh chemikálií}
+\label{sec:applications_chemical_pseudo_data_synthesis}
 Doposud byly prezentovány spíše triviální využití VAE.
 Nicméně jedna z nedávných aplikací VAE k vědeckým účelům je popsána v \cite{GomezBombarelli2018}.
 V této publikaci je jednoduchý VAE (se strukturou modulů, které popisuje \autoref{chap:vae}) trénován na datové sadě obsahující stovky tisíc existujících chemických struktur.
@@ -135,6 +168,7 @@ Princip této metody k návrhu molekul léků (či alespoň jejich přidružený
 
 \newpage
 \section{Astronomie}
+\label{sec:applications_astronomy_pseudo_data_synthesis}
 Další aplikací VAE v oblasti vědy prezentuje \cite{Ravanbakhsh2016}.
 V této studii jsou VAE aplikovány k simulaci pozorování vzdálených galaxií.
 Vzorky generované VAE pomáhají kalibrovat systémy, jejichž úkolem je detekovat \emph{zkreslení} (shearing) pozorování vzdálených galaxií, které je způsobeno slabým jevem gravitační čočky
