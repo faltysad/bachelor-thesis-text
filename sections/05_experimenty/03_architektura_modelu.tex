@@ -1,5 +1,16 @@
 \section{Architektura hlubokého modelu variačního autoenkodéru}
-Model variačního autoenkodéru se od prostého autoenkodéru (viz \autoref{chap:autoencoder}) liší zejména v \textbf{enkodér modulu} a \textbf{ztrátové funkci} (viz \autoref{sec:vae_objective}).
+Pro sestavení hlubokého modelu variačního autoenkodéru
+\footnote{Model variačního autoenkodéru se od prostého autoenkodéru (viz \autoref{chap:autoencoder}) liší zejména v \textbf{enkodér modulu} a \textbf{ztrátové funkci} (viz \autoref{sec:vae_objective}).} jsou nutné následující moduly, resp. vrstvy:
+\begin{itemize}
+    \item Model enkodér modulu
+    \item Model dekodér modulu
+    \item Reparametrizační vrstva
+    \item Ztrátová funkce
+\end{itemize}
+
+V této sekci jsou tyto moduly propojeny s teoretickými aspekty variačního autoenkodéru z předchozích kapitol a postupně implementovány za účelem řešení úlohy generativního modelování obrazových dat na datové sadě MNSIT.
+\autoref{sec:vae_prepared_model} pak prezentuje výsledný model variačního autoenkodéru, který je připraven pro trénování.
+
 \subsection{Enkodér}
 U prostého autoenkodéru je každý vstup mapován přímo na \textbf{pouze jeden bod} v latentním prostoru (tedy výsledný latentní prostor není spojitý).
 Naopak ve variačním autoenkodéru je každý vstup mapován na (vícerozměrné) normální rozdělení okolo konkrétního bodu v latentním prostoru, jak ukazuje \autoref{fig:vae_encoder_differenc}.
@@ -42,7 +53,7 @@ Dekodér modul variačního autoenkodéru je principem identický k dekodéru pr
 Model denkodér modulu variačního autoenkodéru je pro účely tohoto experimentu definován následující konfigurací vrstev\footnote{Počet vrstev vychází z \textcite{Kingma2014} a jejich konfigurace byla následně modifikována na základě empirického pozorování až do aktuálního stavu.}:
 
 \begin{enumerate}
-    \item \textbf{Vstupní vrstva} \lstinline{Input(shape=2, name='encoder_input')}\footnote{\lstinline{shape} odpovídá dimenzi latentního prostoru (2D).}.
+    \item \textbf{Vstupní vrstva} \lstinline{Input(shape=2, name='encoder_input')}\footnote{\lstinline{shape} odpovídá dimenzi latentního prostoru (pro obrázky MNIST číslic 2D).}.
     \item \textbf{Dekonvoluční vrstva} \lstinline{Conv2DTranspose(filters=64, kernel_size=3, strides=1, padding='same')}.
     \item \textbf{Dekonvoluční vrstva} \lstinline{Conv2DTranspose(filters=64, kernel_size=3, strides=2, padding='same')}.
     \item \textbf{Dekonvoluční vrstva} \lstinline{Conv2DTranspose(filters=32, kernel_size=3, strides=2, padding='same')}.
@@ -78,7 +89,10 @@ Ztrátová funkce rovněž musí hledat \textbf{rovnováhu mezi hodnotou chyby r
 Udělení příliš velké váhy jednomu z těchto prvků by mělo za důsledek ztrátu kýženého regulačního efektu latentního prostoru a vzniklý model variačního autoenkodéru by nabýval stejných problémů, jako prostý autoenkodér.
 Zajištění konvergence obou prvků je tak důležitou součástí trénovacího procesu modelu variačního autoenkodéru a vede k chtěné vlastnosti spojitého latentního prostoru, která umožňuje variačnímu autoenkodéru generovat i takové vzorky dat, které nebyly součástí trénovací množiny.
 
-\lstinputlisting[language=Python]{code_snippets/vae_loss_function.py}
+Logika trénovacího kroku modelu variačního autoenkodéru zahrnuje dopředný průchod, výpočet hodnoty ztrátové funkce a aktualizaci metrik modelu.
+Trénovací krok modelu je definován následovně:
+
+\lstinputlisting[language=Python, caption=Obecný trénovací krok modelu variačního autoenkodéru pro generativní úlohu]{code_snippets/vae_loss_function.py}
 
 Kde:
 \begin{itemize}
@@ -93,6 +107,7 @@ Kde:
 \end{itemize}
 
 \subsection{Výsledný model}
+\label{sec:vae_prepared_model}
 \lstinputlisting[language=Python, caption=Sestavení modelu variačního autoenkodéru pro generativní model MNIST číslic.]{code_snippets/vae_model.py}
 
 
