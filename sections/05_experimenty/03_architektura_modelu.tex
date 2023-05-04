@@ -2,50 +2,68 @@
 Model variačního autoenkodéru se od prostého autoenkodéru (viz \autoref{chap:autoencoder}) liší zejména v \textbf{enkodér modulu} a \textbf{ztrátové funkci} (viz \autoref{sec:vae_objective}).
 \subsection{Enkodér}
 U prostého autoenkodéru je každý vstup mapován přímo na \textbf{pouze jeden bod} v latentním prostoru (tedy výsledný latentní prostor není spojitý).
-Naopak ve variačním autoenkodéru je každý vstup mapován na (vícerozměrné) normální rozdělení okolo konkrétního bodu v latentním prostoru, jak ukazuje
+Naopak ve variačním autoenkodéru je každý vstup mapován na (vícerozměrné) normální rozdělení okolo konkrétního bodu v latentním prostoru, jak ukazuje \autoref{fig:vae_encoder_differenc}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{figures/vae_encoder_module.png}
-    \caption{Rozdíl mezi enkodér modulem autoenkodéru a enkodér modulem variačního autoenkodéru. Umožňuje vzorkování ze spojitého latentního prostoru VAE. Obrázek převzat z \textcite{Foster2023}}.
+    \caption{Rozdíl mezi enkodér modulem autoenkodéru a enkodér modulem variačního autoenkodéru. Umožňuje vzorkování ze spojitého latentního prostoru VAE. Obrázek převzat z \textcite{Foster2023}.}
     \label{fig:vae_encoder_difference}
 \end{figure}
 
-Pro připomenutí, jak plyne z \autoref{sec:vae_encoder}, enkodér modul variačního autoenkodéru \textbf{zakóduje každý vstup do dvou vektorů} – $mu$ a $log_var$
+Pro připomenutí, jak plyne z \autoref{sec:vae_encoder}, enkodér modul variačního autoenkodéru \textbf{zakóduje každý vstup do dvou vektorů} – \lstinline{mu} a \lstinline{log_var}
 \footnote{Jak víme z \autoref{sec:vae_optimization} enkodér modul předpokládá že \textbf{neexistuje korelace mezi žádnou z dimenzí latentního prostoru} a tím pádem je výsledná kovarianční matice diagonální. V důsledku tak enkodér modulu stačí mapovat každý vstup na vektor středních hodnot a vektor rozptylu.},
-ze kterých je následně v latentním prostoru \textbf{sestaveno} (vícerozměrné) \textbf{normální rozdělení}, kde:\\
-$mu$: Střední hodnota rozdělení a $log_var$: logaritmus rozptylu každé dimenze.\\
+ze kterých je následně v latentním prostoru \textbf{sestaveno} (vícerozměrné) \textbf{normální rozdělení}, kde:
+\lstinline{mu}: střední hodnota rozdělení a \lstinline{log_var}: logaritmus rozptylu (každé z dimenzí).
 
-Pro vytvoření kódu vstupního obrázku do konkrétní latentní proměnné $z$ v latentním prostoru modelu lze z takto vzniklé distribuce vzorkovat pomocí následujícího vztahu:\\
-$z = mu + sigma * epsilon$, kde $sigma = exp(log_var / 2)$ \\
-a $epsilon$ je bod vzorkovaný z normovaného normálního rozdělení.
+Pro vytvoření kódu vstupního obrázku do konkrétní latentní proměnné $z$ v latentním prostoru modelu lze z takto vzniklé distribuce vzorkovat pomocí reparametrizační vrstvy modelu. Tento proces detailněji popisuje \autoref{sec:vae_model_reparametrization_layer}.
 
-Tento princip enkodér modulu je velmi důležitý, jelikož zprostředkovává \textbf{spojitost latentního prostoru pro účely vzorkování}.
-Vraťme se k prostému autoenkodéru (viz \autoref{chap:autoencoder}) – jeho latentní prostor není spojitý.
-Pakliže bychom vytvořili model pouhého autoenkodéru, např. bod $(1.5, -2.5)$ v jeho latentním prostoru by bylo možné rozkódovat na dobře formovaný obrázek číslice $1$, není ale zaručeno že bod $(1.6, -2.6)$ by byl rovněž rekonstruován na obrázek \emph{podobný} této číslici (ve skutečnosti by taková rekonstrukce pravděpodobně vůbec nebyla definována).
+Model enkodér modulu variačního autoenkodéru je pro účely tohoto experimentu definován následující konfigurací vrstev\footnote{Počet vrstev vychází z \textcite{Kingma2014} a jejich konfigurace byla následně modifikována na základě empirického pozorování až do aktuálního stavu.}:
+\newpage
+\begin{enumerate}
+    \item \textbf{Vstupní vrstva} \lstinline{Input(shape=(28, 28, 1), name='encoder_input')}\footnote{\lstinline{input_dim} odpovídá jedné číslici MNIST.}.
+    \item \textbf{Konvoluční vrstva} \lstinline{Conv2D(filters=32, kernel_size=3, strides=1, padding='same')}.
+    \item \textbf{Konvoluční vrstva} \lstinline{Conv2D(filters=64, kernel_size=3, strides=2, padding='same')}.
+    \item \textbf{Konvoluční vrstva} \lstinline{Conv2D(filters=64, kernel_size=3, strides=2, padding='same')}.
+    \item \textbf{Konvoluční vrstva} \lstinline{Conv2D(filters=64, kernel_size=3, strides=1, padding='same')}.
+    \item \textbf{Flatten vrstva} \lstinline{Flatten()(x)}.
+\end{enumerate}
 
-Jak napovídá \autoref{fig:vae_encoder_difference}, enkodér modul variačního autoenkodéru ale tento problém řeší.
-Jelikož je vzorkován náhodný bod z okolí $mu$, dekodér \textbf{musí zajistit} že chyba rekonstrukce všech bodů v jeho okolí bude nízká.
-Toto je vlastnost, která zaručuje že i když zvolíme bod v latentním prostoru, který doposud nebyl dekodérem spatřen, je vysoká pravděpodobnost že tento bod bude rekonstruován na obrázek který bude \emph{podobný} očekávanému vstupu.
-Toto je způsob, kterým \textbf{variační autoenkodér generuje syntetická data}, která zachycují charakteristiky vstupních dat, ale nebyly součástí trénovací množiny.
-
-\lstinputlisting[language=Python, caption=Kód enkodér modulu VAE]{code_snippets/encoder.py}
-
-Má za výsledek následující enkodér modul:
+Vrstvy enkodér modulu ilustruje \autoref{fig:vae_model_encoder}.
 \begin{figure}[H]
     \centering
-    \includegraphics{figures/vae_model_encoder.png}
+    \includegraphics[height=0.63\textheight]{figures/vae_model_encoder.png}
     \caption{Diagram enkodér modulu VAE pro generování MNIST číslic.}
     \label{fig:vae_model_encoder}
 \end{figure}
 
 \subsection{Dekodér}
 Dekodér modul variačního autoenkodéru je principem identický k dekodéru prostého autoenkodéru.
+Model denkodér modulu variačního autoenkodéru je pro účely tohoto experimentu definován následující konfigurací vrstev\footnote{Počet vrstev vychází z \textcite{Kingma2014} a jejich konfigurace byla následně modifikována na základě empirického pozorování až do aktuálního stavu.}:
 
-\subsection{Reparametrizační trik}
+\begin{enumerate}
+    \item \textbf{Vstupní vrstva} \lstinline{Input(shape=2, name='encoder_input')}\footnote{\lstinline{shape} odpovídá dimenzi latentního prostoru (2D).}.
+    \item \textbf{Dekonvoluční vrstva} \lstinline{Conv2DTranspose(filters=64, kernel_size=3, strides=1, padding='same')}.
+    \item \textbf{Dekonvoluční vrstva} \lstinline{Conv2DTranspose(filters=64, kernel_size=3, strides=2, padding='same')}.
+    \item \textbf{Dekonvoluční vrstva} \lstinline{Conv2DTranspose(filters=32, kernel_size=3, strides=2, padding='same')}.
+    \item \textbf{Dekonvoluční vrstva} \lstinline{Conv2DTranspose(filters=1, kernel_size=3, strides=1, padding='same')}.
+    \item \textbf{Flatten vrstva} \lstinline{Flatten()(x)}.
+\end{enumerate}
+
+\subsection{Reparametrizační vrstva}
+\label{sec:vae_model_reparametrization_layer}
+Reperametrizační vrstva modelu variačního autoenkodéru implementuje reparametrizační trik dle \autoref{sec:reparametrization_trick}.
+Pričemž připomeňme, že \lstinline{epsilon} je bod náhodně vzorkovaný z normovaného normálního rozdělení.
+Právě \textbf{\lstinline{epsilon}} hraje při trénování variačního autoenkodéru důležitou roli, jelikož transformuje vzorkovací proces na diferenciovatelnou operaci (a této vlastnosti je využito při následné optimalizaci modelu, viz \autoref{sec:vae_model_loss_function}).
+
+U variačního autoenkodéru vzorkujeme náhodný bod z $\epsilon$-okolí \lstinline{mu}.
+Tedy dekodér musí při trénování zajistit, aby všechny body v tomto okolí produkovaly výstup (obrázek) který je \emph{velmi podobný} vstupu, nebo má alespoň podobný sémantický význam.
+Toto je velmi elegantní vlastnost variačního autoenkodéru, která zajistí že i v případě, kdy při vzorkování zvolíme bod, který dekodér modul variačního autoenkodéru doposud nikdy \emph{neviděl}, s vysokou pravděpodobnostní na výstupu dostaneme dobře formovaný obrázek.
+Tedy \textbf{umožníme variačnímu autoenkodéru generovat data, která nebyly součástí trénovací množiny, ale nesou stejné charakteristiky jako vstupní data}. Syntéza takovýchto dat je jedna z hlavních účelů oblastí generativního modelovaní. Tuto vlastnost detailněji zkoumá \autoref{sec:vae_model_latent_space_observation}, která se věnuje pozorování latentního prostoru naučeného modelu.
 \lstinputlisting[language=Python]{code_snippets/vae_reparametrization.py}
 
 \subsection{Ztrátová funkce}
+\label{sec:vae_model_loss_function}
 Ztrátová funkce modelu variačního autoenkodéru implementuje postup dle \autoref{eq:vae_elbo}.
 Model VAE tedy \textbf{minimalizuje součet hodnoty chyby rekonstrukce a hodnoty KL divergence}.
 
@@ -60,7 +78,6 @@ Ztrátová funkce rovněž musí hledat \textbf{rovnováhu mezi hodnotou chyby r
 Udělení příliš velké váhy jednomu z těchto prvků by mělo za důsledek ztrátu kýženého regulačního efektu latentního prostoru a vzniklý model variačního autoenkodéru by nabýval stejných problémů, jako prostý autoenkodér.
 Zajištění konvergence obou prvků je tak důležitou součástí trénovacího procesu modelu variačního autoenkodéru a vede k chtěné vlastnosti spojitého latentního prostoru, která umožňuje variačnímu autoenkodéru generovat i takové vzorky dat, které nebyly součástí trénovací množiny.
 
-\newpage
 \lstinputlisting[language=Python]{code_snippets/vae_loss_function.py}
 
 Kde:
@@ -74,5 +91,8 @@ Kde:
     \item \lstinline{grads = tape.gradient(total_loss, self.trainable_weights)}: Spočte gradienty vah dle \autoref{eq:vae_final_objective} s ohledem na celkovou hodnotu ztrátové funkce.
     \item \lstinline{self.optimizer.apply_gradients(zip(grads, self.trainable_weights))}: Stochastická gradientní optimalizace (s ohledem na spočtené gradienty) dle \autoref{alg:reparam_trick}.
 \end{itemize}
+
+\subsection{Výsledný model}
+\lstinputlisting[language=Python, caption=Sestavení modelu variačního autoenkodéru pro generativní model MNIST číslic.]{code_snippets/vae_model.py}
 
 
