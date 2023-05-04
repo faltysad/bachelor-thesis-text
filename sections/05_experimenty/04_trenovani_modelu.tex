@@ -6,12 +6,14 @@ Pro umožnění zpětné propagace byla představena reparametrizační vrstva m
 Trénovací proces sestaveného modelu lze zahájit následovně\footnote{Optimizer Adam slouží pro stochastickou gradientní optimalizaci dle \autoref{sec:stochastic_gradient_optimization_method}.}:
 \lstinputlisting[language=Python, caption=Zahájení testovací fáze modelu variačního autoenkodéru pro úlohu generativního modelování obrazových dat MNIST.]{code_snippets/vae_train.py}
 
+Vstupem pro trénování modelu jsou trénovací data MNIST (\lstinline{x_train}). Způsob jejich načtení a předzpracování je dostupný v \autoref{app:vae_model_source_code}.
+
 \subsection{Konvergence ztrátové funkce}
 Počet epoch trénovací fáze modelu byl empiricky stanoven na 200. \autoref{app:latent_space_development} prezentuje formulaci latentního prostoru modelu variačního autoenkodéru s různým počtem epoch.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.97\textwidth]{figures/epoch_total_loss.pdf}
-    \caption{Ztrátová funkce po 200 epochách konverguje k hodnotě $\sim 137.5$.}
+    \caption{Ztrátová funkce po 200 epochách konverguje k hodnotě $\sim 137.5$. Osa x značí počet epoch. Osa y značí hodnotu ztrátové funkce.}
 \end{figure}
 
 \begin{figure}[H]
@@ -19,6 +21,6 @@ Počet epoch trénovací fáze modelu byl empiricky stanoven na 200. \autoref{ap
     \subfloat[\centering KL divergence po 200 epochách konverguje k hodnotě $\sim 3.79$.]{{\includegraphics[width=0.45\textwidth]{figures/epoch_kl_loss.pdf} }}%
     \qquad
     \subfloat[\centering Chyba rekonstrukce po 200 epochách konverguje k hodnotě $\sim 133.7$.]{{\includegraphics[width=0.45\textwidth]{figures/epoch_reconstruction_loss.pdf} }}%
-    \caption{Hodnoty dílčích prvků ztrátové funkce modelu variačního autoenkodéru po 200 epochách.}
+    \caption{Hodnoty dílčích prvků ztrátové funkce modelu variačního autoenkodéru po 200 epochách. Osa x značí počet epoch. Osa y značí hodnotu dílčího prvku ztrátové funkce.}
     \label{fig:example}%
 \end{figure}
