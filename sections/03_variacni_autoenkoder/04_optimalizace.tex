@@ -17,7 +17,7 @@ Takovou KL divergenci lze spočítat v uzavřeném tvaru následovně \cite{Doer
 
 kde $k$ je dimenzionlita výsledného rozdělení pravděpodobnosti. \autoref{eq:vae_objective_long_form} lze dále zjednodušit následovně \cite{Doersch2021}:
 
-\begin{equation}
+\begin{equation}\label{eq:vae_stochastic_kl_divergence}
     \mathcal{D}_{KL} \left[ \mathcal{N}(\mu(X), \Sigma(X)) \parallel \mathcal{N}(0, I) \right] = 
     \frac{1}{2} \left[ \tr (\Sigma(X)) + (\mu(X))^\top (\mu(X)) - k - \log \det (\Sigma(X)) \right].
 \end{equation}
@@ -53,6 +53,7 @@ Průměr gradientu této funkce skrze \emph{libovolně velké} množství vzork�
 \end{figure}
 
 \subsection{Metoda stochastická gradientní optimalizace ELBO}
+\label{sec:stochastic_gradient_optimization_method}
 Důležitou vlastností ELBO je možnost \emph{joint} optimalizace s ohledem na veškeré její parametry – $\boldsymbol{\phi}$ a $\boldsymbol{\theta}$ – za použití stochastického gradientního sestupu (\emph{stochastic gradient descent, SGD}).
 Proces lze zahájit náhodnými počátečními hodnotami $\boldsymbol{\phi}$ a $\boldsymbol{\theta}$ a stochasticky optimalizovat jejich hodnoty než dojde ke konvergenci. \cite{Kingma2019}
 

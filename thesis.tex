@@ -108,6 +108,7 @@ Note: Add a list of tables if the number of tables used in the thesis exceeds 20
 \input{sections/01_vyhodiska_variacniho_autoenkoderu/06_kl_divergence}
 \input{sections/01_vyhodiska_variacniho_autoenkoderu/07_latent_variable_model}
 \input{sections/01_vyhodiska_variacniho_autoenkoderu/05_latent_variable_models}
+\section{TODO: Normální rozdělení}
 
 \section{Pravděpodobnostní modely a variační inference}
 \label{sec:probabilistic_models_variational_inference}
@@ -158,14 +159,17 @@ Note: Add a list of tables if the number of tables used in the thesis exceeds 20
 
 \chapter{Experimenty s~modelem variačního autoenkodéru}
 \label{chap:experiments}
-\section{Generativní modelování obrazových dat}
-\subsection{Vymezení problémové oblasti}
-\subsection{Datová sada a předzpracování}
-\subsection{Nastavení experimentu}
-\subsection{Návrh modelu}
-\subsection{Evaluace}
-\subsection{Diskuze}
-\section{Interpolace vět}
+\input{sections/05_experimenty/00_experimenty_intro}
+\section{Vymezení problémové oblasti}
+\section{Datová sada a předzpracování}
+\input{sections/05_experimenty/03_architektura_modelu}
+\input{sections/05_experimenty/04_trenovani_modelu}
+% Všechny parametry sem
+\section{Analýza modelu: pozorování v latentním prostoru}
+\section{Nastavení experimentu}
+\section{Návrh modelu}
+\section{Evaluace}
+\section{Obecnost modelu / Diskuze }
 
 {%
 \pagestyle{plain}
