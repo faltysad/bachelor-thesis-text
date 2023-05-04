@@ -71,7 +71,7 @@ U variačního autoenkodéru vzorkujeme náhodný bod z $\epsilon$-okolí \lstin
 Tedy dekodér musí při trénování zajistit, aby všechny body v tomto okolí produkovaly výstup (obrázek) který je \emph{velmi podobný} vstupu, nebo má alespoň podobný sémantický význam.
 Toto je velmi elegantní vlastnost variačního autoenkodéru, která zajistí že i v případě, kdy při vzorkování zvolíme bod, který dekodér modul variačního autoenkodéru doposud nikdy \emph{neviděl}, s vysokou pravděpodobnostní na výstupu dostaneme dobře formovaný obrázek.
 Tedy \textbf{umožníme variačnímu autoenkodéru generovat data, která nebyly součástí trénovací množiny, ale nesou stejné charakteristiky jako vstupní data}. Syntéza takovýchto dat je jedna z hlavních účelů oblastí generativního modelovaní. Tuto vlastnost detailněji zkoumá \autoref{sec:vae_model_latent_space_observation}, která se věnuje pozorování latentního prostoru naučeného modelu.
-\lstinputlisting[language=Python]{code_snippets/vae_reparametrization.py}
+\lstinputlisting[language=Python, caption=Reparametrizační vrstva modelu variačního autoenkodéru]{code_snippets/vae_reparametrization.py}
 
 \subsection{Ztrátová funkce}
 \label{sec:vae_model_loss_function}
@@ -106,6 +106,7 @@ Kde:
     \item \lstinline{self.optimizer.apply_gradients(zip(grads, self.trainable_weights))}: Stochastická gradientní optimalizace (s ohledem na spočtené gradienty) dle \autoref{alg:reparam_trick}.
 \end{itemize}
 
+\newpage
 \subsection{Výsledný model}
 \label{sec:vae_prepared_model}
 \lstinputlisting[language=Python, caption=Sestavení modelu variačního autoenkodéru pro generativní model MNIST číslic.]{code_snippets/vae_model.py}
