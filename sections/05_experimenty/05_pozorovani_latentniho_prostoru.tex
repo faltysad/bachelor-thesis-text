@@ -1,14 +1,28 @@
-\section{Pozorování latentního prostoru}
+\section{Pozorování v latentním prostoru}
 \label{sec:vae_model_latent_space_observation}
+
+Po natrénování modelu variačního autoenkodéru lze nahlédnout do zformovaného latentního prostoru.
+Jednotlivé body latentního prostoru jsou tvořeny průchodem vstupních dat (MNIST číslic) enkodér modulem.
+Při pohledu na \autoref{fig:vae_model_latent_space} lze pozorovat jejich obarvení, které bylo přiřazeno na základě třídy vstupního vzorku (tedy v tomto má každá číslice $0$ - $9$ přiřazenou jednu barvu).
+
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{figures/latent_space_200_epochs.png}
     \caption{Latentní prostor naučeného modelu variačního autoenkodéru. Barvy reprezentují jednotlivé třídy MNIST datasetu, tedy číslice $0$ - $9$. }
+    \label{fig:vae_model_latent_space}
 \end{figure}
+
+Lze pozorovat že latentní prostor je organizovaný, \textbf{i přes to, že model variačního autoenkodéru neměl k dispozici štítky trénovacích dat}. 
+Tyto uskupení jsou důsledkem ztrátové funkce modelu.
+\textbf{Variační autoenkodér se sám naučil tvar a charakteristiky jednotlivých číslic} minimalizací chyby rekonstrukce.
+
+\autoref{fig:vae_model_p_values} ukazuje latentní prostor transformovaný do $p$-hodnot.
+Lze nahlédnout, že každá barva (resp. číslice) je v latentním prostoru zhruba rovnoměrně reprezentována.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{figures/vae_latent_space_p_values.png}
-    \caption{Latentní prostor naučeného modelu variačního autoenkodéru. Barvy reprezentují jednotlivé třídy MNIST datasetu, tedy číslice $0$ - $9$. }
+    \caption{Body v latentním prostoru naučeného modelu transformovány na $p$-hodnoty. Barvy reprezentují jednotlivé třídy MNIST datasetu, tedy číslice $0$ - $9$. }
+    \label{fig:vae_model_p_values}
 \end{figure}
