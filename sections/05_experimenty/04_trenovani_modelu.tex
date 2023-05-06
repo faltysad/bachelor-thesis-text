@@ -1,12 +1,22 @@
+\newpage
 \section{Trénování hlubokého modelu variačního autoenkodéru}
 Trénovací fáze modelu variačního autoenkodéru spočívá v minimalizaci ztrátové funkce dle \autoref{sec:vae_model_loss_function}.
 Účelem této ztrátové funkce je současná minimalizace chyby rekonstrukce a regularizace naučené pravděpodobnostní distribuce latentních proměnných za účelem přiblížení k apriorní distribuci vstupních dat.
 Pro umožnění zpětné propagace byla představena reparametrizační vrstva modelu variačního autoenkodéru, která činí vzorkovací proces diferenciovatelným.
 
-Trénovací proces sestaveného modelu lze zahájit následovně\footnote{Optimizer Adam slouží pro stochastickou gradientní optimalizaci dle \autoref{sec:stochastic_gradient_optimization_method}.}:
-\lstinputlisting[language=Python, caption=Zahájení testovací fáze modelu variačního autoenkodéru pro úlohu generativního modelování obrazových dat MNIST.]{code_snippets/vae_train.py}
+Zahájení trénovacího procesu modelu variačního autoenkodéru ukazuje \autoref{code:vae_model_begin_training}. 
 
-Vstupem pro trénování modelu jsou trénovací data MNIST (\lstinline{x_train}). Způsob jejich načtení a předzpracování je dostupný v \autoref{app:vae_model_source_code}.
+\begin{figure}[H]
+    \inputminted[linenos]{python}{code_snippets/vae_train.py}
+    \caption{Zahájení testovací fáze modelu variačního autoenkodéru pro úlohu generativního modelování obrazových dat MNIST.}
+    \label{code:vae_model_begin_training}
+\end{figure}
+
+Kde:
+\begin{itemize}
+    \item \emph{Řádek 1}: Definuje použití optimizéru pro stochastickou gradientí optimalizaci implementující algoritmus Adam \cite{Kingma2017} \footnote{Algoritmus Adam byl využit kvůli jeho výpočetní efektivitě, nízkým paměťovým nárokům a vlastnosti invariance vůči přeškálování gradientů. Autoři \textcite{Kingma2017} jej uvádí jako ideální pro úlohy generativního modelování obrazových dat.} dle \autoref{sec:stochastic_gradient_optimization_method}.
+    \item \emph{Řádek 2}: Spouští trénovací fázi modelu variačního autoenkodéru na datové sadě MNIST. Pro trénovací fázi byla použita \textbf{pouze trénovací množina MNIST bez štítků}. Testovací množina MNIST byla ponechána pro evaluaci kvality rekonstrukce\footnote{Způsob načtení a předzpracování datové sady uvádí \autoref{app:vae_model_source_code}.}.
+\end{itemize}
 
 \newpage
 \subsection{Konvergence ztrátové funkce}
