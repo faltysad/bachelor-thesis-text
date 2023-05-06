@@ -25,9 +25,11 @@ I proto lze u naučeného modelu pozorovat určitý sémantický význam aritmet
 
 \begin{figure}[H]
     \centering
-    \subfloat[\centering label 1]{{\includegraphics[width=0.50\textwidth]{figures/vae_model_latent_space_5_epochs.png} }}
-    \subfloat[\centering label 2]{{\includegraphics[width=0.50\textheight]{figures/vae_model_latent_spac_200_epochs.png} }}
-    \subfloat[\centering label 3]{{\includegraphics[width=0.50\textheight]{figures/latent_space_200_epochs.png} }}
-    \caption{2 Figures side by side}
+    \subfloat[Počet epoch $ = 1$.]{{\includegraphics[width=0.49\textwidth]{figures/vae_model_latent_space_1_epoch.png} }}
+    \subfloat[Počet epoch $ = 5$.]{{\includegraphics[width=0.49\textwidth]{figures/vae_model_latent_space_5_epochs.png} }} \\
+    \subfloat[Počet epoch $ = 200$.]{{\includegraphics[width=0.49\textwidth]{figures/vae_model_latent_spac_200_epochs.png} }}
+    \subfloat[Počet epoch $ = 500$.]{{\includegraphics[width=0.49\textwidth]{figures/vae_model_latent_space_500_epochs.png} }}
+    \caption{Postupné formování struktur v latentním prostoru naučeného modelu pro generativní modelování MNIST číslic. Popisek dílčích obrázků uvádí výsledný latentní prostor po určitém počtu epoch v trénovací fázi. Při každé trénovací fázi byla využita trénovací množina MNIST datasetu \textbf{bez štítků}.}
     \label{fig:forming_latent_space}
 \end{figure}
+
