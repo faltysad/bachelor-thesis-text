@@ -32,18 +32,18 @@ Při vizualizaci latentního prostoru modelu, jehož trénovací fáze obsahoval
 \subsection{Možné zlepšení trénovací strategie variačního autoenkodéru}
 Variační autoenkodér při trénování balancuje dva prvky ztrátové funkce (viz \autoref{eq:vae_elbo}) – chybu rekonstrukce a KL divergenci.
 Usměrnění těchto dvou prvku lze dosáhnout zahrnutím hyperparametru $\beta$ do trénovací fáze modelu. 
-Tento hypermarametr má skalární hodnota a slouží k násobení KL divergence prvku ztrátové funkce, tedy přiděluje KL divergenci váhu.
+Tento hyperparametr má skalární hodnota a slouží k násobení KL divergence prvku ztrátové funkce, tedy přiděluje KL divergenci váhu \cite{Higgins2022}.
 
 Je-li $\beta = 1$, pak variační autoenkodér optimalizuje efekt chyby rekonstrukce i KL divergence rovnocenně.   
 Je-li $\beta < 1$, dává variační autoenkodér větší důraz na minimalizaci chyby rekonstrukce.
-Je-li $\beta > 1$, dává variační autoenkodér naopak větší důraz na regularizační efekt KL divergence.
+Je-li $\beta > 1$, dává variační autoenkodér naopak větší důraz na regularizační efekt KL divergence \cite{Higgins2022}.
 
 V této ilustrační implementaci generativního modelu MNIST pro jednoduchost \textbf{hyperparemetr $\beta$ nebyl součástí trénovacího procesu}.
-Jeho začlenění by však vedlo k ještě lépe struktorovanému latentnímu prostoru naučeného modelu, než prezentuje \autoref{fig:forming_latent_space}.
+Jeho začlenění by však dle \textcite{Higgins2022} vedlo k ještě lépe strukturovanému latentnímu prostoru naučeného modelu, než prezentuje \autoref{fig:forming_latent_space}.
 
 U složitějších modelů variačního autoenkodéru nalézá uplatnění $\beta$ hyperparametru úspěch.
-Výzkumníci \textcite{Tomczak2017} dokonce přichází se strategií postupného žíhání hodnoty $\beta$.
-Začínají s hodnotou $\beta = 0.1$ a postupně ji zvyšují.
+Výzkumníci \textcite{Sankarapandian2021} dokonce přichází se strategií postupného žíhání hodnoty $\beta$.
+Začínají s hodnotou $\beta \ll 1$ a postupně ji zvyšují.
 To v důsledku umožní modelu se v úvodní fázi trénování zaměřit na minimalizaci chyby rekonstrukce.
 V pozdější fázi trénovacího procesu je naopak postupně upřednostňován regularizační efekt KL divergence, což ve finále vede k přesnějšímu zachycení struktury dat a zamezuje přeučení.
 

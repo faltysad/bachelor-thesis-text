@@ -1093,4 +1093,32 @@
   url       = {https://proceedings.neurips.cc/paper_files/paper/2002/file/6150ccc6069bea6b5716254057a194ef-Paper.pdf},
 }
 
+@InProceedings{Higgins2022,
+  author     = {Higgins, Irina and Matthey, Loic and Pal, Arka and Burgess, Christopher and Glorot, Xavier and Botvinick, Matthew and Mohamed, Shakir and Lerchner, Alexander},
+  title      = {beta-{VAE}: {Learning} {Basic} {Visual} {Concepts} with a {Constrained} {Variational} {Framework}},
+  year       = {2022},
+  month      = jul,
+  abstract   = {Learning an interpretable factorised representation of the independent data generative factors of the world without supervision is an important precursor for the development of artificial intelligence that is able to learn and reason in the same way that humans do. We introduce beta-VAE, a new state-of-the-art framework for automated discovery of interpretable factorised latent representations from raw image data in a completely unsupervised manner. Our approach is a modification of the variational autoencoder (VAE) framework. We introduce an adjustable hyperparameter beta that balances latent channel capacity and independence constraints with reconstruction accuracy. We demonstrate that beta-VAE with appropriately tuned beta {\textgreater} 1 qualitatively outperforms VAE (beta = 1), as well as state of the art unsupervised (InfoGAN) and semi-supervised (DC-IGN) approaches to disentangled factor learning on a variety of datasets (celebA, faces and chairs). Furthermore, we devise a protocol to quantitatively compare the degree of disentanglement learnt by different models, and show that our approach also significantly outperforms all baselines quantitatively. Unlike InfoGAN, beta-VAE is stable to train, makes few assumptions about the data and relies on tuning a single hyperparameter, which can be directly optimised through a hyper parameter search using weakly labelled data or through heuristic visual inspection for purely unsupervised data.},
+  file       = {Full Text PDF:https\://openreview.net/pdf?id=Sy2fzU9gl:application/pdf},
+  language   = {en},
+  shorttitle = {beta-{VAE}},
+  url        = {https://openreview.net/forum?id=Sy2fzU9gl},
+  urldate    = {2023-05-06},
+}
+
+@TechReport{Sankarapandian2021,
+  author   = {Sankarapandian, Sivaramakrishnan and Kulis, Brian},
+  title    = {\${\textbackslash}beta\$-{Annealed} {Variational} {Autoencoder} for glitches},
+  year     = {2021},
+  month    = jul,
+  note     = {arXiv:2107.10667 [gr-qc] type: article},
+  abstract = {Gravitational wave detectors such as LIGO and Virgo are susceptible to various types of instrumental and environmental disturbances known as glitches which can mask and mimic gravitational waves. While there are 22 classes of non-Gaussian noise gradients currently identified, the number of classes is likely to increase as these detectors go through commissioning between observation runs. Since identification and labelling new noise gradients can be arduous and time-consuming, we propose \${\textbackslash}beta\$-Annelead VAEs to learn representations from spectograms in an unsupervised way. Using the same formulation as {\textbackslash}cite\{alemi2017fixing\}, we view Bottleneck-VAEs{\textasciitilde}cite\{burgess2018understanding\} through the lens of information theory and connect them to \${\textbackslash}beta\$-VAEs{\textasciitilde}cite\{higgins2017beta\}. Motivated by this connection, we propose an annealing schedule for the hyperparameter \${\textbackslash}beta\$ in \${\textbackslash}beta\$-VAEs which has advantages of: 1) One fewer hyperparameter to tune, 2) Better reconstruction quality, while producing similar levels of disentanglement.},
+  doi      = {10.48550/arXiv.2107.10667},
+  file     = {arXiv Fulltext PDF:https\://arxiv.org/pdf/2107.10667.pdf:application/pdf},
+  keywords = {Computer Science - Machine Learning, General Relativity and Quantum Cosmology},
+  school   = {arXiv},
+  url      = {http://arxiv.org/abs/2107.10667},
+  urldate  = {2023-05-06},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}
