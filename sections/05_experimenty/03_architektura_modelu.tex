@@ -12,6 +12,7 @@ V této sekci jsou tyto moduly propojeny s teoretickými aspekty variačního au
 \autoref{sec:vae_prepared_model} pak prezentuje výsledný model variačního autoenkodéru, který je připraven pro trénování.
 
 \subsection{Enkodér}
+\label{sec:vae_model_encoder}
 U prostého autoenkodéru je každý vstup mapován přímo na \textbf{pouze jeden bod} v latentním prostoru (tedy výsledný latentní prostor není spojitý).
 Naopak ve variačním autoenkodéru je každý vstup mapován na (vícerozměrné) normální rozdělení okolo konkrétního bodu v latentním prostoru, jak ukazuje \autoref{fig:vae_encoder_differenc}.
 
@@ -49,6 +50,7 @@ Vrstvy enkodér modulu ilustruje \autoref{fig:vae_model_encoder}.
 \end{figure}
 
 \subsection{Dekodér}
+\label{sec:vae_model_decoder}
 Dekodér modul variačního autoenkodéru je principem identický k dekodéru prostého autoenkodéru.
 Model denkodér modulu variačního autoenkodéru je pro účely tohoto experimentu definován následující konfigurací vrstev\footnote{Počet vrstev vychází z \textcite{Kingma2014} a jejich konfigurace byla následně modifikována na základě empirického pozorování až do aktuálního stavu.}:
 
@@ -78,7 +80,7 @@ Tedy \textbf{umožníme variačnímu autoenkodéru generovat data, která nebyly
 Ztrátová funkce modelu variačního autoenkodéru implementuje postup dle \autoref{eq:vae_elbo}.
 Model VAE tedy \textbf{minimalizuje součet hodnoty chyby rekonstrukce a hodnoty KL divergence}.
 
-Připomeňme z \autoref{sec:kl_divergence}, že KL divergence vyjadřuje míru nepodobnosti (resp. \emph{"vzdálenosti"}) mezi pravděpodobnostními distribucemi.
+Pro rekapitulaci \autoref{sec:kl_divergence}, KL divergence vyjadřuje míru \textbf{nepodobnosti} (resp. \emph{"vzdálenosti"}) mezi pravděpodobnostními distribucemi.
 U variačního autoenkodéru chceme měřit jak moc se liší normální rozdělení s parametry \lstinline{mu} a \lstinline{log_var} oproti normovanému normálnímu rozdělení.
 Prvek KL divergence tedy penalizuje umělou neuronovou síť modelu za takové kódování vstupních dat (jehož výsledkem je \lstinline{mu} a \lstinline{log_var}), které se \textbf{výrazně liší} od parametrů normované normálního rozdělení.
 Tento prvek KL divergence tak hraje při trénování modelu důležitou roli, jelikož \emph{nutí} všechny distribuce s parametry, které jsou výsledkem kódování, \emph{podobat se} normovanému normálnímu rozdělení. 
@@ -93,7 +95,7 @@ Logika trénovacího kroku modelu variačního autoenkodéru zahrnuje dopředný
 Trénovací krok modelu definuje \autoref{code:vae_loss_function}.
 
 \newpage
-\begin{figure}
+\begin{figure}[H]
     \inputminted[linenos]{python}{code_snippets/vae_loss_function.py}
     \caption{Trénovací krok modelu variačního autoenkodéru.}
     \label{code:vae_loss_function}
@@ -115,6 +117,20 @@ Kde:
 
 \subsection{Výsledný model}
 \label{sec:vae_prepared_model}
-\lstinputlisting[language=Python, caption=Sestavení modelu variačního autoenkodéru pro generativní model MNIST číslic.]{code_snippets/vae_model.py}
+\autoref{code:vae_mnist_model} zachycuje konfiguraci instance VAE modelu pro úlohu generativního modelování obrazových dat MNIST.
+Při instanciaci jsou jako parametry modelu předány konfigurace konvolučních vrstev enkodéru, resp. dekodéru přesně dle \autoref{sec:vae_model_encoder}, resp. \autoref{sec:vae_model_decoder}.
 
+\begin{figure}[H]
+    \inputminted[linenos]{python}{code_snippets/vae_model.py}
+    \caption{Instanciace navrhnutého modelu VAE pro úlohu generativního modelování obrazových dat MNIST.}
+    \label{code:vae_mnist_model}
+\end{figure}
+
+Kde:
+\begin{itemize}
+    \item \emph{Řádek 4}: Definuje rozměry (\emph{dimensions}) vstupních dat, kterou má VAE očekávat. V tomto případě pro MNIST číslice $28 \times 28$ px a 1 barevný kanál.
+    \item \emph{Řádek 5}: Definuje požadovanou dimenzi latentního prostoru.
+    \item \emph{Řádek 6 - 8}: Udává konfiguraci konvolučních vrstev modelu enkodér modulu dle \autoref{sec:vae_model_encoder}.
+    \item \emph{Řádek 9 - 11}: Udává konfiguraci konvolučních vrstev modelu dekodér modulu dle \autoref{sec:vae_model_decoder}. 
+\end{itemize}
 

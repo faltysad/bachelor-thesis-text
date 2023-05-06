@@ -1,3 +1,5 @@
+from model.VAE import VAE
+
 vae = VAE(
     input_dim = (28, 28, 1),
     z_dim = 2,
