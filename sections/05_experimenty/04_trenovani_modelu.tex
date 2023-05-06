@@ -10,11 +10,15 @@ Vstupem pro trénování modelu jsou trénovací data MNIST (\lstinline{x_train}
 
 \newpage
 \subsection{Konvergence ztrátové funkce}
-Počet epoch trénovací fáze modelu byl empiricky stanoven na 200. \autoref{app:latent_space_development} prezentuje formulaci latentního prostoru modelu variačního autoenkodéru s různým počtem epoch.
+\autoref{fig:vae_model_loss_function_converence} zachycuje vývoj hodnoty ztrátové funkce natrénovaného modelu variačního autoenkodéru.
+\autoref{fig:vae_model_loss_function_terms_converence} pak ukazuje hodnoty dílčích prvků ztrátové funkce (KL divergence a chyba rekonstrukce), \textbf{které se model variačního autoenkodéru při trénovací fázi snaží balancovat}.
+Výsledná hodnota ztrátové funkce je součtem hodnoty KL divergence a hodnoty chyby rekonstrukce.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.97\textwidth]{figures/vae_model_total_loss_500_epochs.pdf}
     \caption{Ztrátová funkce po 500 epochách konverguje k hodnotě $\sim 135.8$. Osa x značí počet epoch. Osa y značí hodnotu ztrátové funkce.}
+    \label{fig:vae_model_loss_function_converence}
 \end{figure}
 
 \begin{figure}[H]
@@ -23,7 +27,7 @@ Počet epoch trénovací fáze modelu byl empiricky stanoven na 200. \autoref{ap
     \qquad
     \subfloat[\centering Chyba rekonstrukce po 500 epochách konverguje k hodnotě $\sim 132$.]{{\includegraphics[width=0.45\textwidth]{figures/vae_model_reconstruction_loss_500_epochs.pdf} }}
     \caption{Hodnoty dílčích prvků ztrátové funkce modelu variačního autoenkodéru po 500 epochách. Osa x značí počet epoch. Osa y značí hodnotu dílčího prvku ztrátové funkce.}
-    \label{fig:example}
+    \label{fig:vae_model_loss_function_terms_converence}
 \end{figure}
 
 Počet epoch byl na základě doménové znalosti (tedy předem známý počet tříd a sémantické vztahy mezi nimi) a postupného formování latentního prostoru, jak zachycuje \autoref{fig:forming_latent_space} stanoven na \textbf{500}.
