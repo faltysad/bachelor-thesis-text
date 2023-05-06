@@ -25,3 +25,6 @@ Počet epoch trénovací fáze modelu byl empiricky stanoven na 200. \autoref{ap
     \caption{Hodnoty dílčích prvků ztrátové funkce modelu variačního autoenkodéru po 200 epochách. Osa x značí počet epoch. Osa y značí hodnotu dílčího prvku ztrátové funkce.}
     \label{fig:example}%
 \end{figure}
+
+Počet epoch byl na základě doménové znalosti (tedy předem známý počet tříd a sémantické vztahy mezi nimi) a postupného formování latentního prostoru, jak zachycuje \autoref{fig:forming_latent_space} stanoven na \textbf{500}.
+Při vizualizaci latentního prostoru modelu, jehož trénovací fáze obsahovalo 500 epoch lze pozorovat emergenci struktury v latentní prostoru, která koresponduje se skutečným významem trénovacích dat (číslice 0-9, 10 skupin) a trénovací fáze tak v tomto bodě byla ukončena.
