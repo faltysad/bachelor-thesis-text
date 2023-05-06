@@ -90,23 +90,29 @@ Udělení příliš velké váhy jednomu z těchto prvků by mělo za důsledek 
 Zajištění konvergence obou prvků je tak důležitou součástí trénovacího procesu modelu variačního autoenkodéru a vede k chtěné vlastnosti spojitého latentního prostoru, která umožňuje variačnímu autoenkodéru generovat i takové vzorky dat, které nebyly součástí trénovací množiny.
 
 Logika trénovacího kroku modelu variačního autoenkodéru zahrnuje dopředný průchod, výpočet hodnoty ztrátové funkce a aktualizaci metrik modelu.
-Trénovací krok modelu je definován následovně:
+Trénovací krok modelu definuje \autoref{code:vae_loss_function}.
 
-\lstinputlisting[language=Python, caption=Obecný trénovací krok modelu variačního autoenkodéru pro generativní úlohu]{code_snippets/vae_loss_function.py}
+\newpage
+\begin{figure}
+    \inputminted[linenos]{python}{code_snippets/vae_loss_function.py}
+    \caption{Trénovací krok modelu variačního autoenkodéru.}
+    \label{code:vae_loss_function}
+\end{figure}
+
 
 Kde:
 \begin{itemize}
-    \item \lstinline{z_mean, z_log_var = self.encode(data)}: Volá enkodér modul VAE za účelem získání kódu vstupních dat (tedy parametrů pravděpodobnostní distribuce).
-    \item \lstinline{z = self.reparameterization(z_mean, z_log_var)}: Realizuje \textbf{reparametrizační trik} dle \autoref{sec:reparametrization_trick} za účelem získání vzorku z latentního prostoru na základě parametrů jeho rozdělení pravděpodobnosti.
-    \item \lstinline{reconstruction = self.decode(z)}: Generuje rekonstrukci vstupních dat (v tomto případě obrázku MNIST číslice) na základě získaných latentních proměnných voláním dekodér modulu VAE.
-    \item \lstinline{reconstruction_loss = tf.reduce_mean(tf.reduce_sum(keras.losses.binary_crossentropy(data, reconstruction), axis=(1, 2)))}: Realizuje gradientní optimalizaci dle \autoref{eq:vae_final_objective} výpočtem chyby rekonstrukce vygenerovaného vzorku vůči vstupním datům.
-    \item \lstinline{kl_loss = -0.5 * (1 + z_log_var - tf.square(z_mean) - tf.exp(z_log_var))}: Spočte KL divergenci mezi pravděpodobnostní distribucí latentních proměnných (s parametry \lstinline{z_mean}, \lstinline{z_log_var} ) a normovaným normálním rozdělením.
-    \item \lstinline{total_loss = reconstruction_loss + kl_loss}: Udává celkovou hodnotu ztrátové funkce dle \autoref{eq:vae_elbo}, respektive součet hodnoty chyby rekonstrukce a hodnoty KL divergence.
-    \item \lstinline{grads = tape.gradient(total_loss, self.trainable_weights)}: Spočte gradienty vah dle \autoref{eq:vae_final_objective} s ohledem na celkovou hodnotu ztrátové funkce.
-    \item \lstinline{self.optimizer.apply_gradients(zip(grads, self.trainable_weights))}: Stochastická gradientní optimalizace (s ohledem na spočtené gradienty) dle \autoref{alg:reparam_trick}.
+    \item \emph{Řádek č. 3}: Volá enkodér modul VAE za účelem získání kódu vstupních dat (tedy parametrů pravděpodobnostní distribuce).
+    \item \emph{Řádek č. 4}: Realizuje \textbf{reparametrizační trik} dle \autoref{sec:reparametrization_trick} za účelem získání vzorku z latentního prostoru na základě parametrů jeho rozdělení pravděpodobnosti.
+    \item \emph{Řádek č. 5}: Generuje rekonstrukci vstupních dat (v tomto případě obrázku MNIST číslice) na základě získaných latentních proměnných voláním dekodér modulu VAE.
+    \item \emph{Řádek č. 7 - 9}: Realizuje gradientní optimalizaci dle \autoref{eq:vae_final_objective} výpočtem chyby rekonstrukce vygenerovaného vzorku vůči vstupním datům.
+    \item \emph{Řádek č. 10}: Spočte KL divergenci mezi pravděpodobnostní distribucí latentních proměnných (s parametry \lstinline{z_mean}, \lstinline{z_log_var} ) a normovaným normálním rozdělením.
+    \item \emph{Řádek č. 11}: Udává celkovou hodnotu ztrátové funkce dle \autoref{eq:vae_elbo}, respektive součet hodnoty chyby rekonstrukce a hodnoty KL divergence.
+    \item \emph{Řádek č. 13}: Spočte gradienty vah neuronů dle \autoref{eq:vae_final_objective} s ohledem na celkovou hodnotu ztrátové funkce.
+    \item \emph{Řádek č. 14}: Realizuje stochastická gradientní optimalizaci (s ohledem na již spočtené gradienty) dle \autoref{alg:reparam_trick}.
+    \item \emph{Řádek č. 16 - 24}: Při každém trénovacím kroku aktualizuje a propaguje metriky ztrátové funkce na instanci VAE modelu.
 \end{itemize}
 
-\newpage
 \subsection{Výsledný model}
 \label{sec:vae_prepared_model}
 \lstinputlisting[language=Python, caption=Sestavení modelu variačního autoenkodéru pro generativní model MNIST číslic.]{code_snippets/vae_model.py}

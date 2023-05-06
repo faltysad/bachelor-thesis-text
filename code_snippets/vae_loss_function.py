@@ -4,7 +4,9 @@ def train_step(self, data):
     z = self.reparameterization(z_mean, z_log_var)
     reconstruction = self.decode(z)
 
-    reconstruction_loss = tf.reduce_mean(tf.reduce_sum(keras.losses.binary_crossentropy(data, reconstruction), axis=(1, 2)))
+    reconstruction_loss = tf.reduce_mean(
+      tf.reduce_sum(keras.losses.binary_crossentropy(data, reconstruction), axis=(1, 2))
+    )
     kl_loss = -0.5 * (1 + z_log_var - tf.square(z_mean) - tf.exp(z_log_var))
     total_loss = reconstruction_loss + kl_loss
 
