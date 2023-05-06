@@ -30,8 +30,10 @@ Výsledná hodnota ztrátové funkce je součtem hodnoty KL divergence a hodnoty
     \label{fig:vae_model_loss_function_terms_converence}
 \end{figure}
 
-Počet epoch byl na základě doménové znalosti (tedy předem známý počet tříd a sémantické vztahy mezi nimi) a postupného formování latentního prostoru, jak zachycuje \autoref{fig:forming_latent_space} stanoven na \textbf{500}.
-Při vizualizaci latentního prostoru modelu, jehož trénovací fáze obsahovalo 500 epoch lze pozorovat emergenci struktury v latentní prostoru, která koresponduje se skutečným významem trénovacích dat (číslice 0-9, 10 skupin) a trénovací fáze tak v tomto bodě byla ukončena.
+Celkový počet epoch byl stanoven základě doménové znalosti (tedy předem známý počet tříd, jejich sémantika a společné rysy) a postupného formování latentního prostoru, jak zachycuje \autoref{fig:forming_latent_space}.
+Při vizualizaci latentního prostoru modelu, jehož trénovací fáze zahrnovala 500 epoch, lze pozorovat emergenci struktury jeho bodů, která \textbf{koresponduje se skutečným významem trénovacích dat} (číslice 0-9, 10 dostatečně izolovaných skupin).
+Hodnota ztrátové funkce je při takovémto počtu epoch stabilizována a osciluje kolem celkové hodnoty $135.8$. Vývoj hodnot ztrátové funkce skrze různý počet epoch v trénovací fázi prezentuje \autoref{app:loss_function_development}.
+V důsledku těchto jevů byla \textbf{trénovací fáze modelu ukončena} a uspokojivý \textbf{počet epoch trénovací fáze byl stanoven na 500}.
 
 \subsection{Možné zlepšení trénovací strategie variačního autoenkodéru}
 Variační autoenkodér při trénování balancuje dva prvky ztrátové funkce (viz \autoref{eq:vae_elbo}) – chybu rekonstrukce a KL divergenci.
