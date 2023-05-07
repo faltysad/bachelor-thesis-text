@@ -4,6 +4,8 @@ Trénovací fáze modelu variačního autoenkodéru spočívá v minimalizaci zt
 Účelem této ztrátové funkce je současná minimalizace chyby rekonstrukce a regularizace naučené pravděpodobnostní distribuce latentních proměnných za účelem přiblížení k apriorní distribuci vstupních dat.
 Pro umožnění zpětné propagace byla představena reparametrizační vrstva modelu variačního autoenkodéru, která činí vzorkovací proces diferenciovatelným.
 
+Trénování zahrnuje určitý počet \textbf{epoch}. Kdy se jednou epochou rozumí \textbf{kompletní průchod algoritmu} (specifikovaném v trénovacím kroku modelu, viz \autoref{code:vae_loss_function}) \textbf{skrze trénovací data}.
+
 Zahájení trénovacího procesu modelu variačního autoenkodéru ukazuje \autoref{code:vae_model_begin_training}. 
 
 \begin{figure}[H]
@@ -14,8 +16,8 @@ Zahájení trénovacího procesu modelu variačního autoenkodéru ukazuje \auto
 
 Kde:
 \begin{itemize}
-    \item \emph{Řádek 1}: Definuje použití optimizéru pro stochastickou gradientí optimalizaci implementující algoritmus Adam \cite{Kingma2017} \footnote{Algoritmus Adam byl využit kvůli jeho výpočetní efektivitě, nízkým paměťovým nárokům a vlastnosti invariance vůči přeškálování gradientů. Autoři \textcite{Kingma2017} jej uvádí jako ideální pro úlohy generativního modelování obrazových dat.} dle \autoref{sec:stochastic_gradient_optimization_method}.
-    \item \emph{Řádek 2}: Spouští trénovací fázi modelu variačního autoenkodéru na datové sadě MNIST. Pro trénovací fázi byla použita \textbf{pouze trénovací množina MNIST bez štítků}. Testovací množina MNIST byla ponechána pro evaluaci kvality rekonstrukce\footnote{Způsob načtení a předzpracování datové sady uvádí \autoref{app:vae_model_source_code}.}.
+    \item \emph{Řádek 1}: Definuje použití optimizéru pro stochastickou gradientní optimalizaci implementující algoritmus Adam \cite{Kingma2017} \footnote{Algoritmus Adam byl využit kvůli jeho výpočetní efektivitě, nízkým paměťovým nárokům a vlastnosti invariance vůči přeškálování gradientů. Autoři \textcite{Kingma2017} jej uvádí jako ideální pro úlohy generativního modelování obrazových dat.} dle \autoref{sec:stochastic_gradient_optimization_method}.
+    \item \emph{Řádek 2}: Spouští trénovací fázi modelu variačního autoenkodéru na datové sadě MNIST, specifikuje počet epoch trénovací fáze a velikost dávky. Pro trénovací fázi byla použita \textbf{pouze trénovací množina MNIST bez štítků}. Testovací množina MNIST byla ponechána pro evaluaci kvality rekonstrukce\footnote{Způsob načtení a předzpracování datové sady uvádí \autoref{app:vae_model_source_code}.}. Velikost dávky\footnote{Hodnota batch size byla stanovena na základě doporučení v \textcite{Mishkin2017}, kde autoři pracují s podobnou konfigurací konvolučních vrstev na úloze zahrnující obrazová data.} (\emph{batch size}) je hyperparameter modelu, který udává počet vzorků vstupních dat, který bude modelem zpracován, než dojde k aktualizaci vah jeho neuronové sítě. 
 \end{itemize}
 
 \newpage
@@ -54,7 +56,7 @@ Je-li $\beta = 1$, pak variační autoenkodér optimalizuje efekt chyby rekonstr
 Je-li $\beta < 1$, dává variační autoenkodér větší důraz na minimalizaci chyby rekonstrukce.
 Je-li $\beta > 1$, dává variační autoenkodér naopak větší důraz na regularizační efekt KL divergence \cite{Higgins2022}.
 
-V této ilustrační implementaci generativního modelu MNIST pro jednoduchost \textbf{hyperparemetr $\beta$ nebyl součástí trénovacího procesu}.
+V této ilustrační implementaci generativního modelu MNIST pro jednoduchost \textbf{hyperparametr $\beta$ nebyl součástí trénovacího procesu}.
 Jeho začlenění by však dle \textcite{Higgins2022} vedlo k ještě lépe strukturovanému latentnímu prostoru naučeného modelu, než prezentuje \autoref{fig:forming_latent_space}.
 
 U složitějších modelů variačního autoenkodéru nalézá uplatnění $\beta$ hyperparametru úspěch.
