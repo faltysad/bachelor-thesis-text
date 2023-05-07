@@ -1,5 +1,13 @@
 \section{Architektura hlubokého modelu variačního autoenkodéru}
-Pro sestavení hlubokého modelu variačního autoenkodéru
+Model variačního autoenkodéru je pro účely tohoto experimentu navrhnutý tak, aby byl schopen flexibilně řešit různé úlohy generativního modelování obrazových dat.
+V rámci této kapitoly je popsána konstrukce, trénování a analýza modelu variačního autoenkodéru pro \textbf{ilustrační řešení} úlohy generativního modelování obrazových dat MNIST.
+
+Byla vytvořena třída modelu variačního autoenkodéru v jazyce Python, která jako parametry přijímá konfiguraci konvolučních vrstev enkodér a dekodér modulů, spolu s očekávaným tvarem trénovacích dat.
+Tato stejná třída modelu variačního autoenkodéru by tak šla využít i pro generativní úlohu obrazových dat na zcela jiném datasetu.
+
+Kompletní zdrojové kódy modelu a vizualizací nabízí \autoref{app:vae_model_source_code}.
+
+Tato sekce je zaměřena na návrh a principy fungování jednotlivých modulů tohoto modelu, konkrétně:
 \footnote{Model variačního autoenkodéru se od prostého autoenkodéru (viz \autoref{chap:autoencoder}) liší zejména v \textbf{enkodér modulu} a \textbf{ztrátové funkci} (viz \autoref{sec:vae_objective}).} jsou nutné následující moduly, resp. vrstvy:
 \begin{itemize}
     \item Model enkodér modulu
@@ -10,6 +18,8 @@ Pro sestavení hlubokého modelu variačního autoenkodéru
 
 V této sekci jsou tyto moduly propojeny s teoretickými aspekty variačního autoenkodéru z předchozích kapitol a postupně implementovány za účelem řešení úlohy generativního modelování obrazových dat na datové sadě MNIST.
 \autoref{sec:vae_prepared_model} pak prezentuje výsledný model variačního autoenkodéru, který je připraven pro trénování.
+
+Sekce se naopak, vzhledem k omezením stanoveným rozsahem práce, \textbf{nezabývá} popisem nástrojů použitých pro vytvoření popisované třídy modelu variačního autoenkodéru, které jsou pro účely práce považovány za doprovodné.
 
 \subsection{Enkodér}
 \label{sec:vae_model_encoder}
