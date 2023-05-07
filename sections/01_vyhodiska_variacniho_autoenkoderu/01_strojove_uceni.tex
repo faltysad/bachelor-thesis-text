@@ -40,7 +40,7 @@ Lze uvažovat i tzv. \textbf{hluboké učení} bez učitele, kdy cílem algoritm
 Obecně lze říct, že učení bez učitele zahrnuje pozorování několika příkladů náhodného vektoru $\mathbf{x}$ na základě kterého se snaží implicitně či explicitně \emph{naučit} rozdělení pravděpodobnosti $p(\mathbf{x})$, případně \emph{užitečné vlastnosti} tohoto pravděpodobnostního rozdělení.
 
 Na rozdíl od \autoref{sec:supervised_learning}, název \emph{učení bez učitele} napovídá, že v procesu učení není zapojen žádný \emph{instruktor} či \emph{učitel}, a tak systém strojového učení sám musí vyvodit smysl a užitečné vlastnosti předložené datové sady. \cite{Goodfellow2016}
-\subsection{\textquote{No free lunch theorem} pro strojové učení}
+\subsection{No free lunch teorém pro strojové učení}
 \label{sec:no_free_lunch}
 \textcite{Vapnik2000} naznačuje, že by algoritmus strojového učení mohl mít schopnost generalizace i z konečné množiny trénovacích dat. 
 Toto tvrzení je ale v rozporu s principy \emph{klasické} logiky – indukce obecných pravidel \cite{Hume1978} z omezeného vzorku dat je dle těchto principů nevalidní.
@@ -51,7 +51,7 @@ Pro logické vyvrácení takto naučené generalizace stačí byť jeden vzorek,
 Oblast strojového učení se tomuto paradoxu z části vyhýbá tím, že pracuje pouze s \textbf{pravděpodobnostními pravidly} (oproti zcela určitým pravidlům jako v logické indukci).
 Algoritmy strojového učení hledají pravidla, která jsou tzv. \emph{probably approximately correct}. \cite{Valiant1984}
 
-Ani tento trik však kompletně neřeší představený problém. Zjednodušeně, \textbf{"No free lunch theorem"} pro strojové učení tvrdí, že každý klasifikační algoritmus má v průměru, skrze všechny distribuce generující data, \textbf{stejnou chybovost} při klasifikování dosud nepozorovaných datových bodů. \cite{Wolpert1996}
+Ani tento trik však kompletně neřeší představený problém. Zjednodušeně, \textbf{"No free lunch teorém"} pro strojové učení tvrdí, že každý klasifikační algoritmus má v průměru, skrze všechny distribuce generující data, \textbf{stejnou chybovost} při klasifikování dosud nepozorovaných datových bodů. \cite{Wolpert1996}
 Jinými slovy, \textbf{žádný algoritmus strojového učení není univerzálně lepší než kterýkoliv jiný algoritmus strojového učení}.
 
 Toto tvrzení je pravdivé až při zohlednění \emph{všech možných distribucí generujících data} a za předpokladu, že jim je přidělena stejná váha \cite{Hibbard2009} – tedy v teoretické rovině.
@@ -61,7 +61,7 @@ Tato práce představuje variační autoenkodér – architekturu umělé neuron
 
 \subsection{Regularizace}
 \label{sec:regularization}
-\textquote{No free lunch theorem} pro strojové učení (představený v \autoref{sec:no_free_lunch}) implikuje nutnost návrhu algoritmu strojového učení pro konkrétní úlohu, chceme-li aby jeho výkonnost byla vyšší než výkonnost ostatních algoritmů v průměru.
+\textquote{No free lunch teorém} pro strojové učení (představený v \autoref{sec:no_free_lunch}) implikuje nutnost návrhu algoritmu strojového učení pro konkrétní úlohu, chceme-li aby jeho výkonnost byla vyšší než výkonnost ostatních algoritmů v průměru.
 Toho lze docílit \emph{zabudováním} určité sady preferencí přímo do algoritmu strojového učení (předpokladem je, že tyto preference jsou v souladu s cílovým problémem, který se algoritmus snaží řešit). \cite{Goodfellow2016}
 
 
