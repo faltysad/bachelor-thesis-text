@@ -30,18 +30,17 @@ ze kterých je následně v latentním prostoru \textbf{sestaveno} (vícerozměr
 
 Pro vytvoření kódu vstupního obrázku do konkrétní latentní proměnné $z$ v latentním prostoru modelu lze z takto vzniklé distribuce vzorkovat pomocí reparametrizační vrstvy modelu. Tento proces detailněji popisuje \autoref{sec:vae_model_reparametrization_layer}.
 
-Model enkodér modulu variačního autoenkodéru je pro účely tohoto experimentu definován následující konfigurací vrstev\footnote{Počet vrstev vychází z \textcite{Kingma2014} a jejich konfigurace byla následně modifikována na základě empirického pozorování až do aktuálního stavu.}:
-\newpage
+Model enkodér modulu variačního autoenkodéru je pro účely tohoto experimentu definován následující konfigurací vrstev \footnote{Počet vrstev vychází z \textcite{Kingma2014} a jejich konfigurace byla následně modifikována a rozšířena na základě minimalizace ztrátové funkce a prevence přeučení. Detailnější popis nabízí \autoref{sec:vae_model_loss_function}.}:
 \begin{enumerate}
-    \item \textbf{Vstupní vrstva} \lstinline{Input(shape=(28, 28, 1), name='encoder_input')}\footnote{\lstinline{input_dim} odpovídá jedné číslici MNIST.}.
-    \item \textbf{Konvoluční vrstva} \lstinline{Conv2D(filters=32, kernel_size=3, strides=1, padding='same')}.
-    \item \textbf{Konvoluční vrstva} \lstinline{Conv2D(filters=64, kernel_size=3, strides=2, padding='same')}.
-    \item \textbf{Konvoluční vrstva} \lstinline{Conv2D(filters=64, kernel_size=3, strides=2, padding='same')}.
-    \item \textbf{Konvoluční vrstva} \lstinline{Conv2D(filters=64, kernel_size=3, strides=1, padding='same')}.
-    \item \textbf{Flatten vrstva} \lstinline{Flatten()(x)}.
+    \item \textbf{Vstupní vrstva}\footnote{\lstinline{input_dim} odpovídá jedné číslici MNIST.}: \mint{python}|Input(shape=(28, 28, 1), name='encoder_input')|
+    \item \textbf{Konvoluční vrstva}: \mint{python}|Conv2D(filters=32, kernel_size=3, strides=1, padding='same')|
+    \item \textbf{Konvoluční vrstva}: \mint{python}|Conv2D(filters=64, kernel_size=3, strides=2, padding='same')|
+    \item \textbf{Konvoluční vrstva}: \mint{python}|Conv2D(filters=64, kernel_size=3, strides=2, padding='same')|
+    \item \textbf{Konvoluční vrstva}: \mint{python}|Conv2D(filters=64, kernel_size=3, strides=1, padding='same')|
+    \item \textbf{Vyhlazovací vrstva}: \mint{python}|Flatten()(x)|
 \end{enumerate}
 
-Vrstvy enkodér modulu ilustruje \autoref{fig:vae_model_encoder}.
+Schematické zobrazení vrstev enkodér modulu ilustruje \autoref{fig:vae_model_encoder}.
 \begin{figure}[H]
     \centering
     \includegraphics[height=0.63\textheight]{figures/vae_model_encoder.png}
@@ -52,15 +51,15 @@ Vrstvy enkodér modulu ilustruje \autoref{fig:vae_model_encoder}.
 \subsection{Dekodér}
 \label{sec:vae_model_decoder}
 Dekodér modul variačního autoenkodéru je principem identický k dekodéru prostého autoenkodéru.
-Model denkodér modulu variačního autoenkodéru je pro účely tohoto experimentu definován následující konfigurací vrstev\footnote{Počet vrstev vychází z \textcite{Kingma2014} a jejich konfigurace byla následně modifikována na základě empirického pozorování až do aktuálního stavu.}:
+Model denkodér modulu variačního autoenkodéru je pro účely tohoto experimentu definován následující konfigurací vrstev\footnote{Počet vrstev vychází z \textcite{Kingma2014} a jejich konfigurace byla následně modifikována a rozšířena na základě minimalizace ztrátové funkce a prevence přeučení. Detailnější popis nabízí \autoref{sec:vae_model_loss_function}.}:
 
 \begin{enumerate}
-    \item \textbf{Vstupní vrstva} \lstinline{Input(shape=2, name='encoder_input')}\footnote{\lstinline{shape} odpovídá dimenzi latentního prostoru (pro obrázky MNIST číslic 2D).}.
-    \item \textbf{Dekonvoluční vrstva} \lstinline{Conv2DTranspose(filters=64, kernel_size=3, strides=1, padding='same')}.
-    \item \textbf{Dekonvoluční vrstva} \lstinline{Conv2DTranspose(filters=64, kernel_size=3, strides=2, padding='same')}.
-    \item \textbf{Dekonvoluční vrstva} \lstinline{Conv2DTranspose(filters=32, kernel_size=3, strides=2, padding='same')}.
-    \item \textbf{Dekonvoluční vrstva} \lstinline{Conv2DTranspose(filters=1, kernel_size=3, strides=1, padding='same')}.
-    \item \textbf{Flatten vrstva} \lstinline{Flatten()(x)}.
+    \item \textbf{Vstupní vrstva}:\footnote{\emph{shape} odpovídá dimenzi latentního prostoru (pro obrázky MNIST číslic 2D).} \mint{python}|Input(shape=2, name='encoder_input')|
+    \item \textbf{Dekonvoluční vrstva}: \mint{python}|Conv2DTranspose(filters=64, kernel_size=3, strides=1, padding='same')|
+    \item \textbf{Dekonvoluční vrstva}: \mint{python}|Conv2DTranspose(filters=64, kernel_size=3, strides=2, padding='same')|
+    \item \textbf{Dekonvoluční vrstva}: \mint{python}|Conv2DTranspose(filters=32, kernel_size=3, strides=2, padding='same')|
+    \item \textbf{Dekonvoluční vrstva}: \mint{python}|Conv2DTranspose(filters=1, kernel_size=3, strides=1, padding='same')|
+    \item \textbf{Vyhlazovací vrstva}: \mint{python}|Flatten()(x)|
 \end{enumerate}
 
 \subsection{Reparametrizační vrstva}
