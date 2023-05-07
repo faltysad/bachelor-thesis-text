@@ -23,10 +23,10 @@ Naopak ve variačním autoenkodéru je každý vstup mapován na (vícerozměrn�
     \label{fig:vae_encoder_difference}
 \end{figure}
 
-Pro připomenutí, jak plyne z \autoref{sec:vae_encoder}, enkodér modul variačního autoenkodéru \textbf{zakóduje každý vstup do dvou vektorů} – \lstinline{mu} a \lstinline{log_var}
+Pro připomenutí, jak plyne z \autoref{sec:vae_encoder}, enkodér modul variačního autoenkodéru \textbf{zakóduje každý vstup do dvou vektorů} – \lstinline{z_mean} a \lstinline{z_log_var}
 \footnote{Jak víme z \autoref{sec:vae_optimization} enkodér modul předpokládá že \textbf{neexistuje korelace mezi žádnou z dimenzí latentního prostoru} a tím pádem je výsledná kovarianční matice diagonální. V důsledku tak enkodér modulu stačí mapovat každý vstup na vektor středních hodnot a vektor rozptylu.},
 ze kterých je následně v latentním prostoru \textbf{sestaveno} (vícerozměrné) \textbf{normální rozdělení}, kde:
-\lstinline{mu}: střední hodnota rozdělení a \lstinline{log_var}: logaritmus rozptylu (každé z dimenzí).
+\lstinline{z_mean}: střední hodnota rozdělení a \lstinline{z_log_var}: logaritmus rozptylu (každé z dimenzí).
 
 Pro vytvoření kódu vstupního obrázku do konkrétní latentní proměnné $z$ v latentním prostoru modelu lze z takto vzniklé distribuce vzorkovat pomocí reparametrizační vrstvy modelu. Tento proces detailněji popisuje \autoref{sec:vae_model_reparametrization_layer}.
 
@@ -62,6 +62,8 @@ Model denkodér modulu variačního autoenkodéru je pro účely tohoto experime
     \item \textbf{Vyhlazovací vrstva}: \mint{python}|Flatten()(x)|
 \end{enumerate}
 
+\textbf{Vstupem pro dekodér modul je výstup enkodér modulu} VAE – tedy logaritmus rozptylu (\emph{\lstinline{z_log_var}}) a střední hodnota (\emph{\lstinline{z_mean}}), ze kterých je následně sestavena distribuce pro generování zcela nových výstupů.
+
 \subsection{Reparametrizační vrstva}
 \label{sec:vae_model_reparametrization_layer}
 Reperametrizační vrstva modelu variačního autoenkodéru implementuje reparametrizační trik dle \autoref{sec:reparametrization_trick}.
@@ -69,7 +71,7 @@ Přičemž pro připomenutí, $\epsilon$ je bod náhodně vzorkovaný z normovan
 Právě $\epsilon$ hraje při trénování variačního autoenkodéru důležitou roli, jelikož transformuje vzorkovací proces na diferenciovatelnou operaci (a této vlastnosti je využito při následné optimalizaci modelu, viz \autoref{sec:vae_model_loss_function}).
 
 
-U variačního autoenkodéru je vzorkován náhodný bod z $\epsilon$-okolí \lstinline{mu}.
+U variačního autoenkodéru je vzorkován náhodný bod z $\epsilon$-okolí \lstinline{z_mean}.
 Tedy dekodér musí při trénování zajistit, aby všechny body v tomto okolí produkovaly výstup (obrázek) který je \emph{velmi podobný} vstupu, nebo má alespoň podobný sémantický význam.
 Popsanou operaci v reparametrizační vrstvě modelu zachycuje \autoref{code:vae_reparametrization_layer}.
 
@@ -90,8 +92,8 @@ Ztrátová funkce modelu variačního autoenkodéru implementuje postup dle \aut
 Model VAE tedy \textbf{minimalizuje součet hodnoty chyby rekonstrukce a hodnoty KL divergence}.
 
 Pro rekapitulaci \autoref{sec:kl_divergence}, KL divergence vyjadřuje míru \textbf{nepodobnosti} (resp. \emph{"vzdálenosti"}) mezi pravděpodobnostními distribucemi.
-U variačního autoenkodéru chceme měřit jak moc se liší normální rozdělení s parametry \lstinline{mu} a \lstinline{log_var} oproti normovanému normálnímu rozdělení.
-Prvek KL divergence tedy penalizuje umělou neuronovou síť modelu za takové kódování vstupních dat (jehož výsledkem je \lstinline{mu} a \lstinline{log_var}), které se \textbf{výrazně liší} od parametrů normované normálního rozdělení.
+U variačního autoenkodéru chceme měřit jak moc se liší normální rozdělení s parametry \lstinline{z_mean} a \lstinline{z_log_var} oproti normovanému normálnímu rozdělení.
+Prvek KL divergence tedy penalizuje umělou neuronovou síť modelu za takové kódování vstupních dat (jehož výsledkem je \lstinline{z_mean} a \lstinline{z_log_var}), které se \textbf{výrazně liší} od parametrů normované normálního rozdělení.
 Tento prvek KL divergence tak hraje při trénování modelu důležitou roli, jelikož \emph{nutí} všechny distribuce s parametry, které jsou výsledkem kódování, \emph{podobat se} normovanému normálnímu rozdělení. 
 V důsledku existuje \textbf{menší šance} že zformovaný \textbf{latentní prostor model bude obsahovat} \emph{značné} \textbf{mezery} mezi klastry latentních proměnných (jak ukazuje \autoref{sec:vae_model_latent_space_observation}).
 Ve snaze o minimalizaci ztrátové funkce modelu se totiž enkoder modul pokouší o efektivní a symetrické využití prostoru v okolí počátku latentního prostoru.
