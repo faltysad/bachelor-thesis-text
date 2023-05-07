@@ -39,5 +39,6 @@ S rostoucím počtem epoch lze pozorovat emergenci oddělených uskupení latent
     \label{fig:forming_latent_space}
 \end{figure}
 
-Lze pozorovat, že model na \autoref{fig:500_epochs} po dodatečných 300 epochách trénování oproti \autoref{fig:200_epochs} dospěl k defacto zrcadlovému zobrazení bodů v latentním prostoru. To vedlo k snížení absolutní hodnoty ztrátové funkce o 2 body, tedy zřejmě se tato změna ve formování latentního prostoru pojí s určitým skrytým významem pro zpřesnění rekonstrukce.
-Hodnoty ztrátové funkce jednotlivých modelů zachycuje PŘÍLOHA X.
+Model, jehož trénovací fáze zahrnovala 500 epoch, dospěl k téměř zrcadlovému zobrazení bodů v latentním prostoru oproti modelu, jehož trénovací fáze zahrnovala 200 epoch.
+To vedlo k \textbf{snížení hodnoty ztrátové funkce o 2 body}. Tato zdánlivě zanedbatelná změna ve formování latentního prostoru se tak pojí s určitým skrytým významem, který vede k zpřesnění rekonstrukce.
+Vývoj hodnot ztrátové funkce modelu skrze různý počet epoch v trénovací fázi zachycuje \autoref{app:loss_function_development}. 
