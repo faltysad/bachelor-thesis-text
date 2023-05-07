@@ -16,6 +16,9 @@ učení bez učitele (\emph{unsupervised learning}), kombinaci učení s učitel
 
 Toto dělení vychází ze zkušenosti $E$, resp. míry, do jaké má algoritmus strojového učení \textbf{povoleno} interagovat s datovou sadou (resp. jakou možnost taková datová sada nabízí). \cite{Goodfellow2016}
 
+Aplikováním algoritmu strojového učení na konkrétní úlohu, a jeho následným \textbf{trénováním} za účelem získání určitých charakteristik, vzniká \textbf{model strojového učení}.
+Takový model se \textbf{učí} opakovaným procesem, kdy na základě nějaké \textbf{chyby} (forma zpětné vazby) \textbf{optimalizuje ztrátovou funkci}, která je definována specificky k řešené úloze.
+
 Pro předmět této práce budou blíže představeny pouze oblasti \textbf{učení s učitelem} a \textbf{učení bez učitele}.
 \subsection{Učení s učitelem}
 \label{sec:supervised_learning}
@@ -31,7 +34,7 @@ Samotný termín \emph{učení s učitelem} vychází ze situace, kdy je cílov�
 Dle \autoref{def:machine_learning} a \autoref{def:machine_learning_algorithm} lze říci, že zkušenost $E$ algoritmů učení bez učitele vychází z datové sady, která může mít celou řadu vlastností.
 Cílem trénování algoritmů učení bez učitele je \textbf{naučit se užitečné a charakteristické vlastnosti o struktuře vstupní datové sady}.
 
-Lze uvažovat i tzv. \emph{hluboké učení} bez učitele, kdy cílem algoritmu je naučit se celé rozdělení pravděpodobnosti, které generuje původní datovou sadu (ať už explicitně – např. odhad hustoty rozdělení pravděpodobnosti, či implicitně – např. úlohy syntézy dat a odstranění šumu). \cite{Chollet2017}
+Lze uvažovat i tzv. \textbf{hluboké učení} bez učitele, kdy cílem algoritmu je naučit se celé rozdělení pravděpodobnosti, které generuje původní datovou sadu (ať už explicitně – např. odhad hustoty rozdělení pravděpodobnosti, či implicitně – např. úlohy syntézy dat a odstranění šumu). \cite{Chollet2017}
 
 Obecně lze říct, že učení bez učitele zahrnuje pozorování několika příkladů náhodného vektoru $\mathbf{x}$ na základě kterého se snaží implicitně či explicitně \emph{naučit} rozdělení pravděpodobnosti $p(\mathbf{x})$, případně \emph{užitečné vlastnosti} tohoto pravděpodobnostního rozdělení.
 
@@ -39,10 +42,10 @@ Na rozdíl od \autoref{sec:supervised_learning}, název \emph{učení bez učite
 \subsection{\textquote{No free lunch theorem} pro strojové učení}
 \label{sec:no_free_lunch}
 \textcite{Vapnik2000} naznačuje, že by algoritmus strojového učení mohl mít schopnost generalizace i z konečné množiny trénovacích dat. 
-Toto tvrzení je ale v rozporu s elementárními principy logiky – indukce obecných pravidel z omezeného vzorku dat je logicky nevalidní.
+Toto tvrzení je ale v rozporu s principy \emph{klasické} logiky – indukce obecných pravidel \cite{Hume1978} z omezeného vzorku dat je dle těchto principů nevalidní.
 Chceme-li provést indukci obecného pravidla, které popisuje každý prvek množiny, musíme mít k dispozici informaci o každém prvku z množiny.  \cite{Goodfellow2016}
 
-Pro logické vyvrácení takto naučené generalizace stačí byť jeden vzorek, který je s tímto pravidlem v nesouladu a nebyl součástí trénovací množiny (tzv. \emph{black swan paradox}).
+Pro logické vyvrácení takto naučené generalizace stačí byť jeden vzorek, který je s tímto pravidlem v nesouladu a nebyl součástí trénovací množiny (tzv. \emph{Black swan paradox}, viz \textcite{Taleb2008}).
 
 Oblast strojového učení se tomuto paradoxu z části vyhýbá tím, že pracuje pouze s \textbf{pravděpodobnostními pravidly} (oproti zcela určitým pravidlům jako v logické indukci).
 Algoritmy strojového učení hledají pravidla, která jsou tzv. \emph{probably approximately correct}. \cite{Valiant1984}
@@ -50,30 +53,38 @@ Algoritmy strojového učení hledají pravidla, která jsou tzv. \emph{probably
 Ani tento trik však kompletně neřeší představený problém. Zjednodušeně, \textbf{"No free lunch theorem"} pro strojové učení tvrdí, že každý klasifikační algoritmus má v průměru, skrze všechny distribuce generující data, \textbf{stejnou chybovost} při klasifikování dosud nepozorovaných datových bodů. \cite{Wolpert1996}
 Jinými slovy, \textbf{žádný algoritmus strojového učení není univerzálně lepší než kterýkoliv jiný algoritmus strojového učení}.
 
-Toto tvrzení je pravdivé až při zohlednění \emph{všech možných distribucí generujících data} – tedy v teoretické rovině.
+Toto tvrzení je pravdivé až při zohlednění \emph{všech možných distribucí generujících data} a za předpokladu, že jim je přidělena stejná váha \cite{Hibbard2009} – tedy v teoretické rovině.
 Lze pozorovat, že v praktických aplikacích je možné navrhnout algoritmus, který si v určitých distribucích vede v průměru lépe než ostatní algoritmy. \cite{Goodfellow2016}
 
-Cílem této práce je představit Variační autoenkodér – architekturu umělé neuronové sítě, která se těší dobrým výsledkům ve vybraných úlohách učení bez učitele, představených v \autoref{chap:applications}, ale v důsledku má i své nedostatky (představené v \autoref{chap:vae}) v ostatních třídách úloh.
+Tato práce představuje variační autoenkodér – architekturu umělé neuronové sítě, která se těší dobrým výsledkům ve vybraných úlohách učení bez učitele, představených v \autoref{chap:applications}, ale v důsledku má i své nedostatky (představené v \autoref{chap:vae}) v ostatních třídách úloh.
 
 \subsection{Regularizace}
 \label{sec:regularization}
 \textquote{No free lunch theorem} pro strojové učení (představený v \autoref{sec:no_free_lunch}) implikuje nutnost návrhu algoritmu strojového učení pro konkrétní úlohu, chceme-li aby jeho výkonnost byla vyšší než výkonnost ostatních algoritmů v průměru.
 Toho lze docílit \emph{zabudováním} určité sady preferencí přímo do algoritmu strojového učení (předpokladem je, že tyto preference jsou v souladu s cílovým problémem, který se algoritmus snaží řešit). \cite{Goodfellow2016}
 
-Chování a výkonnost algoritmu strojového učení lze ovlivnit zvolením velikosti množiny funkcí (a následně konkrétní podoby jejich identity), které jsou v jeho prostoru hypotéz povoleny\footnote{Například prostor hypotéz lineární regrese je složen z množiny lineárních funkcí jejího vstupu. Tedy lineární regrese zřejmě bude mít problém věrohodně predikovat hodnotu $\sin(x)$ z $x$ (a stejně tak řešit další nelineární problémy).}.
-V prostoru hypotéz algoritmu lze rovněž vyjádřit preferenci jednoho řešení před druhým.
-To znamená, že obě takové funkce budou přípustné, ale jedna z nich má preferenci (tedy nepreferovaná funkce bude zvolena právě když je její evaluace vůči trénovací sadě \emph{výrazně} lepší, než preferovaná funkce)\footnote{Například \emph{weight decay}.}.
-Případně můžeme funkci (nebo množinu funkcí) z prostoru hypotéz vyřadit kompletně (resp. vyjádřit tak nekonečně velkou míru neupřednostnění takové funkce, či množiny funkcí). \cite{Goodfellow2016}
+
+Chování a výkonnost algoritmu strojového učení lze dle \textcite{Goodfellow2016} ovlivnit omezením jeho prostoru hypotéz následovně:
+\begin{itemize}
+    \item V prostoru hypotéz algoritmu lze vyjádřit preferenci jednoho řešení před druhým. To znamená, že obě takové funkce budou přípustné, ale jedna z nich má preferenci
+    \item Funkci (nebo množinu funkcí) lze z prostoru hypotéz kompletně vyřadit (resp. vyjádřit nekonečně velkou míru neupřednostnění takové funkce).
+\end{itemize}
 
 Obecně můžeme regularizovat model přičtením \emph{trestu} k jeho ztrátové funkci. Tento trest nazýváme \textbf{regularizační prvek} (\emph{regularizer}) a značíme jej $\Omega$.
 
-Regularizaci pak definujeme jako:
-\begin{displayquote}
+Regularizaci je pak definována jako:
+\begin{definition}[Regularizace]
+    \label{def:regularization}
     \textquote{\emph{Regularization is any modification we make to a learning algorithm that is intended to reduce its generalization error but not its training error. Regularization is one of the central concerns of the ﬁeld of machine learning, rivaled in its importance only by optimization}.} \cite{Goodfellow2016}
-\end{displayquote}
+\end{definition}
 
-Formu regularizace je tedy nutné pečlivě zvolit s ohledem na typ úlohy, který má algoritmus za cíl řešit.
-I autoenkodéry (a variační autoenkodéry) mohou být navrhnuty k řešení celé řady problémů. Jednotlivé metody regularizace autoenkodérů jsou představeny v \autoref{chap:autoencoder} a jejich následné aplikace v \autoref{chap:applications}.
+Formu regularizace je nutné pečlivě zvolit s ohledem na typ úlohy, který má algoritmus za cíl řešit.
+
+\textbf{Variačního autoenkodér} (a určité typ\ prostého autoenkodéru, tzv. regularizované autoenkodéry, viz \autoref{chap:autoencoder}) \textbf{regularizace} dle \autoref{def:regularization} \textbf{využívá}.
+
+Jak v pozdějším textu představuje \autoref{chap:vae}, ztrátová funkce variačního autoenkodéru je regularizována za účelem prevence přeučení a směřování modelů variačního autoenkodéru směrem k určité množině chtěných vlastností (například regularizace vůči normovanému normálnímu rozdělení). \cite{Kingma2014}
+
+
 
 
 
