@@ -1,0 +1,26 @@
+Kapitola je věnována představení principů z oblasti strojového učení,
+které jsou \textbf{předpokladem} pro zavedení teorie autoenkodéru a \textbf{variačního autoenkodéru}.
+
+Variační autoenkodér je \textbf{modelem} v oblasti \textbf{strojového učení}, proto je nejprve vymezeno strojového učení (\autoref{sec:machine_learning}), algoritmus strojového učení (\autoref{sec:machine_learning_algorithm}) a princip modelu v kontextu strojového učení.
+
+Kapitola také definuje relevantní třídy algoritmů strojového učení – \textbf{učení s učitelem} (\autoref{sec:supervised_learning}) a \textbf{učení bez učitele} (\autoref{sec:unsupervised_learning}), jejichž charakteristiky jsou využity při návrhu zpracování dat uvnitř modelu variačního autoenkodéru a návrhu vrstev jeho dílčích modulů.
+
+Modely variačního autoenkodéru mají z podstaty svého návrhu predispozici k řešení úloh z určité podmnožiny existujících problémových oblastí.
+\autoref{sec:no_free_lunch} obecně zdůvodňuje \textbf{nutnost návrhu modelu variačního autoenkodéru za sledovaným účelem}.
+
+Model variačního autoenkodéru a jeho latentní reprezentace nabývá určitých vlastností, které pozdější kapitoly práce představují.
+Za účelem formulace způsobu dosažení těchto vlastností je popsán princip \textbf{regularizace} (\autoref{sec:regularization}).
+
+Jak v pozdější fázi práce ukazuje \autoref{chap:vae}, model variačního autoenkodéru (i prostého autoenkodéru) je složen ze dvou modulů – \textbf{enkodéru} a \textbf{dekodéru}.
+Tyto moduly jsou ve fázi práce věnované experimentu s modelem variačního autoenkodéru \textbf{implementovány formou umělých neuronových sítí}. Proto \autoref{sec:neural_network} definuje jejich principy, historický vývoj a schopnost univerzální reprezentace.
+
+Návrh variačního autoenkodéru je založen na principu \textbf{redukce dimenzionality} vstupních dat.
+Stručnému definování tohoto principu a příslušných technik, ze kterých variační autoenkodér vychází, je věnována \autoref{sec:dimensionality_reduction}.
+
+Variační autoenkodér je \textbf{pravděpodobnostním modelem} a využívá \textbf{latentních proměnných}.
+Jejich představení je věnována \autoref{sec:probabilstic_models} a \autoref{sec:latent_variable_model}.
+
+Velmi důležitou součástí trénovacího procesu variačního autoenkodéru je \textbf{KL divergence}, kterou zavádí \autoref{sec:kl_divergence}.
+
+Tato kapitola je tedy jakýmsi výchozím bodem a \emph{seznamem základních pojmů} pro zbytek práce.
+\textbf{Čtenáři, který je se zvýrazněnými oblastmi seznámen, je doporučeno kapitolu přeskočit}.
