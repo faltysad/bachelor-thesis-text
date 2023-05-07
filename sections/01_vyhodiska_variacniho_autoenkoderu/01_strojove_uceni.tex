@@ -18,6 +18,7 @@ Toto dělení vychází ze zkušenosti $E$, resp. míry, do jaké má algoritmus
 
 Aplikováním algoritmu strojového učení na konkrétní úlohu, a jeho následným \textbf{trénováním} za účelem získání určitých charakteristik, vzniká \textbf{model strojového učení}.
 Takový model se \textbf{učí} opakovaným procesem, kdy na základě nějaké \textbf{chyby} (forma zpětné vazby) \textbf{optimalizuje ztrátovou funkci}, která je definována specificky k řešené úloze.
+Tento opakovaný proces nazýváme \textbf{trénování}, a detailněji jej interpretuje \autoref{sec:neural_network_architecture}.
 
 Pro předmět této práce budou blíže představeny pouze oblasti \textbf{učení s učitelem} a \textbf{učení bez učitele}.
 \subsection{Učení s učitelem}
@@ -66,7 +67,7 @@ Toho lze docílit \emph{zabudováním} určité sady preferencí přímo do algo
 
 Chování a výkonnost algoritmu strojového učení lze dle \textcite{Goodfellow2016} ovlivnit omezením jeho prostoru hypotéz následovně:
 \begin{itemize}
-    \item V prostoru hypotéz algoritmu lze vyjádřit preferenci jednoho řešení před druhým. To znamená, že obě takové funkce budou přípustné, ale jedna z nich má preferenci
+    \item V prostoru hypotéz algoritmu lze vyjádřit preferenci jednoho řešení před druhým. To znamená, že obě takové funkce budou přípustné, ale jedna z nich má preferenci.
     \item Funkci (nebo množinu funkcí) lze z prostoru hypotéz kompletně vyřadit (resp. vyjádřit nekonečně velkou míru neupřednostnění takové funkce).
 \end{itemize}
 
