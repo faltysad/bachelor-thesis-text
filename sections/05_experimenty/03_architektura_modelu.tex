@@ -14,7 +14,7 @@ V této sekci jsou tyto moduly propojeny s teoretickými aspekty variačního au
 \subsection{Enkodér}
 \label{sec:vae_model_encoder}
 U prostého autoenkodéru je každý vstup mapován přímo na \textbf{pouze jeden bod} v latentním prostoru (tedy výsledný latentní prostor není spojitý).
-Naopak ve variačním autoenkodéru je každý vstup mapován na (vícerozměrné) normální rozdělení okolo konkrétního bodu v latentním prostoru, jak ukazuje \autoref{fig:vae_encoder_differenc}.
+Naopak ve variačním autoenkodéru je každý vstup mapován na (vícerozměrné) normální rozdělení okolo konkrétního bodu v latentním prostoru, jak ukazuje \autoref{fig:vae_encoder_difference}.
 
 \begin{figure}[H]
     \centering
@@ -66,14 +66,24 @@ Model denkodér modulu variačního autoenkodéru je pro účely tohoto experime
 \subsection{Reparametrizační vrstva}
 \label{sec:vae_model_reparametrization_layer}
 Reperametrizační vrstva modelu variačního autoenkodéru implementuje reparametrizační trik dle \autoref{sec:reparametrization_trick}.
-Pričemž připomeňme, že \lstinline{epsilon} je bod náhodně vzorkovaný z normovaného normálního rozdělení.
-Právě \textbf{\lstinline{epsilon}} hraje při trénování variačního autoenkodéru důležitou roli, jelikož transformuje vzorkovací proces na diferenciovatelnou operaci (a této vlastnosti je využito při následné optimalizaci modelu, viz \autoref{sec:vae_model_loss_function}).
+Přičemž pro připomenutí, $\epsilon$ je bod náhodně vzorkovaný z normovaného normálního rozdělení.
+Právě $\epsilon$ hraje při trénování variačního autoenkodéru důležitou roli, jelikož transformuje vzorkovací proces na diferenciovatelnou operaci (a této vlastnosti je využito při následné optimalizaci modelu, viz \autoref{sec:vae_model_loss_function}).
 
-U variačního autoenkodéru vzorkujeme náhodný bod z $\epsilon$-okolí \lstinline{mu}.
+
+U variačního autoenkodéru je vzorkován náhodný bod z $\epsilon$-okolí \lstinline{mu}.
 Tedy dekodér musí při trénování zajistit, aby všechny body v tomto okolí produkovaly výstup (obrázek) který je \emph{velmi podobný} vstupu, nebo má alespoň podobný sémantický význam.
-Toto je velmi elegantní vlastnost variačního autoenkodéru, která zajistí že i v případě, kdy při vzorkování zvolíme bod, který dekodér modul variačního autoenkodéru doposud nikdy \emph{neviděl}, s vysokou pravděpodobnostní na výstupu dostaneme dobře formovaný obrázek.
-Tedy \textbf{umožníme variačnímu autoenkodéru generovat data, která nebyly součástí trénovací množiny, ale nesou stejné charakteristiky jako vstupní data}. Syntéza takovýchto dat je jedna z hlavních účelů oblastí generativního modelovaní. Tuto vlastnost detailněji zkoumá \autoref{sec:vae_model_latent_space_observation}, která se věnuje pozorování latentního prostoru naučeného modelu.
-\lstinputlisting[language=Python, caption=Reparametrizační vrstva modelu variačního autoenkodéru]{code_snippets/vae_reparametrization.py}
+Popsanou operaci v reparametrizační vrstvě modelu zachycuje \autoref{code:vae_reparametrization_layer}.
+
+\begin{figure}[H]
+    \inputminted[linenos]{python}{code_snippets/vae_reparametrization.py}
+    \caption{Reparametrizační vrstva modelu variačního autoenkodéru.}
+    \label{code:vae_reparametrization_layer}
+\end{figure}
+
+Toto je velmi elegantní vlastnost variačního autoenkodéru, která zajistí že i v případě, kdy je při vzorkování zvolen bod, který dekodér modul variačního autoenkodéru doposud nikdy \emph{neviděl}, s vysokou pravděpodobnostní bude výstupem dobře formovaný obrázek.
+Tedy \textbf{variačnímu autoenkodéru je umožněno generovat data, která nebyly součástí trénovací množiny, ale nesou stejné charakteristiky jako vstupní data}.
+Syntéza takovýchto dat je jedna z hlavních účelů oblastí generativního modelovaní.
+Tuto vlastnost detailněji zkoumá \autoref{sec:vae_model_latent_space_observation}, která se věnuje pozorování latentního prostoru naučeného modelu.
 
 \subsection{Ztrátová funkce}
 \label{sec:vae_model_loss_function}
@@ -87,7 +97,7 @@ Tento prvek KL divergence tak hraje při trénování modelu důležitou roli, j
 V důsledku existuje \textbf{menší šance} že zformovaný \textbf{latentní prostor model bude obsahovat} \emph{značné} \textbf{mezery} mezi klastry latentních proměnných (jak ukazuje \autoref{sec:vae_model_latent_space_observation}).
 Ve snaze o minimalizaci ztrátové funkce modelu se totiž enkoder modul pokouší o efektivní a symetrické využití prostoru v okolí počátku latentního prostoru.
 
-Ztrátová funkce rovněž musí hledat \textbf{rovnováhu mezi hodnotou chyby rekonstrucke a hodnotou KL divergence}.
+Ztrátová funkce rovněž musí hledat \textbf{rovnováhu mezi hodnotou chyby rekonstrukce a hodnotou KL divergence}.
 Udělení příliš velké váhy jednomu z těchto prvků by mělo za důsledek ztrátu kýženého regulačního efektu latentního prostoru a vzniklý model variačního autoenkodéru by nabýval stejných problémů, jako prostý autoenkodér.
 Zajištění konvergence obou prvků je tak důležitou součástí trénovacího procesu modelu variačního autoenkodéru a vede k chtěné vlastnosti spojitého latentního prostoru, která umožňuje variačnímu autoenkodéru generovat i takové vzorky dat, které nebyly součástí trénovací množiny.
 
