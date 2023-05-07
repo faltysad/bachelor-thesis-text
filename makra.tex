@@ -194,6 +194,8 @@
 \renewcommand{\figureautorefname}{Obrázek}
 \renewcommand{\equationautorefname}{Rovnice}
 
+
+
 \renewcommand{\UrlBreaks}{\do\/\do\=\do\+\do\-\do\_\do\ \do\a\do\b\do\c\do\d%
 \do\e\do\f\do\g\do\h\do\i\do\j\do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s%
 \do\t\do\u\do\v\do\w\do\x\do\y\do\z\do\A\do\B\do\C\do\D\do\E\do\F\do\G\do\H%
@@ -210,6 +212,10 @@
 
 %%% User-defined balíčky
 \usepackage{dsfont}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definice}[section]
+\newcommand{\definitionautorefname}{Definice}
 
 \usepackage{float}
 \usepackage{tikz}

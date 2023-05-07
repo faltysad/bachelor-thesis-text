@@ -1,14 +1,16 @@
 \section{Strojové učení}
 Strojové učení je podoblast umělé inteligence zabývající se algoritmy a technikami, které počítačovým systémům umožňují \emph{učit se} z dat.
-\begin{displayquote}
-    \textquote{\emph{Machine Learning is the field of study that gives computers the ability to learn without being explicitly programmed}.} \cite{Samuel1967}\footnote{Parafrázováno}
-\end{displayquote}
+\begin{definition}[Strojové učení]
+    \label{def:machine_learning}
+    \textquote{\emph{Machine Learning is the field of study that gives computers the ability to learn without being explicitly programmed}.} \cite{Samuel1967}
+\end{definition}
 \subsection{Algoritmus strojového učení}
 \label{sec:machine_learning_algorithm}
-Definici algoritmu strojového učení výstižně shrnuje následující definice \cite[str. 2]{Mitchell1997}:
-\begin{displayquote}
+Definici algoritmu strojového učení výstižně shrnuje \textcite[str. 2]{Mitchell1997}:
+\begin{definition}[Algoritmus strojového učení]
+    \label{def:machine_learning_algorithm}
     \textquote{\emph{A computer program is said to learn from experience $E$ with respect to some class of tasks $T$ and performance measure $P$, if its performance at tasks in $T$, as measured by $P$, improves with experience $E$.}}
-\end{displayquote}
+\end{definition}
 Algoritmy strojového učení lze obecně rozdělit na čtyři třídy – učení s učitelem (\emph{supervised learning}),
 učení bez učitele (\emph{unsupervised learning}), kombinaci učení s učitelem a učení bez učitele (\emph{semi-supervised learning}) a posilovaného učení (\emph{reinforcement learning}).
 
@@ -18,25 +20,25 @@ Pro předmět této práce budou blíže představeny pouze oblasti \textbf{uče
 \subsection{Učení s učitelem}
 \label{sec:supervised_learning}
 Zkušenost $E$ algoritmů učení bez učitele vychází z datové sady, která může mít celou řadu vlastností a zároveň je \textbf{předem známá klasifikace každého datového bodu do definovaných tříd}.
-Na základě této asociace je natrénovaný algoritmus schopen provést přiřazení dosud neznámého objektu do jedné z tříd definovaných v trénovací sadě dat.
+Na základě této asociace je natrénovaný algoritmus schopen provést přiřazení dosud neznámého objektu do jedné z tříd definovaných v trénovací sadě dat. \cite{Chollet2017}
 
 Učení s učitelem zahrnuje pozorování několika příkladů náhodného vektoru $\mathbf{x}$ a asociované hodnoty (či vektoru) $\mathbf{y}$.
-Následuje učení se predikovat $\mathbf{y}$ z $\mathbf{x}$, často na základě odhadu $p(\mathbf{y}\mid\mathbf{x})$.
+Cílem úlohy učení se s učitelem pak je naučit se predikovat $\mathbf{y}$ z $\mathbf{x}$, často na základě odhadu $p(\mathbf{y}\mid\mathbf{x})$, kde $p$ je podmíněná pravděpodobnost výskytu jevu $y$, pakliže se vyskytl jev $x$. \cite{Goodfellow2016}
 
 Samotný termín \emph{učení s učitelem} vychází ze situace, kdy je cílová třída $\mathbf{y}$ poskytnuta jakýmsi instruktorem či učitelem, který systému strojového učení ukazuje očekávané chování. \cite{Goodfellow2016}
 \subsection{Učení bez učitele}
 \label{sec:unsupervised_learning}
-Ve vztahu k definici (viz \autoref{sec:machine_learning_algorithm}) lze říci, že zkušenost $E$ algoritmů učení bez učitele vychází z datové sady, která může mít celou řadu vlastností.
+Dle \autoref{def:machine_learning} a \autoref{def:machine_learning_algorithm} lze říci, že zkušenost $E$ algoritmů učení bez učitele vychází z datové sady, která může mít celou řadu vlastností.
 Cílem trénování algoritmů učení bez učitele je \textbf{naučit se užitečné a charakteristické vlastnosti o struktuře vstupní datové sady}.
-V kontextu hlubokého učení je pak obvyklým cílem algoritmu naučit se celé rozdělení pravděpodobnosti, které generuje původní datovou sadu (ať už explicitně – např. odhad hustoty, či implicitně – např. úlohy syntézy dat a odstranění šumu).
-Mezi další techniky strojového učení bez učitele se, mimo jiné, řadí shluková analýza.
+
+Lze uvažovat i tzv. \emph{hluboké učení} bez učitele, kdy cílem algoritmu je naučit se celé rozdělení pravděpodobnosti, které generuje původní datovou sadu (ať už explicitně – např. odhad hustoty rozdělení pravděpodobnosti, či implicitně – např. úlohy syntézy dat a odstranění šumu). \cite{Chollet2017}
 
 Obecně lze říct, že učení bez učitele zahrnuje pozorování několika příkladů náhodného vektoru $\mathbf{x}$ na základě kterého se snaží implicitně či explicitně \emph{naučit} rozdělení pravděpodobnosti $p(\mathbf{x})$, případně \emph{užitečné vlastnosti} tohoto pravděpodobnostního rozdělení.
 
 Na rozdíl od \autoref{sec:supervised_learning}, název \emph{učení bez učitele} napovídá, že v procesu učení není zapojen žádný \emph{instruktor} či \emph{učitel}, a tak systém strojového učení sám musí vyvodit smysl a užitečné vlastnosti předložené datové sady. \cite{Goodfellow2016}
 \subsection{\textquote{No free lunch theorem} pro strojové učení}
 \label{sec:no_free_lunch}
-Dle teorie má algoritmus strojového učení schopnost generalizace i z konečné množiny trénovacích dat. 
+\textcite{Vapnik2000} naznačuje, že by algoritmus strojového učení mohl mít schopnost generalizace i z konečné množiny trénovacích dat. 
 Toto tvrzení je ale v rozporu s elementárními principy logiky – indukce obecných pravidel z omezeného vzorku dat je logicky nevalidní.
 Chceme-li provést indukci obecného pravidla, které popisuje každý prvek množiny, musíme mít k dispozici informaci o každém prvku z množiny.  \cite{Goodfellow2016}
 
