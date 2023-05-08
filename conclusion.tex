@@ -1,8 +1,21 @@
 \chapter*{Závěr}
 \addcontentsline{toc}{chapter}{Závěr}
 
-The conclusion is a mandatory part of the bachelor's / diploma thesis. It contains a summary of the work and comments on the degree of fulfillment of the goal, which was set in the work, or summarizes the answers to the questions that were asked in the introduction.
+Tématem práce byl \emph{variační autoenkodér a úlohy pozorování v latentním prostoru}.
 
-The conclusion to the diploma thesis must be more elaborate - this is stated in more detail in the Requirements of the diploma thesis within the Intranet for FIS students.
+V první kapitole práce bylo prezentováno široké spektrum možných aplikací modelu variačního autoenkodéru formou stručného shrnutí závěrů dostupných publikací.
+Tato kapitola měla za cíl představit čtenáři způsob, jakým lze variační autoenkodér využít a motivovat ho tak v pokračování čtení teoretické části práce.
 
-The conclusion is perceived as a chapter, which begins on a separate page and is called the conclusion. The name Conclusion is not numbered. The text of the conclusion itself is divided into paragraphs.
+\textbf{Teoretický úsek výkladu} je považován za \textbf{hlavní přínos této práce}, jelikož postupně staví a detailně interpretuje teoretické aspekty variačního autoenkodéru:
+\begin{itemize}
+    \item \autoref{chap:prereqs} uvádí seznam východisek variačního autoenkodéru, které jsou v oblasti strojového učení stabilně ukotveny.
+    \item \autoref{chap:autoencoder} představuje autoenkodér – architekturu modelu strojového učení, na jehož principech staví variační autoenkodér. Byl popsán základní princip fungování autoenkodéru, jeho jednotlivé typy a způsob jejich regularizace. Kapitola je zakončena výkladem o stochastickém autoenkodéru, který slouží jako předchůdce pro uvedení variačního autoenkodéru. 
+    \item \autoref{chap:vae} definuje princip fungování variačního autoenkodéru s důrazem na interpretaci jeho teoretických aspektů. Detailně byla rozebrána rovněž účelová funkce variačního autoenkodéru – konkrétně její dva prvky: KL divergence a chyba rekonstrukce, včetně role, kterou v trénovacím procesu modelu zastávají. Závěrem kapitoly byl krátce shrnut aktuální stav poznání variačního autoenkodéru, jeho existující rozšíření a omezení.
+\end{itemize}
+
+V tomto jde práce nad rámec monografie autorů variačního autoenkodéru \textcite{Kingma2019} a propojuje variační autoenkodér s architekturou různých typů autoenkodéru a dalších definic z oblasti strojového učení (autoři monografie předpokládají znalost této látky a tak ji ve své monografii neuvádí).
+
+Následně byl na základě zavedené teorie prakticky implementován \textbf{ilustrační} model variačního autoenkodéru pro generativní úlohu obrazových dat MNIST.
+Latentní prostor naučeného modelu byl formou vizualizací analyzován a interpretován. Závěrem kapitoly jsou diskutovány možnosti evaluace generativních modelů variačního autoenkodéru.
+
+Výsledkem práce je \textbf{ucelený} výklad o variačním autoenkodéru, který na jednom místě shrnul možnosti jeho multidisciplinárních aplikací, definoval a interpretoval jeho teoretické aspekty a prakticky implementoval ilustrační model variačního autoenkodéru pro generativní úlohu obrazových dat MNIST.
