@@ -3,6 +3,7 @@
 Generativní modelování přirozených obrázků představuje jednu z nejaktuálnějších úloh učení bez učitele vůbec.
 VAE (a jeho rozšíření) natrénované na datasetech obrazových dat v této oblasti dosahují excelentních výsledků \cite{Gulrajani2016}.
 DRAW (rozšíření VAE, viz \autoref{sec:draw}) je jedna z vůbec prvních architektur VAE modifikovaná k generování \textbf{zcela nových a realistických obrázků}, jenž nebyly součástí trénovací množiny.
+Vygenerované výstupy zachycuje \autoref{fig:mnist_double_digits_gregor}.
 
 \begin{figure}[H]
     \centering
@@ -12,6 +13,7 @@ DRAW (rozšíření VAE, viz \autoref{sec:draw}) je jedna z vůbec prvních arch
 \end{figure}
 
 Další rozšířenou architekturou je PixelVAE \cite{Gulrajani2016}, která oproti DRAW nabízí větší kvalitu realistických obrázků vzorkovaných z generativního modelu.
+Její výstupy prezentuje \autoref{fig:image_net_pixel_vae_gulrajani}.
 
 \begin{figure}[H]
     \centering
@@ -44,7 +46,7 @@ Aplikace jednoduchých transformací – například pouhé lineární transform
 \autoref{fig:vae_smile_vector_white} demonstruje modifikaci obrázku obličeje v latentním prostoru podél \textbf{"vektoru úsměvu"}, což činí původní obrázek progresivně více veselejším (lze pozorovat i osu \emph{otevřených úst} při úsměvu). \cite{Kingma2019}
 
 \newpage
-\section{Obarvení černobílých obrázků}
+\section{Kolorování obrázků}
 \label{sec:applications_image_coloring}
 Další slibnou aplikací VAE v oblasti generativního modelování obrazových dat je predikce původní barvy jednotlivých pixelů obrázku na základě černobílého (\emph{gray~scale}) vstupu.
 
@@ -88,8 +90,8 @@ Předložený model je naučen na nepoškozených datech. Jako \textbf{vstup} pr
 Cílem generativního modelu je předpovědět kontext chybějícího regionu obrázku a s ohledem na zbylou část správně doplnit jeho obsah. \cite{Yan2016}
 
 \autoref{fig:image_inpainting_yan} prezentuje výstupy modelů VAE aplikovaných na rekonstrukci chybějících regionů \textbf{přirozených} obrazových dat.
-První blok prezentuje výsledky generativního procesu podmíněného atributem obličeje (model je trénován na datasetu LFW \footnote{Labeled Faces in the Wild. \cite{Huang2012}}).
-Druhý blok pak výsledky které nejsou podmíněny žádným atributem – chybějící region obrázku ($16\times16$ px) je vybrán náhodně (model je trénován na datasetu CUB \footnote{Caltech-UCSD Birds-200-2011. \cite{Wah2011}}).
+Obrázek nahoře prezentuje výsledky generativního procesu podmíněného atributem obličeje (model je trénován na datasetu LFW \footnote{Labeled Faces in the Wild. \cite{Huang2012}}).
+Obrázek dole pak výsledky které nejsou podmíněny žádným atributem – chybějící region obrázku ($16\times16$ px) je vybrán náhodně (model je trénován na datasetu CUB \footnote{Caltech-UCSD Birds-200-2011. \cite{Wah2011}}).
 
 \newpage
 \section{Konceptuální komprese}
@@ -106,7 +108,7 @@ Zbývající (detailnější) vlastnosti – jako například vzor srsti – op�
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.66\textwidth]{figures/applications/conceptual_compression_gregor.png}
-    \caption{Konceptuální komprese s použitím VAE aplikovaná na přirozené obrázky z ImageNet datasetu. Poslední řádek představuje originální obrázky. Zbylé řádky představují \textbf{komprimované} (čím menší řádek, tím méně latentních proměnných může model pro kompresi využít) rekonstrukce DRAW modelu. Převzato z \textcite{Gregor2016}.}
+    \caption{Konceptuální komprese s použitím VAE aplikovaná na přirozené obrázky z ImageNet datasetu. Poslední řádek představuje originální obrázky. Zbylé řádky představují \textbf{komprimované} (shora dolů se snižuje počet latentních proměnných) rekonstrukce DRAW modelu. Převzato z \textcite{Gregor2016}.}
     \label{fig:conceptual_compression_gregor}
 \end{figure}
 
@@ -135,7 +137,7 @@ Výsledkem je model, který je schopen úspěšně \textbf{interpolovat mezi vě
 \newpage
 \section{Návrh chemikálií}
 \label{sec:applications_chemical_pseudo_data_synthesis}
-Doposud byly prezentovány spíše triviální využití VAE. Nicméně rámec VAE nalézá uplatnění i pro vědecké účely.
+Doposud byly prezentovány spíše ilustrační využití VAE. Nicméně rámec VAE nalézá uplatnění i pro vědecké účely.
  
 
 \textcite{GomezBombarelli2018} představují jednoduchý VAE, který je trénován na datové sadě obsahující stovky tisíc existujících chemických struktur.
@@ -170,5 +172,3 @@ který vzniká vlivem přítomnosti temné hmoty mezi Zemí a (pozorovanými) ga
 
 Vzhledem k tomu, že jev gravitační čočky je opravdu slabý (a tím pádem složitě detekovatelný), je nutné tyto systémy kalibrovat \textbf{realistickými} obrázky s odpovídajícím množství zkreslení.
 A vzhledem k tomu, že dostupné \textbf{množství} takových \textbf{reálných dat je aktuálně velmi omezené}, přistoupili autoři studie k využití VAE (respektive CVAE, viz \autoref{sec:cvae}) za účelem \textbf{syntézy pseudo-dat}, které jsou následně pro kalibraci využity. Jeden takový vzorek prezentuje \autoref{fig:vae_space_pseudodata_ravanbakhsh}. \cite{Ravanbakhsh2016}
-
-\section{TODO: Vizualizace high-dimensional dat}
