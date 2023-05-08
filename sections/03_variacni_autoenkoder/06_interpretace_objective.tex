@@ -1,39 +1,39 @@
 \section{Tří různé pohledy na interpretaci naučeného modelu}
-Jak bylo ukázáno, proces učení variačních autoenkodérů je efektivně řešitelný problém (\emph{tractable}).
+Jak bylo ukázáno (viz \autoref{sec:reparametrization_trick}), proces učení variačních autoenkodérů je efektivně řešitelný problém (\emph{tractable}).
 
 Při učení je optimalizován $\log P(X)$ skrze celou množinu vstupních dat $D$. Nicméně, není optimalizován \emph{přesně} $\log P(X)$, ale pouze jeho odhad.
 
 Tato sekce slouží pro odkrytí mechanismů, které se skutečně na pozadí účelové funkce variačního autoenkodéru dějí.
-Nabízí tři různé pohledy, kterými může být \autoref{eq:vae_elbo} interpretována:
+\textcite{Doersch2021} nabízí tři různé pohledy, kterými může být \autoref{eq:vae_elbo} interpretována:
 \begin{enumerate}
     \item Velikost chyby, kterou způsobuje současná optimalizace $\mathcal{D}_{KL}(q_\phi(z\mid x^{(i)})\parallel p_\theta(z))$ dodatečně vedle optimalizace $\log p_\theta(x^{(i)})$.
-    \item Interpretace v kontextu informační teorie a propojení s dalšími přístupy založenými na Minimal Description Length.
+    \item Interpretace v kontextu algoritmické teorie informace a propojení s dalšími přístupy založenými na Minimal Description Length.
     \item VAE a regularizační prvek. Existuje u variačních autoenkodérů regularizační prvek, obdobně jako u  autoenkodérů které uvedla \autoref{chap:autoencoder}?
 \end{enumerate}
 
-\subsection{Chyba $\mathcal{D}_{KL}(q_\phi(z\mid x^{(i)})\parallel p_\theta(z))$}
+\subsection{Chyba prvku KL divergence}
 \textbf{Efektivní řešitelnost} modelu variačního autoenkodéru závisí na předpokladu,
 že $Q(z\mid X)$ \textbf{lze modelovat jako Gaussovu funkci se střední hodnotou $\mu(X)$ a rozptylem $\Sigma(X)$}. \cite{Doersch2021}
 
 Rozdělení $P(X)$ konverguje k původnímu rozdělení (které generuje vstupní data) pouze když se $\mathcal{D}_{KL}(q_\phi(z\mid x^{(i)})\parallel p_\theta(z))$ limitně blíží k nule.
-Což ale nelze jednoduše zaručit. Ani za předpokladu, že $\mu(X)$ a $\Sigma(X)$ jsou vysoko-kapacitní umělé neuronové sítě neplatí, že posteriorní rozdělení $P(z\mid X)$ musí být vždy Gaussovo (pro libovolnou funkci $f$ která je použita pro definování $P$).
+Což ale nelze jednoduše zaručit. Ani za předpokladu, že průměr a rozptyl jsou modelovány vysoko-kapacitními umělými neuronovými sítěmi neplatí, že posteriorní rozdělení $P(z\mid X)$ musí být vždy Gaussovo (pro libovolnou funkci $f$ která je použita pro definování $P$).
 Tedy, pro neměnné $P$ to znamená, že $\mathcal{D}_{KL}(q_\phi(z\mid x^{(i)})\parallel p_\theta(z))$ \textbf{nikdy neni rovno nule} (pokud by tato KL divergence byla rovna nule, viz \autoref{eq:elbo_kl}, znamenalo by to perfektní rekonstrukci původních dat). \cite{Doersch2021}
 
 Nicméně, máme-li dostatečně vysoko-kapacitní neuronové sítě, existuje mnoho funkcí $f$ (viz \autoref{sec:universal_approximation_theorem}), které zaručí, že naučený model generuje libovolné výstupní rozdělení pravděpodobnosti
 \footnote{Tedy je schopen generovat vzorky \emph{dostatečně podobné} vzorkům množiny trénovacích dat, včetně vzorků, které nebyly při trénování k dispozici.}.
-Libovolná z těchto funkcí maximalizuje $\log P(X)$ stejně dobře. Tedy stačí vybrat jednu z těchto funkcí, která maximalizuje $\log P(X)$ \textbf{a zároveň} zaručí, že $P (z\mid X)$ je Gaussovou funkcí pro všechna $x^{(i)}$.
+Libovolná z těchto funkcí maximalizuje $\log P(X)$ stejně dobře. Tedy stačí vybrat jednu z těchto funkcí, která maximalizuje $\log P(X)$ \textbf{a zároveň} zaručí, že $P (z\mid X)$ je Gaussovou rozdělením pro všechna $x^{(i)}$.
 Pokud toto platí, $\mathcal{D}_{KL}(q_\phi(z\mid x^{(i)})\parallel p_\theta(z))$, \emph{tlačí} model směrem k parametrizaci původní distribuce. \cite{Doersch2021}
 
 Zbývá zodpovědět, zda-li taková funkce existuje pro všechny libovolné distribuce, které bychom mohli chtít aproximovat.
 Tento problém (v kontextu variačních autoenkodérů) zatím zůstává nezodpovězen. Nicméně existuje alespoň formální důkaz \textbf{nulové chyby aproximace} VAE alespoň v triviálním teoretickém scénáři na 1D problému \cite[Příloha A]{Doersch2021}.
 Autoři rámce VAE se domnívají, že budoucí teoretický výzkum by měl být schopný na tomto důkazu stavět a rozšířit jej na více (složitějších) scénářů s praktickým využitím. \cite{Doersch2021}
 
-\subsection{Interpretace z pohledu informační teorie}
+\subsection{Interpretace z pohledu algoritmické teorie informace}
 \label{sec:vae_information_theory_interpretation}
-Dalším možným (a velmi důležitým) pohledem na pravou stranu \autoref{eq:vae_elbo} je v kontextu informační teorie.
-Konkrétně pomocí principu tzv. \emph{minimum description length}, který stojí za mnoha předchůdci variačního autoenkodéru, jako například Helmholtz Machines, Wake-Sleep Algoritmus, Deep Belief Nets a Boltzmann Machines. \cite{Doersch2021}
+Dalším možným (a velmi důležitým) pohledem na pravou stranu \autoref{eq:vae_elbo} je v kontextu algoritmické teorie informace.
+Konkrétně pomocí principu tzv. \emph{minimum description length}, který stojí za mnoha předchůdci variačního autoenkodéru, jako například Helmholtz Machines (\cite{Dayan1995}), Wake-Sleep Algoritmus (\cite{Hinton1995}), Deep Belief Nets (\cite{Hinton2006}) a Boltzmann Machines (\cite{Salakhutdinov2010}).
 
-Na $- \log P(X)$ lze pohlížet jako na celkový počet bitů, které naučený model potřebuje k sestavení daného $x^{(i)}$ za použití \textbf{ideálního} kódování.
+Jak víme z algoritmické teorie informace, na $- \log P(X)$ lze pohlížet jako na celkový počet bitů, které naučený model potřebuje k sestavení daného $x^{(i)}$ za použití \textbf{ideálního} kódování.
 Pravá strana \autoref{eq:vae_elbo} na toto pohlíží jako na dvoufázový proces pro sestavení $x^{(i)}$. \cite{Doersch2021}
 
 V první fázi použijeme \emph{nějaký počet} bitů pro sestavení $z$ \footnote{Pro připomenut KL divergenci lze uvádět v jednotkách bitů (viz \autoref{sec:kl_divergence}).}.
@@ -65,5 +65,5 @@ Tedy v tomto smyslu lze zvolené $\sigma$ svou rolí považovat za jakési $\Ome
 Nutno podotknout, že samotná existence tohoto parametru je závislá na zvoleném rozdělení pravděpodobnosti $x^{(i)}$ pro dané $z$.
 Tedy pokud je $x^{(i)}$ binární, a jako výstupní model je použito Alternativní rozdělení, tento \emph{regularizační} prvek zmizí 
 \footnote{I přes to existují způsoby, jakým jej lze dostat zpět do rovnice, jako například replikace dimenzí $x^{(i)}$. \cite{Doersch2021}}.
-Což z pohledu informační teorie dává logiku: je-li $x^{(i)}$ binární, lze spočítat počet bitů, které jsou potřebné pro kódování $x^{(i)}$, a tím pádem oba prvky pravé strany \autoref{eq:vae_elbo} používají stejné jednotky.
+Což z pohledu algoritmické teorie informace dává logiku: je-li $x^{(i)}$ binární, lze spočítat počet bitů, které jsou potřebné pro kódování $x^{(i)}$, a tím pádem oba prvky pravé strany \autoref{eq:vae_elbo} používají stejné jednotky.
 Nicméně, pokud je $x^{(i)}$ spojité, každý vzorek obsahuje nekonečnou míru informace. Volba $\sigma$ pak určuje očekávanou míry přesnosti, s jakou je naučený model schopen rekonstruovat $x^{(i)}$, resp. celé $X$. (tento kompromis je nutný, aby se míra informace vzorku stala konečná). \cite{Doersch2021}

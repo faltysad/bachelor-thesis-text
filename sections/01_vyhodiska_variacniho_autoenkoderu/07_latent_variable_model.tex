@@ -29,4 +29,4 @@ U variačních autoenkodérů je toto výstupní rozdělení pravděpodobnosti �
 Obecně (a zejména na počátku trénovací fáze) model nebude generovat výstupy které jsou \emph{identické} k libovolnému $X$.
 V důsledku toho, že u variačního autoenkodéru volíme toto výstupní rozdělení jako normální, lze provést algoritmus gradientního sestupu (případně jinou optimalizační techniku) za účelem zvýšení $P(x)$ tím, že donutíme $f(z;\theta)$ blížit se k $X$ pro nějaké $z$ (a tím pádem iterativně zvyšovat pravděpodobnost, že model vygeneruje vzorek podobný vzorku z trénovací množiny). \cite{Doersch2021}
 
-Důležitou vlastností pro možnost provést tuto optimalizaci tedy je, aby $P(X \mid z)$ bylo \textbf{spočitatelné a spojité v $\theta$} \footnote{Výstupní rozdělení nemusí byt normální (ale např. alternativní rozdělení).}. \cite{Doersch2021}
+Důležitou vlastností pro možnost provést tuto optimalizaci tedy je, aby $P(X \mid z)$ bylo \textbf{vyčíslitelné a spojité v $\theta$} \footnote{Výstupní rozdělení nemusí byt normální (ale např. alternativní rozdělení).}. \cite{Doersch2021}

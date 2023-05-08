@@ -1,17 +1,17 @@
 \section{Enkodér modul}
 \label{sec:vae_encoder}
 V \autoref{sec:latent_variable_models} byly představeny hluboké modely využívající latentních proměnných (DLVM).
-U těchto modelů je problém provést odhad log-likelihood a rozdělení posteriorní pravděpodobnosti. \cite{Kingma2019}
+U těchto modelů je problém provést odhad $\log$ věrohodnosti a rozdělení posteriorní pravděpodobnosti. \cite{Kingma2019}
 
 Rámec VAE poskytuje výpočetně efektivní způsob, kterým lze DLVM společně optimalizovat s jejich korespondujícími inferenčními modely pomocí stochastického gradientního sestupu
 \footnote{Společně optimalziovat (\emph{joint optimization}) zde znamená, že generativní model (který mapuje latentní proměnná na data) a inferenční model (který mapuje data na latentní proměnné) jsou optimalizovány zároveň (raději než optimalizovány nezávisle). Ztrátová funkce, která je při trénování optimalizována, zahrnuje oba modely. Touto společnou optimalizací se VAE mohou učit generovat nové vzorky dat, které mají podobné vlastnosti jako data v trénovací množině a odvozovat skryté latentní vztahy proměnných, která generovala pozorovaná data}. \cite{Kingma2019}
 
 Enkodér modul VAE je pravděpodobnostní enkodér $q_\phi(\textbf{z}\mid\textbf{x})$, který na základě datového bodu $\textbf{x}$ produkuje rozdělení pravděpodobnosti (typicky Gaussovo) skrze všechny možné hodnoty kódu $\mathbf{z}$, z něhož tento datový bod teoreticky mohl být vygenerován.  \cite{Kingma2019}
 
-Posteriorní inference a úlohy učení DLVM jsou efektivně neřešitelné problémy.
+Posteriorní inference a úlohy učení DLVM jsou efektivně neřešitelné problémy \emph{intractable}.
 VAE \textbf{představuje parametrický inferenční model} (\emph{parametric inference model}) $q_\phi(\textbf{z}\mid\textbf{x})$ pro přetavení těchto problémů na efektivně řešitelné.
 Tento model také nazýváme \textbf{enkodér} či \textbf{rozpoznávací model}.
-$\phi$ označuje parametry tohoto inferenčního modelu, tyto parametry nazýváme \textbf{variační parametry}. \cite{Kingma2019}
+Parametry tohoto inferenčního modelu značí $\phi$ a nazýváme je \textbf{variační parametry}. \cite{Kingma2019}
 
 
 Variační parametry $\phi$ optimalizujeme tak, aby platila aproximace \cite{Kingma2014}:
@@ -30,13 +30,15 @@ kde $Pa(\textbf{z}_j)$ je množina rodičovských proměnných k proměnné $\te
 Podobně jako u DLVM, rozdělení pravděpodobnosti $q_\phi(\textbf{z}\mid\textbf{x})$ může být parametrizováno použitím umělé neuronové sítě (viz \autoref{fig:vae_nn}).
 V takovém případě variační parametry $\phi$ zahrnují váhy a biasy této umělé neuronové sítě \cite{Kingma2014}:
 
-
+Neuronové sítě enkodér a dekodér modulu lze na základě výše uvedeného \textbf{obecně} označit jako:
 \begin{align}
     (\boldsymbol{\mu}, \log \boldsymbol{\sigma}) &= \text{EnkodérSíť}_\phi(\textbf{x}) \\
     q_\phi(\textbf{z}\mid\textbf{x}) &= \mathcal{N}(\textbf{z}; \boldsymbol{\mu}, \text{diag}(\boldsymbol{\sigma})) \label{eq:enkoder_diag}
 \end{align}
 
-Pro posteriorní inferenci skrze všechna vstupní data je použita vždy jedna stejná enkodér neuronová síť, tedy \textbf{variační parametry jsou sdíleny}
+Pro posteriorní inferenci skrze všechna vstupní data je použita vždy identická enkodér neuronová síť, která se v průběhu trénování nemění, tedy \textbf{variační parametry jsou sdíleny}
 \footnote{V kontrastu s tradičními metodami pro variační inferenci, kde jsou parametry iterativně optimalizovány pro každý datový vstup}.
 Tato strategie, kterou VAE využívá pro \textbf{sdílení variačních parametrů skrze všechny datové vstupy} se nazývá \textbf{amortizovaná variační inference} \cite{Gershman2014}.
 Amortizovanou inferencí se VAE vyhýbají optimalizační smyčce pro každý datový bod, a mohou tak plně využít možnosti efektivity stochastického gradientního sestupu. \cite{Kingma2019}
+
+\emph{Variační parametry jsou v zápisu dalšího textu pro jednoduchost vynechány.}

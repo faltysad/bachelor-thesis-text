@@ -1,4 +1,4 @@
-Generativní modely (\autoref{sec:generative_model}), učení se reprezentací \cite{Bengio2014} a úlohy učení bez učitele (\autoref{sec:unsupervised_learning}) jsou \textbf{klíčové oblastí pro vytvoření inteligentních systémů} \cite{Kingma2019}, \cite{LeCun2022}.
+Generativní modely (\autoref{sec:generative_model}), učení se reprezentací \cite{Bengio2014} a úlohy učení bez učitele (\autoref{sec:unsupervised_learning}) jsou \textbf{klíčové oblastí pro vytvoření inteligentních systémů} \cite{Kingma2019, LeCun2022}.
 Variační autoenkodér z těchto principů vychází a propojuje je. Ve snaze o konstrukci takového stroje tak variační autoenkodér hraje důležitou roli.
 
 \textbf{Variační autoenkodér} \cite{Kingma2014}, \cite{Rezende2014} (dále jen \emph{VAE})
@@ -13,7 +13,7 @@ Přehled aplikací VAE nabízí \autoref{chap:applications}.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{figures/vae.pdf}
-    \caption{Umělá neuronová síť variačního autoenkodéru.}
+    \caption{Umělá neuronová síť variačního autoenkodéru. Výstupem enkodéru jsou $\mu$ a $\sigma$, tedy parametry pravděpodobnostního rozdělení, ze kterého dekodér modul generuje nové vzorky.}
     \label{fig:vae_nn}
 \end{figure}
 
@@ -24,17 +24,15 @@ V generativním modelování je cíl poněkud obecnější – naučit se spojit
 
 Generativní model simuluje způsob, kterým jsou data generována v reálném světě.
 \emph{Modelováním} se ve vědních disciplínách rozumí odhalování generujícího procesu stanovením hypotéz a následném testování těchto hypotéz pozorováním. 
-S charakterem generativního modelování je spojena řada užitečných výhod. \cite{Goodfellow2016}
+S charakterem generativního modelování je spojena řada užitečných výhod \cite{Goodfellow2016}:
 
-První z nich je možnost zabudování známých fyzikálních zákonů a omezení do samotného generativního procesu – 
-zatímco neznáme (či nepodstatné) \emph{detaily} můžeme zanedbat formou \emph{šumu}. 
-Výsledný model je pak často vysoce intuitivní a dobře interpretovatelný. \cite{Goodfellow2016}
+\begin{itemize}
+    \item Možnost zabudování známých fyzikálních zákonů a omezení do samotného generativního procesu – zatímco neznáme (či nepodstatné) \emph{detaily} můžeme zanedbat formou \emph{šumu}. Výsledný model je pak často vysoce intuitivní a dobře interpretovatelný \cite{Goodfellow2016}.
+    \item Generativní proces dat přirozeně zahrnují kauzální vztahy reálného světa. Pozorování a využití těchto kauzálních vztahů nabízí schopnost generalizovat v dosud nepozorovaných situacích \cite{Goodfellow2016}.
+\end{itemize}
 
-Dalším důvodem pro snahu o pochopení generativního procesu dat je, že přirozeně zahrnují kauzální vztahy reálného světa.
-Pozorování a využití těchto kauzálních vztahů nabízí schopnost generalizovat v dosud nepozorovaných situacích  \cite{Goodfellow2016}
-
-Zatímco generativní modely se zvládnou učit efektivní reprezentace vstupních dat, mají oproti diskriminativním modelům tendenci činit \textbf{silnější předpoklady}, což vede k \textbf{vyššímu asymptotickému biasu} pakliže model \textbf{chybuje}. \cite{Banerjee2007}
-Pokud nás zajímá pouze naučení se rozlišovat třídy, a náš model chybuje (a každý model \emph{témeř vždy} do určité míry chybuje), pak diskriminativní modely v takové úloze (za předpokladu dostatečného množství dat) často vedou k menší chybovosti.  \cite{Goodfellow2016}
+Zatímco generativní modely se zvládnou učit efektivní reprezentace vstupních dat, mají oproti diskriminativním modelům tendenci činit \textbf{silnější předpoklady}, což vede k \textbf{vyššímu asymptotickému biasu, viz \textcite{Tadic2017}} pakliže model \textbf{chybuje}. \cite{Banerjee2007}
+Pokud nás zajímá pouze naučení se rozlišovat třídy, a náš model chybuje (a každý model \emph{témeř vždy} do určité míry chybuje), pak diskriminativní modely v takové úloze (za předpokladu dostatečného množství dat) častoda vedou k menší chybovosti.  \cite{Goodfellow2016}
 
 I přesto se vyplatí studovat proces generování dat jako způsob, kterým lze trénovací proces diskriminátoru (např. klasifikátoru) zušlechťovat.
 Typickým scénářem je úloha, kdy máme k dispozici množinu vzorků se štítky a řádově větší množinu vzorků bez štítků.
@@ -45,23 +43,26 @@ Například, predikce bezprostřední budoucnosti nám může pomoct při sestav
 Hledání rozmotaných (\emph{disentangled}), sémanticky významných a statisticky nezávislých kauzálních faktorů variací dat je obecně známo pod pojmem učení se reprezentací bez učitele (\emph{unsupervised representation learning}).
 A \textbf{variační autoenkodéry} jsou pro tento účel hojně uplatňovány. \cite{Goodfellow2016}
 
-Na tuto úlohu lze alternativně hledět i jako na implicitní formu regularizace. Nutíme-li vzniklé reprezentace být významnými pro proces generování dat, představujeme bias vůči opačnému procesu (který vstupní data mapuje na neužitečné reprezentace).
+Na tuto úlohu lze alternativně hledět i jako na implicitní formu regularizace (viz \autoref{sec:regularization} a \autoref{sec:autoencoder_types}). Nutíme-li vzniklé reprezentace být významnými pro proces generování dat, představujeme bias vůči opačnému procesu (který vstupní data mapuje na neužitečné reprezentace).
 Doprovodnou činnost predikce bezprostřední budoucnosti tak lze využít k lepšímu porozumění světa v abstraktní úrovni a tím pádem činit přesnější predikce v pozdější fázi. \cite{Goodfellow2016}
 
 \newpage
 \section{Princip variačního autoenkodéru}
 \label{sec:vae_principle}
 Variační autoenkodér lze popsat jako dva provázané, byť \textbf{nezávisle parametrizované} modely: \textbf{enkodér} (resp. rozpoznávací) model – \autoref{sec:vae_encoder} a \textbf{dekodér} (resp. generativní) model – \autoref{sec:vae_decoder}.
-Tyto dva modely se vzájemně podporují. Enkodér model generativnímu modelu doručuje aproximaci jeho posteriorních náhodných latentních proměnných,
-které jsou potřebné pro úpravu jeho parametrů uvnitř iterace \emph{expectation maximalization} učení.
+Tyto dva modely se vzájemně podporují. Enkodér model generativnímu modelu doručuje aproximaci jeho posteriorních náhodných latentních proměnných (viz \autoref{sec:latent_variable_models}),
+které jsou potřebné pro úpravu jeho parametrů uvnitř jedné iterace trénovacího kroku učení.
 A opačně, generativní model slouží jako opora pro naučení významných reprezentací vstupních dat enkodér modelem.
 Tedy, dle Bayesova pravidla, enkodér je \emph{approximate inverse} generativního modelu. \cite{Kingma2019}
 
-Jednou z výhod VAE oproti běžné variační inferenci (viz \autoref{sec:probabilistic_models_variational_inference}, dále jen \emph{VI}) je, že enkodér model (také nazývaný inferenční model) je nyní stochastickou funkcí vstupních proměnných.
-Na rozdíl od VI, kde má každý datový bod vlastní variační rozdělení pravděpodobnosti, což je při větším množství dat neefektivní,
+Jednou z hlavních výhod VAE je, že enkodér model (také nazývaný inferenční model) je stochastickou funkcí vstupních proměnných \cite{Goodfellow2016}.
+Na rozdíl od variační inference \cite{Kingma2016}, kde má každý datový bod vlastní variační rozdělení pravděpodobnosti, což je při větším množství dat neefektivní,
 enkodér používá jednu množinu parametrů pro model vztahů mezi vstupními daty a latentními proměnnými. Tento proces nazýváme amortizovanou inferencí.
 Takový enkodér model může být libovolně komplexní, ale stále zůstává přiměřeně rychlým, jelikož již z principu může být realizován jedním dopředným průchodem z vstupu skrze latentní proměnné.
-Nevýhodou ale je, že při vzorkování vzniká v gradientech potřebných pro učení tzv. vzorkovací šum. Možná největším přínosem VAE je řešení tohoto šumu použitím tzv. \emph{reparametrizačního triku} – jednoduchou procedurou pro přeorganizování výpočtu gradientů, který snižuje variaci gradientu. \cite{Kingma2019}
+Nevýhodou ale je, že při vzorkování vzniká v gradientech potřebných pro učení tzv. vzorkovací šum.
+Možná největším přínosem VAE je řešení tohoto šumu použitím tzv. \emph{reparametrizačního triku} – jednoduchou procedurou pro přeorganizování výpočtu gradientů, který snižuje variaci gradientu. \cite{Kingma2019}
+
+Model umělé neuronové sítě variačního autoenkodéru, včetně tvaru výstupů jeho enkodér, dekodér modulů, zachycuje \autoref{fig:vae_nn}.
 
 Variační autoenkodér je inspirován Helmholtz Machine \cite{Dayan1995}, což byl první model který využíval enkodér modelu.
 Nicméně wake-sleep algoritmus, který byl v návrhu využitý, byl silně neefektivní a neoptimalizoval jednoznačné kritérium.
@@ -73,33 +74,37 @@ Generativní model je tvořen bayesovskou sítí ve tvaru $p(\mathbf{x}\mid\math
 Podobně, enkodér model je tvořen podmíněnou bayesovskou sítí ve tvaru $q(\mathbf{z}\mid\mathbf{x})$
 \footnote{Nebo jako hiearchie, např.: $q(\mathbf{z}_0\mid\mathbf{z}_1) \dots q(\mathbf{z}_L \mid X)$.}.
 Každá podmíněná vrstva může být tvořena komplexní (hlubokou) umělou neuronovou sítí, například: $\mathbf{z}\mid\mathbf{x} \sim f(\mathbf{x}, \mathbf{\epsilon})$, kde $f$ je mapování umělé neuronové sítě a $\mathbf{\epsilon}$ je \emph{šum} (náhodná proměnná).
-Učící algoritmus VAE je variace klasického \emph{expectation maximization algoritmu}. Ten ale skrze reparametrizační trik provádí zpětnou propagaci skrze všechny vrstvy hluboké umělé neuronové sítě (viz \autoref{sec:reparametrization_trick}). \cite{Kingma2019}
+Učící algoritmus VAE je variace klasického \emph{expectation maximization algoritmu \footnote{Expectation maximization algoritmus, EM algoritmus definuje \textcite{Moon1996}.}}. Ten ale skrze reparametrizační trik provádí zpětnou propagaci skrze všechny vrstvy hluboké umělé neuronové sítě (viz \autoref{sec:reparametrization_trick}). \cite{Kingma2019}
 
 \newpage
 \subsection{Notace}
+V souladu s \textcite{Kingma2019} je pro text této kapitoly využito následující notace:
 \begin{itemize}
-    \item $X = \{ x^{(i)} \}^N_{i=1}$: Dataset sestavený z $N$ i. i. d. \footnote{Independent and identically distributed, nezávisle a rovnoměrně rozdělené náhodné veličiny.} vzorků nějaké spojité či diskrétní proměnné $x$. 
-    Předpokládáme, že tato data byla vygenerována nějakým náhodným procesem, jenž zahrnuje pozorování spojité náhodné proměnné $z$.
+    \item $X = \{ x^{(i)} \}^N_{i=1}$: Dataset sestavený z $N$ vzorků nezávisle a rovnoměrně rozdělené náhodné veličiny nějaké spojité či diskrétní proměnné $x$. 
+    Předpokládáme, že tato data byla vygenerována nějakým náhodným procesem, jenž zahrnuje pozorování $z$.
     \item $z$: Latentní proměnná (latentní reprezentace), kód.
     \item $p_\theta(z)$: Apriorní rozdělení s parametry $\theta$. Jeho hustota pravděpodobnosti je diferenciovatelná s ohledem na $\theta$ a $z$.
     \item $p_\theta(x|z)$: Podmíněné rozdělení s parametry $\theta$. Jeho hustota pravděpodobnosti je diferenciovatelná s ohledem na $\theta$ a $z$.
-    \item Proces náhodného generování dat: Zahrnuje pozorování $z$. Skládá se ze dvou kroků: (1) hodnota $z^{(i)}$ je vygenerována z $p_\theta(z)$; (2) hodnota $x^{(i)}$ je generována z $P_\theta(x|z)$.
-    \item $q_\phi(z|x)$: \emph{Recognition model} (viz \autoref{sec:vae_encoder}). Probabilistický enkodér. Na základě datového bodu $x$ produkuje rozdělení pravděpodobnosti skrze možné hodnoty kódu $z$, které jej mohly generovat. Aproximace původního \emph{intractable} podmíněného posteriorního rozdělení $p_\theta(z|x)$.
-    \item $p_\theta(x|z)$: Probabilistický dekodér (\autoref{sec:vae_decoder}). Na základě kódu $z$ produkuje rozdělení pravděpodobnosti skrze možné hodnoty korespondující s $x$. Jeho využití je generování nových vzorků dat (viz \autoref{sec:vae_generating_new_data}).
+    \item Proces náhodného generování dat: Zahrnuje pozorování $z$. Skládá se ze dvou kroků: 
+    \begin{itemize}
+        \item hodnota $z^{(i)}$ je vygenerována z $p_\theta(z)$
+        \item hodnota $x^{(i)}$ je generována z $P_\theta(x|z)$
+    \end{itemize}
+    \item $q_\phi(z|x)$: Probabilistický enkodér (\autoref{sec:vae_encoder}). Na základě datového bodu $x$ produkuje rozdělení pravděpodobnosti skrze možné hodnoty kódu $z$, které jej mohly generovat. Aproximace původního \emph{intractable} podmíněného posteriorního rozdělení $p_\theta(z|x)$.
+    \item $p_\theta(x|z)$: Probabilistický dekodér (\autoref{sec:vae_decoder}). Na základě kódu $z$ produkuje rozdělení pravděpodobnosti skrze možné hodnoty korespondující s $x$. Jeho využití je generování nových vzorků dat. 
     \item $p_\theta(x, z) = p_\theta(z) p_\theta(x|z)$: Generativní model, ze kterého provádíme vzorkování a snažíme se o odhad jeho marginální věrohodnosti.
 \end{itemize}
-
 \section{Vymezení problémové oblasti}
 Při řešení \autoref{eq:maximum_likelihood} nastávají tři problémy:
 \begin{enumerate}
     \item Jakým způsobem definovat latentní proměnné $z$. Tedy určit jakou informaci budou reprezentovat.
-    \item \emph{Intractability}, aneb jak vyřešit integrál skrze $z$. \cite[Sekce 2.1.]{Kingma2014}
+    \item \emph{Intractability}, aneb jak vyřešit integrál skrze $z$ v přijatelném čase. \cite[Sekce 2.1.]{Kingma2014}
     \item Velikost datasetu. Provádět dávkovou optimalizaci skrze všechny datové body je příliš drahá operace. Jak dosáhnout parametrických úprav jednotlivých datových bodů \footnote{Případně \emph{minibatch} dávek.} pomocí metod vzorkování.
 \end{enumerate}
 
 Na první problém reaguje \autoref{sec:vae_latent_variable}.
 Na druhý problém reaguje \autoref{sec:vae_optimization}. A nákladnost dávkových operací řeší \autoref{sec:reparametrization_trick}.
-VAE tedy nabízí definitivní všech představených problémů \autoref{eq:maximum_likelihood}. 
+VAE tedy nabízí definitivní řešení všech představených problémů \autoref{eq:maximum_likelihood}. 
 
 \subsection{Volba latentních proměnných dle typu reprezentace informace}
 \label{sec:vae_latent_variable}
@@ -107,8 +112,7 @@ Jak zvolit latentní proměnné $z$ které správně zachytí latentní informac
 
 Před tím, než model vůbec začne generovat nový vzorek dat (například obrázek ručně psané číslice 0-9) musí provést řadu komplexních rozhodnutí.
 Volbu samotné číslice, úhel jejího sklonu, tloušťku tahu a celou řadu dalších stylistických vlastností.
-Mezi těmito vlastnosti pochopitelně existují korelace, které model musí rovněž zohlednit
-\footnote{Např. číslice napsané v rychlosti budou mít typicky vyšší úhel sklonu, ale menší tloušťku tahu.}.
+Mezi těmito vlastnosti pochopitelně existují korelace, které model musí rovněž zohlednit. \footnote{Např. číslice napsané v rychlosti budou mít typicky vyšší úhel sklonu, ale menší tloušťku tahu.}
 Je tedy zřejmé, že se chceme vyhnout jakémukoliv explicitnímu zahrnutí těchto vlastností do naučeného modelu.
 To znamená, že nečiníme explicitní rozhodnutí o tom, jaké dimenze $z$ kódují jakou vlastnost dat
 \footnote{Byť určité rozšířené architektury využívají explicitní volby \emph{určitých} dimenzí $z$ – např. \cite{Kulkarni2015}.}.
@@ -116,7 +120,7 @@ Stejně tak se chceme vyhnout jakémukoliv explicitnímu popisu závislostí mez
 
 VAE volí unikátní přístup k řešení výše zmíněných omezení. \textbf{VAE předpokládá, že neexistuje žádná triviální interpretace dimenzí $z$, ale raději usuzuje, že $z$ lze vzorkovat z jednoduchého rozdělení pravděpodobnosti $\mathcal{N}(0, I)$}, kde $I$ je jednotková matice. \cite{Doersch2021}
 
-Jak vzorkovat $z$ z rozdělení pravděpodobnosti $\mathcal{N}(0, I)$?
+Nabízí se tedy otázka, jak vzorkovat $z$ z rozdělení pravděpodobnosti $\mathcal{N}(0, I)$?
 
 Libovolné rozdělení pravděpodobnosti s $d$ dimenzemi lze generovat množinou o velikosti $d$ proměnných, které mají normální rozdělení a jejich následném mapování skrze dostatečně komplexní funkci
 \footnote{Pro detailní popis generování rozdělení o $d$ dimenzích odkazuji na \emph{inversion method} popsanou v \cite{Devroye1986}.}.
@@ -129,17 +133,17 @@ Deterministická funkce $g$ naučená ze vstupních dat je naprosto stejná \tex
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{img/latent_variable_ring_structure.png}
     \caption{Máme-li náhodnou proměnnou $z$ s nějakým rozdělením pravděpodobnosti, můžeme z ní vytvořit zcela novou náhodnou proměnnou $X = g(z)$ s kompletně jiným rozdělením.}
-    Levý obrázek zachycuje vzorky z Gaussova rozdělení. Pravý obrázek zachycuje ty stejné vzorky mapované skrze funkci $g(z) = \frac{z}{10} + \frac{z}{\| z \|}$.
+    Levý obrázek zachycuje vzorky z Gaussova rozdělení, které můžeme vzít za $z$. Pravý obrázek zachycuje ty stejné vzorky mapované skrze funkci $g(z) = \frac{z}{10} + \frac{z}{\| z \|}$.
     Obrázek včetně interpretace převzaty z \cite{Doersch2021}.
     \label{fig:latent_variable_ring_structure}
 \end{figure}
 
-Tedy, má-li VAE k dispozici dostatečně silnou aproximační funkci, může se ze vstupních dat jednoduše naučit funkci, která mapuje nezávislé hodnoty $z$ s normálním rozdělením na libovolné latentní proměnné, které jsou pro model potřebné.
+Tedy, \textbf{má-li VAE k dispozici dostatečně silnou aproximační funkci, může se ze vstupních dat jednoduše naučit funkci, která mapuje nezávislé hodnoty $z$ s normálním rozdělením na libovolné latentní proměnné}, které jsou pro model potřebné.
 VAE pak takové latentní proměnné mapuje na $X$.   \cite{Doersch2021}
 
-Připomeňme, že (z \autoref{sec:maximum_likelihood}) $P(X|z;\theta) = \mathcal{N}(X|f(z;\theta), \sigma^2 * I)$.
+Připomeňme, že (z \autoref{sec:maximum_likelihood}) rovnice Gaussova rozdělení je $P(X|z;\theta) = \mathcal{N}(X|f(z;\theta), \sigma^2 * I)$.
 Pokud je $f(z;\theta)$ Vícevrstvý Perceptron (viz \autoref{sec:multilayer_perceptron}), pak si lze intuitivně představit, že jeho umělá neuronová síť využívá svých prvních pár vrstev k mapování normálně rozdělených $z$ na latentní hodnoty (jako např. identita číslice, tloušťka tahu, sklon číslice apod.).
-Pozdější vrstvy této sítě mohou být využity k mapování těchto latentních proměnných na obrázek ručně psané číslice (a to sice zcela nově vygenerovaných z pravděpodobnostního rozdělení, viz \autoref{sec:vae_generating_new_data}).
+Pozdější vrstvy této sítě mohou být využity k mapování těchto latentních proměnných na obrázek ručně psané číslice (a to sice zcela nově vygenerovaných z pravděpodobnostního rozdělení).
 Důležité je, že (obecně) nemusíme řešit zda-li taková latentní struktura ve vstupních datech vůbec existuje.
 Pokud nějaká latentní struktura pomáhá modelu s vysokou mírou přesnosti rekonstruovat (tedy optimalizovat ztrátovou funkci, viz \autoref{sec:vae_optimization}) data z trénovací množiny, pak se umělá neuronová síť tuto strukturu v \emph{nějaké}\footnote{Za předpokladu dostatečně vysoko-kapacitní umělé neuronové sítě.} vrstvě naučí. \cite{Doersch2021}
 

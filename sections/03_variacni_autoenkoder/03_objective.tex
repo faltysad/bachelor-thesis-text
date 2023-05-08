@@ -4,26 +4,11 @@
 Účelovou funkcí VAE je \emph{evidence lower bound}, dále jen ELBO (alternativně se lze setkat s pojmenováním \emph{variační dolní mez}).
 Typicky je ELBO odvozena pomocí Jensenovy nerovnosti \cite[Sekce 4.2]{Wasserman2013}.
 Autoři VAE \cite{Kingma2014} však využívají alternativního postup, jenž se chytře vyhýbá použití Jensenovy nerovnosti a nabízí větší míru \emph{tightness}
-\footnote{Koncept z matematické teorie míry, který lze intuitivně popsat jako \emph{"sadu měr které příliš rychle  do nekonečna"}. \cite{Topsoee1974}}. 
-Pro libovolnou konfiguraci inferenčního modelu $q_\phi(\textbf{z}\mid\textbf{x})$, včetně volby variačních parametrů $\phi$, dostáváme \cite[Rovnice 3]{Kingma2014}:
+\footnote{Koncept z matematické teorie míry, který lze intuitivně popsat jako \emph{"prostor je označen za tight, pokud se prostor neroztahuje neúměrně rychle k rostoucí velikosti vzorku"}. \cite{Topsoee1974}}. 
 
-\begin{equation}
-    \label{eq:vae_elbo}
-    \mathcal{L}(\theta,\phi,x^{(i)}) = \mathds{E}_{q_\phi(z\mid x^{(i)})} \left[ \log p_\theta(x^{(i)}\mid z) \right] - \mathcal{D}_{KL}(q_\phi(z\mid x^{(i)})\parallel p_\theta(z))
-\end{equation}
+\subsection{Odvození rovnice ELBO}
+Postup odvození rovnice ELBO je převzat z monografie \textcite{Kingma2019}, rovnice jsou postupně upraveny za účelem izolování hodnoty ELBO a KL divergence, pro možnost jejich \emph{balancování} při trénovací fázi modelu.
 
-\autoref{eq:vae_elbo} je pro \textbf{variační autoenkodéry naprosto stěžejní} a slouží jako jádro pro jejich optimalizaci
-\footnote{Historicky, matematický aparát \autoref{eq:vae_elbo} byl známý dlouho před formalizací VAE. Například Helmholtz Machines \cite{Dayan1995} využívají defacto identickou rovnici, ale s jedním zásadním rozdílem. Integrál v středních hodnotách VAE je v \cite[Rovnice 5]{Dayan1995} nahrazen sumou, jelikož Helmholtz Machines usuzují diskrétní rozdělení pravděpodobnosti pro latentní proměnné. A přesně tato volba znemožňuje transformaci, kterou VAE využívají k tomu, aby byl gradientní sestup ELBO efektivně řešitelný (tractable). \cite{Doersch2021}}. \cite{Doersch2021}
-Schématické zobrazení \autoref{eq:vae_elbo} nabízí \autoref{fig:vae_schema}.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.41\textwidth]{figures/vae_schema.pdf}
-    \caption{VAE se učí stochastické mapování mezi pozorovaným prostorem $x$, jehož empirické rozdělení pravděpodobnosti $q_\mathcal{D}(x)$ je typicky velmi komplikované, a latentním prostorem $z$, jehož rozdělení pravděpodobnosti je typicky relativně jednoduché (např. kulovité, jako na tomto obrázku). Generativní model se učí rozdělení pravděpodobnosti $p_\theta(x, z)$ (které lze faktorizovat jako $p_\theta(x, z) = p_\theta(z) p_\theta(x\mid z)$), s apriorním rozdělením skrze latentní prostor $p_\theta(z)$, a stochastický dekodér $p_\theta(x\mid z)$. Stochastický enkodér $q_\phi(z\mid x)$ aproximuje původní (ale efektivně neřešitelné) posteriorní rozdělení $p_\theta(z\mid x)$ generativního modelu. Obrázek včetně interpretace převzat z \cite{Kingma2019}.}
-    \label{fig:vae_schema}
-\end{figure}
-
-\subsection{Odvození rovnice}
 \begin{align}
     \log p_\theta(\textbf{x}) &= \mathds{E}_{q\phi(\textbf{z}\mid\textbf{x})}[\log p_\theta(\textbf{x})] \\
                               &= \mathds{E}_{q\phi(\textbf{z}\mid\textbf{x})} \left[ \log \left[ \frac{p_\theta(\textbf{x}, \textbf{z})}{p_\theta(\textbf{z}\mid\textbf{x})} \right] \right] \\
@@ -34,10 +19,10 @@ Schématické zobrazení \autoref{eq:vae_elbo} nabízí \autoref{fig:vae_schema}
 
 Druhý prvek \autoref{eq:elbo_kl} je Kullback-Lieblerova divergence (\autoref{sec:kl_divergence}) mezi $q_\phi(\textbf{z}\mid\textbf{x})$ (enkodérem) a $p_\theta(\textbf{z}\mid\textbf{x})$ (dekodérem), jejíž hodnota je \textbf{nezáporná}
 \footnote{$\mathcal{D}_{KL}(q_\phi(\textbf{z}\mid\textbf{x})\parallel p_\theta(\textbf{z}\mid\textbf{x})) \geq 0$}.
-Je-li hodnota této KL divergence nulová $\iff$ $q_\phi(\textbf{z}\mid\textbf{x})$ je rovno posteriorní distribuci původních dat (\emph{perfektně je rekonstruuje}). \cite{Kingma2019}
+Je-li hodnota této KL divergence nulová, pouze pak platí, že $q_\phi(\textbf{z}\mid\textbf{x})$ je rovno posteriorní distribuci původních dat (\emph{perfektně je rekonstruuje}). \cite{Kingma2019}
 
 
-První prvek \autoref{eq:elbo_kl} je variační dolní mez (ELBO):
+První prvek \autoref{eq:elbo_kl} je variační dolní mez (ELBO), kterou lze přepsat jako:
 
 \begin{equation} \label{eq:elbo}
     \mathcal{L}_{\theta,\phi}(\textbf{x}) = \mathds{E}_{q\phi(\textbf{z}\mid\textbf{x})}[\log p_\theta(\textbf{x},\textbf{z}) - \log q_\phi(\textbf{z}\mid\textbf{x})]
@@ -51,11 +36,32 @@ Dle \autoref{eq:elbo} platí:
                                           &\leq \log p_\theta(\textbf{x})
 \end{align}
 
-V tomto případě tedy pozoruhodně tato KL divergence určuje hned dvě \emph{vzdálenosti} \cite{Kingma2019}:
+Pro libovolnou konfiguraci inferenčního modelu $q_\phi(\textbf{z}\mid\textbf{x})$, včetně volby variačních parametrů $\phi$, dostáváme \cite[Rovnice 3]{Kingma2014}:
+
+\begin{equation}
+    \label{eq:vae_elbo}
+    \mathcal{L}(\theta,\phi,x^{(i)}) = \mathds{E}_{q_\phi(z\mid x^{(i)})} \left[ \log p_\theta(x^{(i)}\mid z) \right] - \mathcal{D}_{KL}(q_\phi(z\mid x^{(i)})\parallel p_\theta(z))
+\end{equation}
+
+\autoref{eq:vae_elbo} je pro \textbf{variační autoenkodéry naprosto stěžejní} a slouží jako jádro pro jejich optimalizaci
+\footnote{Historicky, matematický aparát \autoref{eq:vae_elbo} byl známý dlouho před formalizací VAE. Například Helmholtz Machines \cite{Dayan1995} využívají defacto identickou rovnici, ale s jedním zásadním rozdílem. Integrál v středních hodnotách VAE je v \cite[Rovnice 5]{Dayan1995} nahrazen sumou, jelikož Helmholtz Machines usuzují diskrétní rozdělení pravděpodobnosti pro latentní proměnné. A přesně tato volba znemožňuje transformaci, kterou VAE využívají k tomu, aby byl gradientní sestup ELBO efektivně řešitelný (tractable). \cite{Doersch2021}}. \cite{Doersch2021}
+
+V tomto případě pozoruhodně KL divergence určuje hned dvě \emph{vzdálenosti} \cite{Kingma2019}:
 \begin{enumerate}
     \item KL divergenci aproximace posteriorního rozdělení od původního posteriorního rozdělení (z definice KL divergence)
     \item \emph{Mezeru} mezi ELBO $\mathcal{L}_{\theta,\phi}(\textbf{x})$ a \emph{marginal likelihood} $\log p_\theta(\textbf{x})$. Tuto \emph{mezeru} také nazýváme mírou \emph{tightness} této meze ($\implies$ vyhnutí se použití Jensenově nerovnosti). Čím lépe $q_\phi(\textbf{z}\mid\textbf{x})$ aproximuje $p_\theta(\textbf{z}\mid\textbf{x})$, s ohledem na KL divergenci, tím menší tato \emph{mezera} je.
 \end{enumerate}
+
+Schématické zobrazení \autoref{eq:vae_elbo} nabízí \autoref{fig:vae_schema}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.41\textwidth]{figures/vae_schema.pdf}
+    \caption{VAE se učí stochastické mapování mezi pozorovaným prostorem $x$, jehož empirické rozdělení pravděpodobnosti $q_\mathcal{D}(x)$ je typicky velmi komplikované, a latentním prostorem $z$, jehož rozdělení pravděpodobnosti je typicky relativně jednoduché (např. kulovité, jako na tomto obrázku). Generativní model se učí rozdělení pravděpodobnosti $p_\theta(x, z)$ (které lze faktorizovat jako $p_\theta(x, z) = p_\theta(z) p_\theta(x\mid z)$), s apriorním rozdělením skrze latentní prostor $p_\theta(z)$, a stochastický dekodér $p_\theta(x\mid z)$. Stochastický enkodér $q_\phi(z\mid x)$ aproximuje původní (ale efektivně neřešitelné) posteriorní rozdělení $p_\theta(z\mid x)$ generativního modelu. Obrázek včetně interpretace převzat z \cite{Kingma2019}.}
+    \label{fig:vae_schema}
+\end{figure}
+
+
 
 \subsection{Optimalizační cíle}
 Z \autoref{eq:vae_elbo} plynou důsledky maximalizace ELBO $\mathcal{L_{\theta,\phi}}$ s ohledem na parametry $\boldsymbol{\theta}$ a $\boldsymbol{\phi}$.

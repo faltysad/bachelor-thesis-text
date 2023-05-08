@@ -1,6 +1,6 @@
  \section{Nedostatky a omezení}
 Variační autoenkodér nabízí elegantní a po teoretické stránce uspokojivý přístup, který je jednoduchý na implementaci.
-V oblasti generativního modelování dosahuje excelentních výsledků, ale s ohledem na jeho architekturu přichází i několik podstatných nedostatků.
+V oblasti generativního modelování dosahuje excelentních výsledků, ale s ohledem na jeho architekturu přichází i několik podstatných nedostatků, které nyní budou rozebrány.
 \subsection{Omezení při optimalizaci}
 Nálezy v \cite{Bowman2016}, \cite{Soenderby2016} konzistentně potvrzují, že stochastická optimalizace účelové funkce s neměnnou dolní mezí může uvíznout v nežádoucí rovnováze.
 Při počátku trénování je pravděpodobnostní prvek $\log p(x\mid z)$ relativně slabý, tedy je přípustný stav kdy $q(z \mid x) \approx p(z)$ – což je přesně bod, kdy tato nežádoucí rovnováha nastává a je složité z ní při optimalizaci uniknout.
@@ -15,7 +15,7 @@ která zaručí, že v průměru je v každé latentní proměnné (nebo skupin�
 \subsection{Šum v obrázcích vygenerovaných vzorků}
 \label{sec:vae_bluriness}
 Jednou z hlavních nevýhod variačního autoenkodéru, zejména v kontextu úloh generativního modelování obrazových dat, je fakt, že výstupní vzorky z VAE natrénovaného na obrazových datech mají tendenci být rozostřeny.
-Jednou z možných příčin by mohl být důsledek minimalizace $D_{KL}(p_{data}\parallel p_{model})$ (zjednodušený zápis pro jednoduchost).
+Jednou z možných příčin by mohl být důsledek minimalizace $D_{KL}(p_{data}\parallel p_{model})$ (zjednodušený zápis).
 Takto natrénovaný model přidělí vysokou pravděpodobnost bodům, které jsou součástí trénovací množiny dat, ale i \emph{spoustě} dalších bodů (vzorků, které generuje z naučeného Gaussova rozdělení). A právě tyto vzorky, které nebyly součástí trénovací množiny dat, často obsahují šum a jeví se tak jako rozostřené. \cite{Goodfellow2016}
 
-Přesné příčiny tohoto problému však zatím nejsou známy. Přirozeně tak vzniká celá řada nových, rozšířených architektur variačního autoenkodéru, která svými omezeními tento problém to jisté míry eliminují.
+Přesné příčiny tohoto problému však zatím nejsou známy. Přirozeně tak vzniká celá řada nových, rozšířených architektur variačního autoenkodéru, která svými omezeními tento problém to jisté míry eliminují (například \cite{Sohn2015}).
