@@ -1,0 +1,31 @@
+Hlavním cílem této práce je popsat princip fungování variačního autoenkodéru.
+Avšak ještě před samotným zavedením jeho teoretických aspektů, tato kapitola prezentuje \textbf{motivaci k jeho použití}.
+
+
+\textbf{Variační autoenkodér} (dále jen VAE) je generativní model využívající latentních proměnných.
+
+Generativní modely využívající latentních proměnných umožňují transformaci vstupních dat
+do \emph{jednodušších} a lépe interpretovatelných prostorů\footnote{Tyto prostory se nazývají \emph{latentní} a je jim věnována \autoref{sec:latent_variable_model}.}.
+A tím pádem umožňují taková data lépe prozkoumat a porozumět jim. \cite{Kingma2019}
+
+Na pozorování těchto prostorů jsou založeny aplikace, které tato kapitola prezentuje a je z něj odvozen i název celé práce.
+
+Tato kapitola je zaměřena na ty nejprominentnější aplikace variačního autoenkodéru, které lze rozčlenit do následujících kategorií:
+
+\begin{itemize}
+    \item \textbf{Generativní modelování obrazových dat}: \autoref{sec:applications_generative_modeling}, \autoref{sec:applications_image_resynthesis}, \autoref{sec:applications_image_coloring}, \autoref{sec:applications_image_reconstruction}.
+    \item \textbf{Syntéza přirozeného jazyka}: \autoref{sec:applications_language_synthesis}. 
+    \item \textbf{Syntéza pseudo-dat}: \autoref{sec:applications_chemical_pseudo_data_synthesis} a \autoref{sec:applications_astronomy_pseudo_data_synthesis}.
+\end{itemize}
+
+Jednotlivé sekce pouze \textbf{ilustrují} využití rámce VAE pro konkrétní úlohu dané problémové oblasti a prezentují výsledky dosažené v dostupných publikacích.
+Pro detailní popis architektury využitého modelu a jeho evaluaci jsou v každé sekci odkázány původní publikace.
+
+Způsob realizace a teorii modelu variačního autoenkodéru, použitého pro dosažení těchto výsledků, pak prezentují navazující kapitoly práce.
+Konkrétně:
+\begin{itemize}
+    \item \autoref{chap:prereqs} uvádí východiska variačního autoenkodéru ukotvené v oblasti strojového učení.
+    \item \autoref{chap:autoencoder} popisuje architekturu autoenkodéru, předchůdce variačního autoenkodéru z 80. let.
+    \item \autoref{chap:vae} zavádí a postupně představuje kompletní teorii a principy fungování variačního autoenkodéru.
+    \item \autoref{chap:experiments} implementuje model variačního autoenkodéru pro řešení generativní úlohy obrazových dat MNIST.
+\end{itemize}
