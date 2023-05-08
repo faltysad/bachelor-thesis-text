@@ -1,79 +1,19 @@
-Autoenkodér je typ umělé neuronové sítě se schopností učit se efektivní reprezentace vstupních dat bez učitele
-\footnote{V literatuře se můžeme zřídka setkat s zařazením autoenkodérů \textbf{obecně} do třídy algoritmů částečného učení s učitelem, například \cite[str. 95]{Chollet2017}. S ohledem na formulaci autoenkodéru představenou v této kapitole je přesnější zařadit \textbf{obecnou} architekturu autoenkodérů do třídy algoritmů učení bez učitele. Nutno předeslat, že v architekturách hlubokých autoenkodérů je běžným jevem tzv. \emph{stacked autoenkodér} (viz \autoref{sec:stacked_autoencoder}). V instancích tohoto případu pak jednoznačně \textbf{lze} hovořit o zařazení autoenkodéru do třídy semi-supervizovaného učení. \cite{Bengio2006}, \cite{Ranzato2007}, \cite{Erhan2010}}.
-Umělá neuronová síť autoenkodéru má symetrickou strukturu a skrytou vrstvu $\textbf{\emph{h}}$, která popisuje \emph{kód} použitý pro reprezentaci vstupu.
-Architekturu autoenkodéru (viz \autoref{fig:basic_autoencoder_structure}) lze principiálně rozdělit na dvě části – kódovací funkci $h = f(x)$, resp. \textbf{enkodér}
-a dekódovací funkci $r = g(h)$, resp. \textbf{dekodér}.
-Hovoříme tedy o typu umělé neuronové sítě s \emph{enkodér-dekodér} moduly.
-Výstupem enkodéru je \textbf{kód} vstupu $\emph{h}$. Výstupem dekodéru je \textbf{rekonstrukce} vstupu \emph{r}. \cite{Goodfellow2016}
+Publikace \textcite{Kingma2014} stanovila základ pro model umělé neuronové sítě známý jako \textbf{variační autoenkodér}.
+Variační autoenkodér se řadí mezi základní architektury pro úlohy generativního modelování a nabízí výtečnou výkonnost na široké škále úloh. \cite{Kingma2014, Kingma2019}
 
-\begin{figure}[h]
-    \centering
-    \begin{tikzpicture}[round/.style={circle, draw, minimum size=10mm, node distance=25mm, on grid}]
-        \node[round](h){h};
-        \node[round](x)[below left of=h]{x};
-        \node[round](r)[below right of=h]{r};
-        
-        \draw[-Triangle] (x) -- node [above] {$f$} (h);
-        \draw[-Triangle] (h) -- node [above] {$g$} (r);
-    \end{tikzpicture}
-    \caption{Obecná struktura autoenkodéru. Ze vstupu $\emph{x}$ je enkodérem vytvořen kód $\emph{h}$} (funkce $\emph{f}$). Tento kód je následně dekodérem přetaven na rekonstrukci $\emph{r}$ (funkce $\emph{g}$). Vlastní zpracování dle \textcite{Goodfellow2016}.
-    \label{fig:basic_autoencoder_structure}
-\end{figure}
+Pro představení teoretických aspektů variačního autoenkodéru je však nejprve nutné uvést \textbf{autoenkodér} – architekturu z 80. let,\footnote{Originální publikace dostupná z \cite{Rumelhart1987}.} ze které variační autoenkodér vychází.
 
-Obecnou strukturu (viz \autoref{fig:basic_autoencoder_structure}) lze reprezentovat dopřednou umělou neuronovou sítí.
-Jejím cílem je \textbf{rekonstruovat vstupní data na výstupní vrstvě} (tzv. \emph{unsupervised learning objective}). Počet vstupů je tak totožný s počtem neuronů ve výstupní vrstvě umělé neuronové sítě (tedy $x$ a $r$ mají stejnou dimenzi).
-Kód \emph{h} může mít \emph{menší} či \emph{větší} dimenzi – volba dimenze \emph{h} se odvíjí od požadovaných vlastností autoenkodéru.
-Obecnou architekturu modulů umělé neuronové sítě Autoenkodéru zachycuje \autoref{fig:autoencoder}. \cite{Charte2018}
+Konkrétně se tato kapitola věnuje charakteristikám jeho typů, které jsou postupně rozšířeny až k \textbf{variačnímu autoenkodéru}.
+Představené charakteristiky jsou tím pádem nutně zachyceny ve vlastnostech \textbf{variačního autoenkodéru} a detailněji je popisuje \autoref{chap:vae}.
 
+\autoref{sec:ae_princip} nejprve představuje \textbf{princip fungování autoenkodéru}, který je výchozím bodem pro návrh modelu umělé neuronové sítě variačního autoenkodéru.
 
-\begin{figure}[H]
-    \centering
-    \begin{tikzpicture}
-        \node[trapezium,
-            draw,
-            text=black,
-            trapezium angle=20,
-            trapezium stretches=true,
-            minimum height=2.5cm,
-            minimum width=5cm,
-            rotate=270] (encoder) at (1, 0) {Enkodér};
-        
-        \node[
-            preaction={clip, postaction={draw=black, line width=0.3mm,}},
-            minimum height=5cm,
-            left=of encoder.center,
-        ] (input) at (0, 0) {$\mathbf{x}$};
+\autoref{sec:undercomplete_autoencoder} zavádí \textbf{autoenkodér s neúplnou skrytou vrstvou}, jenž je inspirací pro mechanismus \textbf{komprimované reprezentace vstupných dat}, který je pro variační autoenkodér klíčový.
 
-        \node[
-            preaction={clip, postaction={draw=black, line width=0.3mm,}},
-            minimum height=18.5mm,
-            right=of encoder.north,
-        ] (h)  {$\mathbf{h}$}; 
+\autoref{sec:deep_ae} představuje princip \textbf{hlubokého autoenkodéru}, který je následně při návrhu modelu variačního autoenkodéru popisuje \autoref{chap:experiments}.
 
-        \node[trapezium,
-            draw,
-            text=black,
-            trapezium angle=20,
-            trapezium stretches=true,
-            minimum height=2.5cm,
-            minimum width=5cm,
-            rotate=90] (decoder) at (6, 0) {Dekodér};
+\autoref{sec:sparse_autoencoder}, \autoref{sec:denoising_autoencoder}, \autoref{sec:robust_ae} a \autoref{sec:contractive_autoencoder} prezentují možnosti využití \textbf{regularizace} pro dosažení konkrétní požadované vlastnosti modelu autoenkodéru.
+Byť přesně tyto principy variační autoenkodér nevyužívá, slouží pro \textbf{akcentování důležitosti regularizace}, která je nedílnou součástí trénovací fáze variačního autoenkodéru.
 
-        \node[
-            preaction={clip, postaction={draw=black, line width=0.3mm,}},
-            minimum height=5cm,
-            right=of decoder.center,
-        ] (output) at (7, 0) {$\mathbf{\hat{x}}$};
-
-        \draw[-Triangle] (input) -- (encoder);
-        \draw[-Triangle] (encoder) -- (h);
-        \draw[-Triangle] (h) -- (decoder);
-        \draw[-Triangle] (decoder) -- (output);
-    \end{tikzpicture}
-    \caption{Jednotlivé moduly architektury umělé neuronové sítě autoenkodéru.}
-    \label{fig:autoencoder}
-\end{figure}
-
-Autoenkodér je trénován k rekonstrukci jeho vstupů.
-Pokud by se autoenkodér naučil jednoduše určit $\mathbf{\emph{x}} = g(f(\mathbf{\emph{x}}))$ pro každé $\emph{x}$, získali bychom \emph{identitu}, která není patřičně užitečná.
-Proto je při trénování zavedena řada omezení, jejichž účelem je zabránit možnosti naučení autoenkodéru perfektně kopírovat vstupní data. \cite{Goodfellow2016}
+\autoref{sec:stochastic_autoencoder} pak představuje \textbf{nejdůležitější část této kapitoly} – \textbf{stochastický autoenkodér}, jenž je prekurzorem pro model variačního autoenkodéru a sdílí spoustu nominálních vlastností.
+\newpage
