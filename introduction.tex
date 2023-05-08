@@ -1,10 +1,27 @@
 \chapter*{Úvod}
 \addcontentsline{toc}{chapter}{Úvod}
+Tématem této práce je \emph{Variační autoenkodér a úlohy pozorování v latentním prostoru}.
+Variační autoenkodér je model strojového učení, který představuje inovaci na poli učení bez učitele.
+Jeho architektura kombinuje stochastické enkodér–dekodér moduly a hluboké učení.
+Variační autoenkodér rovněž umožňuje transformovat diskrétní prostor pozorování na spojitý latentní prostor, ze kterého lze následně generovat vzorky, které nebyly součásti trénovací množiny.
+Latentní prostor variačního autoenkodéru vzniká v důsledku interní reprezentace vstupních dat formou latentních proměnných.
+Tyto latentní proměnné uchovávají pouze výrazné rysy vstupních dat a dochází tak k redukci jejich dimenzionality.
+V důsledku toho nalézá variační autoenkodér uplatnění například v širokém spektru úloh generativního modelování.
 
-Introduction is a compulsory part of the bachelor's / diploma thesis. The introduction is an introduction to the topic. It elaborates the chosen topic, briefly puts it into context (there may also be a description of the motivation to write the work) and answers the question why the topic was chosen. It puts the topic into context and justifies its necessity and the topicality of the solution. It contains an explicit goal of the work. The text of the thesis goal is identical with the text that is given in the bachelor's thesis assignment, ie with the text that is given in the InSIS system and which is also given in the Abstract section.
+Za průkopnickou publikaci variačního autoenkodéru je považováno dílo \textcite{Kingma2014}.
+Publikované výsledky vynesly variační autoenkodér na popředí v oblasti generativního modelování.
+S tím se pojí vývoj nových technik a rozšíření variačního autoenkodéru.
+Ty často řeší jeho konkrétní limitaci a nebo navrhují jeho originální využití.
+Mezi nejrozšířenější navazující práci patří \textcite{Sohn2015}.
 
-Part of the introduction is also a brief introduction to the process of processing the work (a separate part of the actual text of the work is devoted to the method of processing). The introduction may also include a description of the motivation to write the work.
+Hlavním cílem této práce je \textbf{představit teorii variačního autoenkodéru a zmapovat aktuální stav poznání v oblasti}.
+Dále si práce klade za cíl \textbf{představit možné aplikace variačního autoenkodéru ve vybraných problémových oblastech} a \textbf{demonstrovat využití variačního autoenkodéru formou implementace ilustrační úlohy generativního modelování obrazových dat}.
+Pro naplnění cílů je čerpáno z rešerše literatury k problematice variačního autoenkodéru, která vychází především z originální publikace \textcite{Kingma2014} a navazující monografie \textcite{Kingma2019} a jimi uvedených bibliografických zdrojů.
 
-The introduction to the diploma thesis must be more elaborate - this is stated in more detail in the Requirements of the diploma thesis within the Intranet for FIS students.
+Motivací pro zpracování cílů je aktuálnost problematiky variačního autoenkodéru, autorovo přesvědčení o správnosti využití modelu variačního autoenkodéru k tvorbě sémanticky významných latentních prostorů a univerzálnost aplikovatelnosti modelu variačního autoenkodéru na úlohy pozorování v latentním prostoru.
 
-Here are some sample chapters that recommend how a bachelor's / master's thesis should be set. They primarily describe the use of the \LaTeX{} template, but general advice will also serve users of other systems well.
+Primárním omezením pro naplnění cílů práce je datum originální publikace a s ním spojená omezená míra probádání problematiky variačního autoenkodéru, kdy sami autoři přiznávají řadu nedostatků bez známé příčiny \cite{Kingma2019}.
+Další omezení pak představuje nízký počet netriviálních aplikací variačního autoenkodéru na úlohy pozorování v latentním prostoru.
+
+Předpokladem pro čtenáře je znalost matematického aparátu na úrovni bakalářského kurzu matematické analýzy a statistiky.
+Výhodou je pak znalost základních principů strojového učení.
