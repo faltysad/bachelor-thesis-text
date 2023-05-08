@@ -1,17 +1,12 @@
 \subsection{Autoenkodér s neúplnou skrytou vrstvou}
 \label{sec:undercomplete_autoencoder}
-Autoenkodér s neúplnou skrytou vrstvou (\emph{undercomplete autoencoder}) je autoenkodér, jehož dimenze kódu (\emph{h}) je menší, než dimenze vstupu.
-Tuto skrytou vrstvu \emph{h} nazýváme \textbf{bottleneck}. Bottleneck je způsob, kterým se autoenkodér s neúplnou skrytou vrstvou učí \textbf{kompresované reprezentaci znalostí}. 
-V důsledku bottleneck vrstvy je autoenkodér nucen zachytit pouze salientní vlastnosti trénovacích dat, které následně budou použity pro rekonstrukci. \cite{Goodfellow2016}
+Autoenkodér s neúplnou skrytou vrstvou (\emph{undercomplete autoencoder}) je autoenkodér, jehož dimenze kódu (\emph{h}) je menší, než dimenze vstupu
+\footnote{Naopak autoenkodér, jehož počet neuronů ve skryté vrstvě je větší, než počet neuronů vstupní (a výstupní) vrstvy se nazývá \textbf{autoenkodér s rozšířenou skrytou vrstvou}. \cite{Charte2018}}.
+Tuto skrytou vrstvu \emph{h} nazýváme \textbf{bottleneck}. Bottleneck je způsob, kterým se autoenkodér s neúplnou skrytou vrstvou učí \textbf{komprimované reprezentaci znalostí}. 
+V důsledku bottleneck vrstvy je autoenkodér nucen zachytit pouze výrazné rysy trénovacích dat, které následně budou použity pro rekonstrukci. \cite{Goodfellow2016}
 
-Trénovací proces autoenkodéru s neúplnou skrytou vrstvou je popsán jako minimalizace ztrátové funkce:
-
-\begin{equation}
-    \mathcal{L}(\mathbf{x}, g(f(\mathbf{x}))),
-\end{equation}
-
-kde $\mathcal{L}$ je ztrátová funkce, penalizující $g(f(\mathbf{x}))$ za \emph{rozdílnost} vůči $\mathbf{x}$ (např. \emph{střední kvadratická chyba}). \cite{Charte2018}
-
+Trénovací proces autoenkodéru s neúplnou skrytou vrstvou je popsán jako minimalizace ztrátové funkce $\mathcal{L}(\mathbf{x}, g(f(\mathbf{x})))$,
+kde ztrátová funkce $\mathcal{L}$, penalizuje $g(f(\mathbf{x}))$ za \emph{rozdílnost} vůči $\mathbf{x}$ (např. \emph{střední kvadratickou chybou}). \cite{Charte2018}
 
 \begin{figure}[H]
     \centering

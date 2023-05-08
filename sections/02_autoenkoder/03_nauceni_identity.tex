@@ -1,11 +1,11 @@
 \section{Problém s naučením pouhého identického zobrazení}
 \label{sec:identity}
-Extrémním případem je teoretický scénář, ve kterém je Autoenkodér složen z kódu (\emph{h}) o jedné vrstvě a velmi výkonného enkodéru.
-Takový Autoenkodér by se mohl naučit reprezentovat každý vstup $x_i$ kódem \emph{i}.
+Extrémním případem je teoretický scénář, ve kterém je autoenkodér složen z kódu (\emph{h}) o jedné vrstvě a velmi výkonného enkodéru.
+Takový autoenkodér by se mohl naučit reprezentovat každý vstup $x_i$ kódem \emph{i}.
 Dekodér by se pak tyto indexy mohl naučit mapovat zpátky na hodnoty konkrétních trénovacích vzorků dat.
 Tento příklad se v praxi běžně nenaskytne, nicméně jasně ilustruje,
-jak může Autoenkodér při úloze kopírování vstupu na výstupní vrstvu selhat naučit se užitečné vlastnosti o vstupních datech, jsou-li restrikce při učení příliš nízké. \cite{Goodfellow2016}
+jak může autoenkodér při úloze kopírování vstupu na výstupní vrstvu selhat při snaze naučit se užitečné vlastnosti o vstupních datech, jsou-li restrikce při učení příliš nízké. \cite{Goodfellow2016}
 
 Proto je nutné \textbf{autoenkodéry regularizovat} (viz \autoref{sec:regularization}).
 
-V dalších sekcích (\autoref{sec:sparse_autoencoder} - \autoref{sec:contractive_autoencoder}) jsou tedy představeny přístupy k architekturám Autoenkodérů \textbf{s využitím regularizace}.
+V dalších sekcích (\autoref{sec:sparse_autoencoder} - \autoref{sec:contractive_autoencoder}) jsou tedy představeny přístupy k architekturám autoenkodérů \textbf{s využitím regularizace}.

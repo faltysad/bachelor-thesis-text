@@ -18,21 +18,21 @@ Modifikací základní struktury autoenkodéru (\autoref{fig:basic_autoencoder_s
         \draw[-Triangle] (x) -- node [left] {$p_{enkodér}(\textbf{\emph{h}}\mid\textbf{\emph{x}})$} (h);
         \draw[-Triangle] (h) -- node [right] {$p_{dekodér}(\textbf{\emph{x}}\mid\textbf{\emph{h}})$} (r);
     \end{tikzpicture}
-    \caption{Obecná struktura Autoenkodéru. Ze vstupu $\emph{x}$ je enkodérem vytvořen kód $\emph{h}$} (funkce $\emph{f}$). Tento kód je následně dekodérem přetaven na rekonstrukci $\emph{r}$ (funkce $\emph{g}$).
+    \caption{Obecná struktura autoenkodéru. Ze vstupu $\emph{x}$ je enkodérem vytvořen kód $\emph{h}$} (funkce $\emph{f}$). Tento kód je následně dekodérem přetaven na rekonstrukci $\emph{r}$ (funkce $\emph{g}$). Vlastní zpracování dle \textcite{Goodfellow2016}.
     \label{fig:stochastic_autoencoder_structure}
 \end{figure}
 
 
-V tradiční dopředné umělé neuronové síti \autoref{sec:feedforward_nn} je běžnou strategií pro návrh výstupní vrstvy definování (\emph{výstupního}) rozdělení pravděpodobnosti $p(\textbf{\emph{y}} \mid \textbf{\emph{x}})$. Pro návrh ztrátové funkce pak minimalizace záporného logaritmu věrohodnosti $-\log p(\textbf{\emph{y}}\mid\textbf{\emph{x}})$.
+V tradiční dopředné umělé neuronové síti \autoref{sec:feedforward_nn} je běžnou strategií pro návrh výstupní vrstvy definování (\emph{výstupního}) rozdělení pravděpodobnosti $p(\textbf{\emph{y}} \mid \textbf{\emph{x}})$. Pro návrh ztrátové funkce pak minimalizace záporného logaritmu věrohodnosti: $-\log p(\textbf{\emph{y}}\mid\textbf{\emph{x}})$.
 V takové architektuře je $\textbf{\emph{x}}$ vektor vstupních dat a  $\textbf{\emph{y}}$ vektor cílových proměnných, které se umělá neuronová síť snaží předpovědět (např. štítků jednotlivých tříd). \cite{Goodfellow2016}
 
 S architekturou autoenkodérů se však pojí jeden zásadní rozdíl. V autoenkodéru \textbf{je $\textbf{\emph{x}}$ jak vstupní, tak cílová proměnná}.
 
 Dekodér pak lze interpretovat jako modul poskytující podmíněné rozdělení $p_{dekodér}(\textbf{\emph{x}} \mid \textbf{\emph{h}})$.
-Autoenkodér lze trénovat minimalizací $-\log p_{dekodér}(\textbf{\emph{x}} \mid \textbf{\emph{h}})$.
+Autoenkodér lze trénovat minimalizací: $-\log p_{dekodér}(\textbf{\emph{x}} \mid \textbf{\emph{h}})$.
 Konkrétní podoba ztrátové funkce se odvíjí od požadovaných vlastností autoenkodéru a od přesné podoby modulu dekodéru
 (pokud hodnoty $\textbf{\emph{x}} \in \mathbb{R}$, pak jsou pro parametrizaci normálního rozdělení použity linéarní výstupní jednotky,
-tedy $-\log p_{dekodér}(\textbf{\emph{x}} \mid \textbf{\emph{h}})$ vrací \emph{střední kvadtratickou chybu}).
+tedy: $-\log p_{dekodér}(\textbf{\emph{x}} \mid \textbf{\emph{h}})$ vrací \emph{střední kvadtratickou chybu}).
 
 Stochastický autoenkodér tedy \textbf{generalizuje kódovací funkci} $f(x)$ na \textbf{kódovací rozdělení pravděpodobnosti} $p_{enkodér}(\textbf{\emph{h}}\mid\textbf{\emph{x}})$.
 
@@ -49,4 +49,6 @@ a \textbf{stochastický dekodér} následovně \cite{Goodfellow2016}:
     p_{dekodér}(\textbf{\emph{x}}\mid\textbf{\emph{h}}) = p_{model}(\textbf{\emph{x}}, \textbf{\emph{h}})
 \end{equation}
 
-Výběr nových dat z rozdělení pravděpodobnosti autoenkodéru je detailněji představuje \autoref{chap:vae}.
+Jak je popsáno v \autoref{chap:vae}, \textbf{stochastický autoenkodér se svým enkodér a dekodér modulem přibližuje k principu variačního autoenkodéru}.
+Jedná se tedy o jakéhosi předchůdce variačního autoenkodéru, a řada představených principů platí i pro model variačního autoenkodéru. Nicméně stále existují vlastnosti, které zmiňuje \autoref{chap:vae}, kterých stochastický autoenkodér nenabývá.
+Toto představuje nutnost pro zavedený autoenkodéru se spojitým latentním prostorem a stochastickými enkodér dekodér moduly, který nazýváme \textbf{variační autoenkodér} a detailně jej popisuje \autoref{chap:vae}.

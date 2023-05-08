@@ -1,5 +1,7 @@
 Bylo představeno několik tříd autoenkodérů (rozdělení dle navržení umělé neuronové sítě, rozdělení dle regularizačního prvku) a následně popsáno několik dalších druhů autoenkodérů.
 
+Autoenkodéry lze dle jejich \textbf{zpracovaní a reprezentace skryté vrstvy} rozdělit do několika skupin:
+
 \autoref{fig:autoencoder_taxonomy} nabízí jejich (nevyčerpávající) taxonomii. Autoenkodéry jsou zde rozděleny podle představených charakteristik jejich reprezentace a zpracování skryté vrstvy.
 
 \tikzset{
@@ -48,3 +50,5 @@ Bylo představeno několik tříd autoenkodérů (rozdělení dle navržení um�
 	\caption{Taxonomie autoenkodérů dle stanovených kritérií.}
 	\label{fig:autoencoder_taxonomy}
 \end{figure}
+
+Speciální pozor je nutné věnovat \textbf{podobě ztrátové funkce $\mathcal{L}$} jednotlivých autoenkodéru, která se mění na základě požadovaných vlastností modelu a udává rozdíly mezi jednotlivými typy autoenkodérů.

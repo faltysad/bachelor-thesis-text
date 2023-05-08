@@ -24,3 +24,6 @@ Výsledkem je tedy Autoenkodér, jehož dva (lokálně) \emph{podobné} vstupy m
 Z contractive autoenkodéru lze rovněž vzorkovat nové výstupy.
 Jakobián (\emph{Jacobiho determinant}) enkodéru je (jako \emph{drobný šum}) přičten ke kódu vstupu.
 Takto modifikovaný kód je poté dekodérem přetaven na výstup a dostáváme nový vzorek dat. \cite{Goodfellow2016}
+
+Tento princip se začíná podobat fungování vzorkování ve variačním autoenkodéru, kde je rovněž možné (byť z jiného důvodu) vzorkovat data, která nebyla součástí trénovací množiny.
+Vzorkování z modelu variačního autoenkodéru popisuje \autoref{chap:vae} a implementuje \autoref{chap:experiments}.

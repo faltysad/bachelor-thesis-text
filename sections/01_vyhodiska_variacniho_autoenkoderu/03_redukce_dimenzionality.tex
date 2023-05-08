@@ -4,11 +4,11 @@
 Do oblasti redukce dimenzionality patří celá řada technik pro práci s vysokodimenzionálními daty.
 Cílem této oblasti je porozumět tvaru dat, se kterými pracuje.
 Typickou úlohou redukce dimenzionality dat je sestrojit \textbf{nízkodimenzionální reprezentaci}, která zachytí \emph{většinu významu} původní, vysokodimenzionální, reprezentace.
-Tento jev nazýváme hledáním \textbf{salientních vlastností} původní sady dat. \cite{Phillips2021}
+Tento jev nazýváme hledáním \textbf{výrazných rysů} původní sady dat. \cite{Phillips2021}
 
 Redukci dimenzionality lze chápat jako úlohu učení bez učitele, ve které se algoritmus strojového učení učí mapování z vysokodimenzionálního prostoru $\textbf{\emph{x}} \in \mathbb{R}^D$ do nízkodimenzionálního latentního prostoru $\textbf{\emph{z}} \in \mathbb{R}^L$. \cite{Murphy2022}
 
-Princip redukce dimenzionality je pro zavedení variačního autoenkodéru velice důležitý, jelikož enkodér modul variačního autoenkodéru je nucen redukovat dimenzionalitu vstupních dat, a ponechat tak pouze nositele salientních vlastností. Tento proces detailněji popisuje \autoref{sec:vae_encoder}.
+Princip redukce dimenzionality je pro zavedení variačního autoenkodéru velice důležitý, jelikož enkodér modul variačního autoenkodéru je nucen redukovat dimenzionalitu vstupních dat, a ponechat tak pouze nositele výrazných rysů. Tento proces detailněji popisuje \autoref{sec:vae_encoder}.
 
 \subsection{The curse of dimensionality}
 S rostoucím počtem vstupních proměnných exponenciálně roste počet vzorků dat nutný pro \emph{libovolně přesnou} aproximaci dané funkce.

@@ -1,8 +1,8 @@
 \section{Motivace vzniku}
 Vícevrstvý Perceptron (viz \autoref{sec:multilayer_perceptron})
 je univerzálním aproximátorem – tedy historicky nalézá uplatnění zejména v klasifikačních úlohách učení s učitelem.
-Sofistikovaný algoritmus se schopností trénování Vícevrstvého Perceptronu s větším počtem skrytých vrstev stále schází, a to zejména v důsledku problému mizejícího gradientu\footnote{Vanishing gradient problem} \cite{Hochreiter1998}.
-Až příchod algoritmu gradientního sestupu, který adresuje problém mizejícího gradientu v aplikacích konvolučních sítí \cite{LeCun1989} (a později i úloh učení bez učitele) značí počátek moderních metod hlubokého učení.
+Sofistikovaný algoritmus se schopností trénování Vícevrstvého Perceptronu s větším počtem skrytých vrstev stále schází, a to zejména v důsledku problému mizejícího gradientu\footnote{Problém mizejícího gradientu (\emph{vanishing gradient problem} nastává když je umělá neuronová síť trénována nějakou gradientní metodou, a při každé iteraci trénovacího kroku obdrží váhy neuronové sítě aktualizovanou hodnotu vah, která je příliš malá na to, aby způsobila aktivaci neuronů. Od tud mizející gradient. \cite{Hochreiter1998}} \cite{Hochreiter1998}.
+Až příchod algoritmu gradientního sestupu, jenž řeší problém mizejícího gradientu v aplikacích konvolučních sítí \cite{LeCun1989} (a později i úloh učení bez učitele) značí počátek moderních metod hlubokého učení.
 V oblasti hlubokého učení tak přirozeně dochází k emergenci a vývoji řady technik pro řešení úloh učení bez učitele.
 V této kapitole je popsána pouze jedna z nich – architektura umělé neuronové sítě založené na \emph{enkodér-dekodér} modulech: \textbf{autoenkodér}.
 Autoenkodéry byly poprvé představeny jako způsob pro předtrénování umělých neuronových sítí formou automatizované extrakce vlastností (viz \autoref{sec:feature_extraction}). 

@@ -4,7 +4,7 @@
 Motivací pro řídkou reprezentaci dat ve strojovém učení je napodobení chování buněk v primární zrakové oblasti (\emph{V1}) mozku savců.
 Konkrétně schopnosti odhalit a uložit efektivní kódovací strategie pozorovaných vjemů. \cite{Olshausen1997}
 
-Pro sestrojení Řídkého autoenkodérů je tedy nutné představit omezení (regularizační prvek) hodnot aktivací neuronů ve skryté (kódovací) vrstvě $\textbf{\emph{h}}$ (resp. počtu aktivních neuronů ve skrýte vrstvě).
+Pro sestrojení Řídkého autoenkodérů je tedy nutné představit omezení (regularizační prvek) hodnot aktivací neuronů v kódovací vrstvě $\textbf{\emph{h}}$ (resp. počtu aktivních neuronů ve skrýte vrstvě).
 
 Řídký autoenkodér (\emph{sparse autoencoder}) je autoenkodér, jehož ztrátová funkce je rozšířena o penalizaci řídkosti kódovací vrstvy $\textbf{\emph{h}}$ (tzv. \emph{sparsity penalty}) vztahem $\Omega(\textbf{\emph{h}})$:
 
@@ -15,17 +15,17 @@ Pro sestrojení Řídkého autoenkodérů je tedy nutné představit omezení (r
 kde $\Omega$ je \textbf{regularizační prvek}, jehož cílem je přiblížit hodnoty aktivací neuronů kódovací vrstvy k cílové hodnotě (a zabránit přeučení).
 Chceme tak penalizovat neurony kódovací vrstvy, které se aktivují příliš často. \cite{Goodfellow2016}
 
-Běžně lze $\Omega$ stanovit následovně. Mějme Bernoulliho náhodnou proměnou $\emph{i}$ modelující aktivace neuronů skryté (kódovací) vrstvy – můžou tedy nastat dva stavy: neuron skryté vrstvy je buď aktivován, nebo není aktivován.
+Běžně lze $\Omega$ stanovit následovně. Mějme Bernoulliho náhodnou proměnou $\emph{i}$ (viz \textcite{Goodfellow2016}) modelující aktivace neuronů kódovací  vrstvy – můžou tedy nastat dva stavy: neuron kódovací vrstvy je buď aktivován, nebo není aktivován.
 Pro konkrétní vstup $\emph{x}$ dostaneme:
 
 \begin{equation}
     \hat{p_i} = \frac{1}{|S|}\sum_{x \in S}^{}f_i(x),
 \end{equation}
 
-kde $ f = (f_1, f_2, \dots, f_c)$, $c$ je počet neuronů skryté (kódovací) vrstvy a $\hat{p_i}$ je průměrná aktivační hodnota neuronu skryté vrstvy (resp. střední hodnota příslušného Bernoulliho schématu). \cite{Charte2018}
+kde $ f = (f_1, f_2, \dots, f_c)$, $c$ je počet neuronů kódovací  vrstvy, $\hat{p_i}$ je průměrná aktivační hodnota neuronu kódovací vrstvy (resp. střední hodnota příslušného Bernoulliho schématu) a $S$ je množina trénovacích dat. \cite{Charte2018}
 
-Dále mějme $p$ jako cílové rozdělení aktivací.
-Kullback-Leibnerova divergence mezi náhodnou proměnnou $i$ a $p$ pak udává rozdíl obou rozdělení:
+Dále mějme $p$ jako cílové rozdělení aktivací neuronů kódovací vrstvy.
+Kullback-Leibnerova divergence mezi náhodnou proměnnou $i$ a $\hat{p_i}$ pak udává rozdíl obou rozdělení:
 
 \begin{equation}
     KL(p \parallel \hat{p_i}) = p \log \frac{p}{\hat{p_i}} + (1 - p) \log \frac{1 - p}{1 - \hat{p_i}}.
@@ -33,10 +33,10 @@ Kullback-Leibnerova divergence mezi náhodnou proměnnou $i$ a $p$ pak udává r
 
 Výsledný penalizační prvek $\Omega$ pro Řídký autoenkodér má tedy následující podobu:
 \begin{equation}
-    \Omega_{ŘAE}(W, b; S) = \sum_{i=1}^{c}KL(p \parallel \hat{p_i}),
+    \Omega_{SAE}(W, b, S) = \sum_{i=1}^{c}KL(p \parallel \hat{p_i}),
 \end{equation}
 
 kde průměrná hodnota aktivací $\hat{p_i}$ závisí na parametrech enkodéru a množině trénovacích dat $S$. \cite{Charte2018}
 
-Přičtením tohoto penalizačního prvku ke ztrátové funkci (a následnou minimalizací celkové ztrátové funkce) je autoenkodér nucen \textbf{omezit počet aktivních neuronů v skrýté (kódovací) vrstvě}.
-V důsledku tohoto omezení pak každý neuron skryté vrstvy reprezentuje nějakou \textbf{salientní vlastnost} vstupních dat (a rovněž je zamezeno naučení pouhé identity, viz \autoref{sec:identity}). \cite{Goodfellow2016}
+Přičtením tohoto penalizačního prvku ke ztrátové funkci (a následnou minimalizací celkové ztrátové funkce) je autoenkodér nucen \textbf{omezit počet aktivních neuronů v kódovací vrstvě}.
+V důsledku tohoto omezení pak každý neuron kódovací vrstvy reprezentuje nějaký \textbf{výrazný rys} vstupních dat (a rovněž je zamezeno naučení pouhé identity, viz \autoref{sec:identity}). \cite{Goodfellow2016}
