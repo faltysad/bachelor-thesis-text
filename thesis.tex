@@ -55,14 +55,17 @@
 %%% Nepovinné poděkování (vedoucímu práce, konzultantovi, tomu, kdo zapůjčil software, literaturu apod.)
 %%% Optional thanks (the supervisor, the consultant, the borrower of software, literature, etc.)
 \def\Podekovani{%
-Thanks.
+Rád bych poděkoval Ing. Ondřeji Vadinskému, Ph.D. za jeho čas, odbornou pomoc a velmi cennou zpětnou vazbu, kterou mi během psaní této bakalářské práce ochotně poskytl.
 }
 
 %%% Abstract (recommended range of about 150-250 words; this is not a thesis assignment)
 \def\Abstrakt{%
-Jedním z~předních rysů lidské inteligence je intuice a schopnost představovat si nové objekty. Variační autoenkodér je inovací na poli pravděpodobnostních modelů, umožňující architekturu modelů schopných syntézy zcela nových dat s~využitím pozorování atributů v~latentním prostoru. Teoretická charakteristika a možnosti využití variačního autoenkodéru jsou předmětem této bakalářské práce.
+Variační autoenkodér představuje inovaci na poli strojového učení bez učitele.
+Jeho architektura kombinuje stochastické enkodér–dekodér moduly a hluboké učení.
+V důsledku interní reprezentace vstupních dat formou latentních proměnných je formován latentní prostor modelu.
+Trénováním modelu variačního autoenkodéru jsou v jeho latentním prostoru formovány struktury nesoucí sémantický význam vstupních dat. Modelem variačního autoenkodéru jsou navíc zachyceny pouze výrazné rysy vstupních dat a dochází tak k redukci jejich dimenzionality. Variační autoenkodér nalézá uplatnění v širokém spektru úloh generativního modelování a je schopen syntézy zcela nových dat. Práce se zabývá představením teorie variačního autoenkodéru a zmapování jeho aktuálního stavu poznání. Dále jsou v práci představeny možné  aplikace variačního autoenkodéru ve vybraných problémových oblastech a jeho využití je demonstrováno praktickou implementací ilustrační úlohy generativního modelování obrazových dat.
 }
-\def\KlicovaSlova{keyword, important term, another topic, and another one}
+\def\KlicovaSlova{variační autoenkodér, latentní prostor, generativní modelování, strojové učení}
 
 
 %%% Titulní strana a různé povinné informativní strany
@@ -79,17 +82,17 @@ Jedním z~předních rysů lidské inteligence je intuice a schopnost představo
 %%% List of figures in the thesis
 \openright
 \listoffigures
-Note: Add a list of figures if the number of figures in the thesis text exceeds 20. A~list of diagrams is applicable only if the author distinguishes between a figure and a diagram. The list of diagrams is included if the number of diagrams exceeds 20. This thesis template does not distinguish between a figure and a diagram.
+% Note: Add a list of figures if the number of figures in the thesis text exceeds 20. A~list of diagrams is applicable only if the author distinguishes between a figure and a diagram. The list of diagrams is included if the number of diagrams exceeds 20. This thesis template does not distinguish between a figure and a diagram.
 
 %%% Seznam tabulek v práci (volitelně)
 %%% List of tables in the thesis (optionally)
-\clearpage
-\listoftables
-Note: Add a list of tables if the number of tables used in the thesis exceeds 20. 
+% \clearpage
+% \listoftables
+% Note: Add a list of tables if the number of tables used in the thesis exceeds 20. 
 
 %%% Seznam zkratek v práci (volitelně)
 %%% List of abbreviations in the thesis (optionally)
-\include{abbreviations}
+% \include{abbreviations}
 
 \pagestyle{fancyx}
 %%% Jednotlivé kapitoly práce jsou pro přehlednost uloženy v samostatných souborech
