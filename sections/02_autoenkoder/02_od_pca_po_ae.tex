@@ -1,0 +1,11 @@
+\section{Od analýzy hlavních komponent po autoenkodér}
+Máme-li lineární dekodér (Autoenkodér používá pouze lineární aktivační funkce) a jako ztrátová funkce $\mathcal{L}$ je použita \emph{střední kvadratická chyba},
+pak se neúplný autoenkodér naučí stejný \emph{vektorový prostor}, který by byl výsledkem Analýzy hlavních komponent (viz \autoref{sec:pca}).
+V tomto speciálním případě lze ukázat, že autoenkodér trénovaný na úloze kompresované reprezentace znalostí jako vedlejší efekt provedl Analýzu hlavních komponent. \cite{Baldi1989, Kamyshanska2013}
+
+Důležitým důsledkem tohoto jevu je, že \textbf{autoenkodéry} s nelineární kódovací funkcí $f$
+a nelineární dekódovací funkcí $g$ \textbf{jsou schopny učit se obecnější generalizaci}
+než u Analýzy hlavních komponent. \cite{Goodfellow2016}
+
+Na druhou stranu, je-li umělá neuronová síť autoenkodéru příliš vysoko-kapacitní,\footnote{Vysoko-kapacitní neuronové sítě, jsou sítě s vysokým počtem parametrů a vah, které jim umožňují učit se komplexním vztahům mezi daty. \cite[Kapitola 5]{Goodfellow2016}}
+může se naučit pouze kopírovat vstup na výstupní vrstvě bez extrakce salientních vlastností (tedy identické zobrazení).

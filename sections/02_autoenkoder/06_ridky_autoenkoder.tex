@@ -1,4 +1,4 @@
-\section{Řídký autoenkodér}
+\subsection{Řídký autoenkodér}
 \label{sec:sparse_autoencoder}
 Řídká reprezentace dat (\emph{sparsity}) ve strojovém učení znamená, že většina hodnot daného vzorku je nulová. 
 Motivací pro řídkou reprezentaci dat ve strojovém učení je napodobení chování buněk v primární zrakové oblasti (\emph{V1}) mozku savců.
@@ -15,7 +15,7 @@ Pro sestrojení Řídkého autoenkodérů je tedy nutné představit omezení (r
 kde $\Omega$ je \textbf{regularizační prvek}, jehož cílem je přiblížit hodnoty aktivací neuronů kódovací vrstvy k cílové hodnotě (a zabránit přeučení).
 Chceme tak penalizovat neurony kódovací vrstvy, které se aktivují příliš často. \cite{Goodfellow2016}
 
-Běžně lze $\Omega$ stanovit následovně. Mějme Bernoulliho náhodnou proměnou $\emph{i}$ modelující aktivace neuronů skrýte (kódovací) vrstvy – můžou tedy nastat dva stavy: neuron skryté vrstvy je buď aktivován, nebo není aktivován.
+Běžně lze $\Omega$ stanovit následovně. Mějme Bernoulliho náhodnou proměnou $\emph{i}$ modelující aktivace neuronů skryté (kódovací) vrstvy – můžou tedy nastat dva stavy: neuron skryté vrstvy je buď aktivován, nebo není aktivován.
 Pro konkrétní vstup $\emph{x}$ dostaneme:
 
 \begin{equation}

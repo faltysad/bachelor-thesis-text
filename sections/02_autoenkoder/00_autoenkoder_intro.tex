@@ -1,5 +1,5 @@
 Autoenkodér je typ umělé neuronové sítě se schopností učit se efektivní reprezentace vstupních dat bez učitele
-\footnote{V literatuře se můžeme zřídka setkat s zařazením autoenkodérů \textbf{obecně} do třídy \emph{semi-supervised} algoritmů strojového učení, například \cite[str. 95]{Chollet2017}. S ohledem na formulaci autoenkodéru představenou v této kapitole je přesnější zařadit \textbf{obecnou} architekturu autoenkodérů do třídy algoritmů učení bez učitele. Nutno předeslat, že v architekturách hlubokých autoenkodérů je běžným jevem tzv. \emph{stacked autoenkodér} (viz \autoref{sec:stacked_autoencoder}). V instancích tohoto případu pak jednoznačně \textbf{lze} hovořit o zařazení autoenkodéru do třídy semi-supervizovaného učení. \cite{Bengio2006}, \cite{Ranzato2007}, \cite{Erhan2010}}.
+\footnote{V literatuře se můžeme zřídka setkat s zařazením autoenkodérů \textbf{obecně} do třídy algoritmů částečného učení s učitelem, například \cite[str. 95]{Chollet2017}. S ohledem na formulaci autoenkodéru představenou v této kapitole je přesnější zařadit \textbf{obecnou} architekturu autoenkodérů do třídy algoritmů učení bez učitele. Nutno předeslat, že v architekturách hlubokých autoenkodérů je běžným jevem tzv. \emph{stacked autoenkodér} (viz \autoref{sec:stacked_autoencoder}). V instancích tohoto případu pak jednoznačně \textbf{lze} hovořit o zařazení autoenkodéru do třídy semi-supervizovaného učení. \cite{Bengio2006}, \cite{Ranzato2007}, \cite{Erhan2010}}.
 Umělá neuronová síť autoenkodéru má symetrickou strukturu a skrytou vrstvu $\textbf{\emph{h}}$, která popisuje \emph{kód} použitý pro reprezentaci vstupu.
 Architekturu autoenkodéru (viz \autoref{fig:basic_autoencoder_structure}) lze principiálně rozdělit na dvě části – kódovací funkci $h = f(x)$, resp. \textbf{enkodér}
 a dekódovací funkci $r = g(h)$, resp. \textbf{dekodér}.
@@ -16,13 +16,13 @@ Výstupem enkodéru je \textbf{kód} vstupu $\emph{h}$. Výstupem dekodéru je \
         \draw[-Triangle] (x) -- node [above] {$f$} (h);
         \draw[-Triangle] (h) -- node [above] {$g$} (r);
     \end{tikzpicture}
-    \caption{Obecná struktura autoenkodéru. Ze vstupu $\emph{x}$ je enkodérem vytvořen kód $\emph{h}$} (funkce $\emph{f}$). Tento kód je následně dekodérem přetaven na rekonstrukci $\emph{r}$ (funkce $\emph{g}$).
+    \caption{Obecná struktura autoenkodéru. Ze vstupu $\emph{x}$ je enkodérem vytvořen kód $\emph{h}$} (funkce $\emph{f}$). Tento kód je následně dekodérem přetaven na rekonstrukci $\emph{r}$ (funkce $\emph{g}$). Vlastní zpracování dle \textcite{Goodfellow2016}.
     \label{fig:basic_autoencoder_structure}
 \end{figure}
 
 Obecnou strukturu (viz \autoref{fig:basic_autoencoder_structure}) lze reprezentovat dopřednou umělou neuronovou sítí.
 Jejím cílem je \textbf{rekonstruovat vstupní data na výstupní vrstvě} (tzv. \emph{unsupervised learning objective}). Počet vstupů je tak totožný s počtem neuronů ve výstupní vrstvě umělé neuronové sítě (tedy $x$ a $r$ mají stejnou dimenzi).
-\emph{h} může mít \emph{menší} či \emph{větší} dimenzi – volba dimenze \emph{h} se odvíjí od požadovaných vlastností autoenkodéru.
+Kód \emph{h} může mít \emph{menší} či \emph{větší} dimenzi – volba dimenze \emph{h} se odvíjí od požadovaných vlastností autoenkodéru.
 Obecnou architekturu modulů umělé neuronové sítě Autoenkodéru zachycuje \autoref{fig:autoencoder}. \cite{Charte2018}
 
 

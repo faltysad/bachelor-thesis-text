@@ -1,5 +1,4 @@
-\newpage
-\section{Denoising autoenkodér}
+\subsection{Denoising autoenkodér}
 \label{sec:denoising_autoencoder}
 Denoising autoenkodér je autoenkodér, který na vstupu obdrží poškozená vstupní data
 a při trénování je jeho předpovědět originální vstup bez poškození, a ten na výstupní vrstvě vrátit.
@@ -47,7 +46,7 @@ Trénovací proceduru denoising autoenkodéru schématicky zachycuje \autoref{fi
         \draw[-Triangle] (x) -- node [below left] {$C(\tilde{x} | x)$} (x_tilde);
         \draw[-Triangle] (x) -- (l);
     \end{tikzpicture}
-    \caption{Procedura trénování denoising autoenkodéru. Převzato z \cite{Goodfellow2016}.}
+    \caption{Procedura trénování denoising autoenkodéru. Převzato z \textcite{Goodfellow2016}.}
     \label{fig:denoising_autoencoder}
 \end{figure}
 
