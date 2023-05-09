@@ -1,15 +1,10 @@
 \section{Diskuze}
 \label{sec:vae_model_discussion}
 V této kapitole byl prezentován jednoduchý variační autoenkodér, \textbf{jehož latentní prostor má pouze 2 dimenze}.
-Což je užitečné pro vizualizace sloužící k prohledávání latentního prostoru.
-
-Daleko lepších výsledků ale dosahují variační autoenkodéry, když dojde k zvýšení dimenze jejich latentního prostoru.
-
 Představený model variačního autoenkodéru \textbf{je navržen tak, aby uměl pracovat s libovolnou sadou obrazových dat a rovněž uměl reprezentovat latentní prostor s vyšší dimenzí}.
 
-Například, pro sestavení modelu variačního autoenkodéru pro generování realistických obličejů stačí pozměnit argumenty modelu následovně:
-
-\lstinputlisting{code_snippets/vae_model_faces.py}
-
-
+Pro trénování modelu variačního autoenkodéru by tak stačilo uvést odlišnou konfiguraci konvolučních vrstev enkodéru a dekodéru, než kterou zachycuje \autoref{fig:vae_mnist_model}, a model by bez další změny fungoval.
 \textbf{Což poukazuje na skvělou flexibilitu rámce variačního autoenkodéru a stojí za detailnější prozkoumání možnosti generalizace}.
+
+Na evaluaci modelů s jinou datovou sadou již v této práci nezbyl prostor, ale zcela jistě by stály za další bádání. Zejména se zaměřením se na schopnost modelu variačního autoenkodéru generalizovat.
+
