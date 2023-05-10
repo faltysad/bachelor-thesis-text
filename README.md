@@ -1,20 +1,4 @@
-# bachelor-thesis-text
-Template for typesetting bachelor's / diploma theses at VŠE FIS in LaTeX
+# Variational autoencoder and latent space observation tasks
+Variational autoencoder is an innovation in the field of unsupervised machine learning. Its architecture combines stochastic encoder-decoder modules and deep learning. As a result of the internal representation of input data in the form of latent variables, the latent space of the model is formed. By training the variational autoencoder model, structures conveying the semantic meaning of the input data are formed in its latent space. Moreover, only salient features of the input data are captured by the variational autoencoder model, thus reducing its dimensionality. The variational autoencoder finds application in a wide range of generative modeling tasks and is capable of synthesizing completely new data. This thesis is concerned with introducing the theory of the variational autoencoder and mapping its current state of the art. Furthermore, the paper presents possible applications of the variational autoencoder in selected problem domains and demonstrates its use through a practical implementation of an illustrative generative modeling task for image data.
 
-	Vilém Sklenák <sklenak@vse.cz>
-
-You can find the basic settings in the file thesis.tex, which also refers to 
-other files with individual chapters of the work. Carefully read the main file 
-and fill in any missing data. Also add them to the thesis.xmpdata metadata file.
-
-For the translation of the work, pdflatex will probably be the most common. If 
-you will be using a separate bibliographic database, a three-step translation of 
-pdflatex-biber-pfdlatex is required. However, the template is universal and will 
-also be translated by xelatex or lualatex. If you are using xelatex, then you 
-need to check the command line to run xelatex:
-
-	xelatex - shell-escape -output-driver="xdvipdfmx -z 0" <filename> 
-
-This setting is important for generating the resulting PDF format according to 
-the PDF/A standard.
-
+Keywords: *variational autoencoder, latent space, generative modeling, machine learning*
